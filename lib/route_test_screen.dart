@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:parent/screens/home_page.dart';
+import 'package:parent/screens/GraphPage.dart';
+import 'package:parent/screens/SignUp_Screen.dart';
+import 'package:parent/screens/WelcomeScreen.dart';
 import 'package:parent/screens/login_screen.dart';
+import 'package:parent/screens/childScreen.dart';
 
 class RouteTestScreen extends StatelessWidget {
   const RouteTestScreen({Key? key}) : super(key: key);
@@ -16,6 +19,9 @@ class RouteTestScreen extends StatelessWidget {
           children: [
             const Text('Route Test Screen', style: TextStyle(fontSize: 36)),
             const SizedBox(height: 20),
+
+            // Welcome Screen...........
+
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextButton(
@@ -23,7 +29,7 @@ class RouteTestScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomePage(),
+                      builder: (context) => const WelcomeScreen(),
                     ),
                   );
                 },
@@ -31,12 +37,15 @@ class RouteTestScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   color: Colors.red,
                   child: const Text(
-                    'Home Page',
+                    'Welcome Page',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
             ),
+
+            // LOGIN PAGE ............
+
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextButton(
@@ -44,7 +53,7 @@ class RouteTestScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => LoginPage(),
+                      builder: (context) => const LoginPage(),
                     ),
                   );
                 },
@@ -53,6 +62,78 @@ class RouteTestScreen extends StatelessWidget {
                   color: Colors.red,
                   child: const Text(
                     'Login Page',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+
+            // No. Of child Page.
+
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ChildPage(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  color: Colors.red,
+                  child: const Text(
+                    'No. of child page',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+
+            // SIGNUP PAGE.......
+
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SignUpPage(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  color: Colors.red,
+                  child: const Text(
+                    'SignUp Page',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+
+            // Graph Page ............
+
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const GraphPage(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  color: Colors.red,
+                  child: const Text(
+                    'Graph Page',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
