@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:parent/screens/GraphPage.dart';
+import 'package:parent/screens/MyNavPill.dart';
 import 'package:parent/screens/SignUp_Screen.dart';
 import 'package:parent/screens/WelcomeScreen.dart';
 import 'package:parent/screens/login_screen.dart';
@@ -125,7 +125,7 @@ class RouteTestScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const GraphPage(),
+                      builder: (context) => MyNavPill(),
                     ),
                   );
                 },
