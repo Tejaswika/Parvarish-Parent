@@ -1,8 +1,13 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:parent/screens/MyNavPill.dart';
 import 'package:parent/screens/SignUp_Screen.dart';
 import 'package:parent/screens/WelcomeScreen.dart';
 import 'package:parent/screens/login_screen.dart';
+import 'package:parent/screens/forgot_password.dart';
+import 'package:parent/screens/otp.dart';
+import 'package:parent/screens/createnewpassword.dart';
 import 'package:parent/screens/childScreen.dart';
 
 class RouteTestScreen extends StatelessWidget {
@@ -68,6 +73,74 @@ class RouteTestScreen extends StatelessWidget {
               ),
             ),
 
+            //Forgot Password
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Password(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  color: Colors.red,
+                  child: const Text(
+                    'Forgot password',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+
+            //OTP
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Otp(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  color: Colors.red,
+                  child: const Text(
+                    'OTP',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+
+            //Create new password
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const NewPassword(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  color: Colors.red,
+                  child: const Text(
+                    'Create new password',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
             // No. Of child Page.
 
             Padding(

@@ -1,16 +1,18 @@
-// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, unused_import
+// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
 
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:parent/screens/SignUp_Screen.dart';
+import 'package:parent/screens/otp.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class Password extends StatefulWidget {
+  const Password({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPage();
+  State<Password> createState() => _PasswordState();
 }
 
-class _LoginPage extends State<LoginPage> {
+class _PasswordState extends State<Password> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,13 +24,13 @@ class _LoginPage extends State<LoginPage> {
               Container(
                   padding: EdgeInsets.only(left: 35, top: 50),
                   child: Text(
-                    'Welcome',
+                    'Forgot Password?',
                     style: TextStyle(color: Colors.white, fontSize: 30),
                   )),
               Container(
                   padding: EdgeInsets.only(left: 38, top: 90),
                   child: Text(
-                    'Login to access your account',
+                    'Enter your email address',
                     style: TextStyle(color: Colors.white60, fontSize: 15),
                   )),
               Container(
@@ -50,36 +52,10 @@ class _LoginPage extends State<LoginPage> {
                         ),
                       ),
                     ),
-                    
-                    Container(
-                      padding: EdgeInsets.only(left: 30, top:30, right: 30),
-                      child: TextField(
-                        obscureText: true, //password stays hidden
-                        decoration: InputDecoration(
-                          hintText: 'Password',
-                        ),
-                      ),
+                    SizedBox(
+                      height: 10,
                     ),
-
-                    Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                    Container(
-                      padding: EdgeInsets.only(left: 25, right: 30, top: 10),
-                      child: TextButton(onPressed: (){
-                        Navigator.pushNamed(context, 'forgot_password');
-                      }, 
-                      child: Text('Forgot Password?', style: TextStyle(
-                        fontSize:15,
-                        color: Colors.white,
-                        decoration: TextDecoration.underline,
-                      ),)),
-                    ),
-                    
-                  ],),
-                    
-                    
-                
+                  
                     Padding(
                         padding: const EdgeInsets.all(30),
                         child: MaterialButton(
@@ -89,14 +65,14 @@ class _LoginPage extends State<LoginPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SignUpPage()));
+                                    builder: (context) => Otp()));
                           },
                           color: const Color.fromARGB(255, 116, 49, 128),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: const Text(
-                            'Login',
+                            'Send OTP',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -106,11 +82,31 @@ class _LoginPage extends State<LoginPage> {
                       ),
                     SizedBox(
                       //giave space between 2 boxes
-                      height: 20,
+                      height: 50,
                     ),
-                  
                     Container(
-                      padding: EdgeInsets.only(left: 25),
+                      padding: EdgeInsets.only(left: 30,top: 0),
+                      child: Row(
+                        children: [
+                          Container(
+                              child: Text(
+                            'Have an account?',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          )),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, 'login_screen');
+                              },
+                              child: Text(
+                                'Login',
+                                style: TextStyle(fontSize: 16, color: Colors.white),
+                              )),
+                          
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 30),
                       child: Row(
                         children: [
                           Container(
@@ -141,4 +137,3 @@ class _LoginPage extends State<LoginPage> {
     );
   }
 }
-
