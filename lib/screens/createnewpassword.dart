@@ -1,16 +1,18 @@
-// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, unused_import
+// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
 
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:parent/screens/SignUp_Screen.dart';
+import 'package:parent/screens/login_screen.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class NewPassword extends StatefulWidget {
+  const NewPassword({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPage();
+  State<NewPassword> createState() => _NewPasswordState();
 }
 
-class _LoginPage extends State<LoginPage> {
+class _NewPasswordState extends State<NewPassword> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,15 +24,10 @@ class _LoginPage extends State<LoginPage> {
               Container(
                   padding: EdgeInsets.only(left: 35, top: 50),
                   child: Text(
-                    'Welcome',
+                    'Create new Password',
                     style: TextStyle(color: Colors.white, fontSize: 30),
                   )),
-              Container(
-                  padding: EdgeInsets.only(left: 38, top: 90),
-                  child: Text(
-                    'Login to access your account',
-                    style: TextStyle(color: Colors.white60, fontSize: 15),
-                  )),
+              
               Container(
                 alignment: Alignment.center,
                 margin: EdgeInsets.fromLTRB(50, 150, 50, 10),
@@ -46,7 +43,7 @@ class _LoginPage extends State<LoginPage> {
                       padding: EdgeInsets.all(30),
                       child: TextField(
                         decoration: InputDecoration(
-                          hintText: 'Email Address',
+                          hintText: 'New password',
                         ),
                       ),
                     ),
@@ -56,29 +53,14 @@ class _LoginPage extends State<LoginPage> {
                       child: TextField(
                         obscureText: true, //password stays hidden
                         decoration: InputDecoration(
-                          hintText: 'Password',
+                          hintText: 'Re-enter new password',
                         ),
                       ),
                     ),
 
-                    Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                    Container(
-                      padding: EdgeInsets.only(left: 25, right: 30, top: 10),
-                      child: TextButton(onPressed: (){
-                        Navigator.pushNamed(context, 'forgot_password');
-                      }, 
-                      child: Text('Forgot Password?', style: TextStyle(
-                        fontSize:15,
-                        color: Colors.white,
-                        decoration: TextDecoration.underline,
-                      ),)),
-                    ),
-                    
-                  ],),
-                    
-                    
+                   SizedBox(
+                    height: 40,
+                   )  ,          
                 
                     Padding(
                         padding: const EdgeInsets.all(30),
@@ -89,14 +71,14 @@ class _LoginPage extends State<LoginPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SignUpPage()));
+                                    builder: (context) => LoginPage()));
                           },
                           color: const Color.fromARGB(255, 116, 49, 128),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: const Text(
-                            'Login',
+                            'Save',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -109,27 +91,6 @@ class _LoginPage extends State<LoginPage> {
                       height: 20,
                     ),
                   
-                    Container(
-                      padding: EdgeInsets.only(left: 25),
-                      child: Row(
-                        children: [
-                          Container(
-                              child: Text(
-                            'Do not have an account?',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          )),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, 'SignUp_Screen');
-                              },
-                              child: Text(
-                                'Sign Up',
-                                style: TextStyle(fontSize: 16, color: Colors.white),
-                              )),
-                          
-                        ],
-                      ),
-                    )
                     
                   ]),
                 )),
@@ -141,4 +102,3 @@ class _LoginPage extends State<LoginPage> {
     );
   }
 }
-
