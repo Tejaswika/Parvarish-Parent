@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:parent/screens/MyNavPill.dart';
 import 'package:parent/screens/SignUp_Screen.dart';
 import 'package:parent/screens/WelcomeScreen.dart';
+import 'package:parent/screens/app_timer.dart';
 import 'package:parent/screens/login_screen.dart';
 import 'package:parent/screens/forgot_password.dart';
 import 'package:parent/screens/otp.dart';
@@ -207,6 +208,28 @@ class RouteTestScreen extends StatelessWidget {
                   color: Colors.red,
                   child: const Text(
                     'Graph Page',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+            // App timer
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Apptimer(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  color: Colors.red,
+                  child: const Text(
+                    'App timer page',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
