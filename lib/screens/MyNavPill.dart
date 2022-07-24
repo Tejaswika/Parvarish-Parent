@@ -1,6 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:parent/route_test_screen.dart';
+import 'package:parent/screens/SignUp_Screen.dart';
+import 'package:parent/screens/app_timer.dart';
+import 'package:parent/screens/childScreen.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 void main() {
@@ -214,13 +218,187 @@ class SecondPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Second Page'),
-          ],
-        ),
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              SizedBox(
+                height: 27,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.assistant_photo_rounded),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "27",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 25),
+                              ),
+                              Text("Quiz\nPassed")
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.check_circle),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Maths",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 25),
+                              ),
+                              Text("Last Quiz")
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 27,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.radar),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "30",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 25),
+                              ),
+                              Text("Quiz\nAttempted")
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.sports_score),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "26",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 25),
+                              ),
+                              Text("Avg Score")
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Container(
+            alignment: Alignment.bottomCenter,
+            child: Stack(
+              children: [
+                Container(
+                  height: 400,
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 81, 170, 243),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30)),
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      right: 50,
+                      left: 50,
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        const TextField(
+                          decoration: InputDecoration(
+                            hintText: "Chapter",
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        const TextField(
+                          decoration: InputDecoration(
+                            hintText: "Topic",
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        const TextField(
+                          decoration: InputDecoration(
+                            hintText: "Difficulty Level",
+                          ),
+                        ),
+                        SizedBox(
+                          height: 35,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 22),
+                          child: MaterialButton(
+                            minWidth: double.infinity,
+                            height: 50,
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RouteTestScreen()));
+                            },
+                            color: Color.fromARGB(255, 243, 245, 246),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            child: const Text(
+                              'Create Quiz',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
