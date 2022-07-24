@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:parent/screens/MyNavPill.dart';
+import 'package:parent/screens/SelectChild.dart';
 import 'package:parent/screens/SignUp_Screen.dart';
 import 'package:parent/screens/WelcomeScreen.dart';
 import 'package:parent/screens/login_screen.dart';
 import 'package:parent/screens/childScreen.dart';
+import 'package:parent/screens/screentime.dart';
 
 class RouteTestScreen extends StatelessWidget {
   const RouteTestScreen({Key? key}) : super(key: key);
@@ -134,6 +136,48 @@ class RouteTestScreen extends StatelessWidget {
                   color: Colors.red,
                   child: const Text(
                     'Graph Page',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TimeScreen(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  color: Colors.red,
+                  child: const Text(
+                    'Screen Time',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SelectChild(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  color: Colors.red,
+                  child: const Text(
+                    'Select Child',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
