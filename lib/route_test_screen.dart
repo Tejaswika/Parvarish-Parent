@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, duplicate_import, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:parent/screens/MyNavPill.dart';
@@ -6,9 +6,11 @@ import 'package:parent/screens/SelectChild.dart';
 import 'package:parent/screens/SignUp_Screen.dart';
 import 'package:parent/screens/WelcomeScreen.dart';
 import 'package:parent/screens/app_timer.dart';
+import 'package:parent/screens/create_profile.dart';
 import 'package:parent/screens/login_screen.dart';
 import 'package:parent/screens/forgot_password.dart';
 import 'package:parent/screens/otp.dart';
+import 'package:parent/screens/create_profile.dart';
 import 'package:parent/screens/createnewpassword.dart';
 import 'package:parent/screens/childScreen.dart';
 import 'package:parent/screens/screentime.dart';
@@ -135,10 +137,34 @@ class RouteTestScreen extends StatelessWidget {
                   );
                 },
                 child: Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(10),
                   color: Colors.red,
                   child: const Text(
                     'Create new password',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+
+
+            //Create Child's Profile page
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChildProfile(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  color: Colors.red,
+                  child: const Text(
+                    'Create Child Profile page',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
