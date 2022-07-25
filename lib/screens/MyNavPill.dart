@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:parent/route_test_screen.dart';
 import 'package:parent/screens/SignUp_Screen.dart';
 import 'package:parent/screens/app_timer.dart';
-import 'package:parent/screens/childScreen.dart';
 import 'package:parent/screens/screentime.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -445,7 +444,7 @@ class ThirdPageState extends State<_ThirdPage> {
       children: [
         Wrap(runSpacing: 5.0, spacing: 10.0, children: [
           Container(
-              height: 250,
+              height: 200,
               child:
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 CarouselSlider(
@@ -466,7 +465,7 @@ class ThirdPageState extends State<_ThirdPage> {
                         (item) => Padding(
                             padding: const EdgeInsets.all(20),
                             child: Container(
-                              height: 50,
+                              height: 40,
                               child: Card(
                                 margin: EdgeInsets.all(5),
                                 elevation: 20.0,

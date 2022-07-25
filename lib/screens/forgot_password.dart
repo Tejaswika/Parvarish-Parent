@@ -89,7 +89,7 @@ class _PasswordState extends State<Password> {
                           Container(
                               child: Text(
                             'Have an account?',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
+                            style: TextStyle(color: Colors.white, fontSize: 12),
                           )),
                           TextButton(
                               onPressed: () {
@@ -113,7 +113,7 @@ class _PasswordState extends State<Password> {
                           Container(
                               child: Text(
                             'Do not have an account?',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
+                            style: TextStyle(color: Colors.white, fontSize: 12),
                           )),
                           TextButton(
                               onPressed: () {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parent/screens/MyNavPill.dart';
+import 'package:parent/screens/create_profile.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -129,7 +130,7 @@ class _SelectChildState extends State<SelectChild> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  MyNavPill()));
+                                                  ChildProfile()));
                                     },
                                     child: Text(
                                       'Add Child',
