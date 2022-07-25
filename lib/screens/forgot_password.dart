@@ -3,6 +3,8 @@
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:parent/screens/SignUp_Screen.dart';
+import 'package:parent/screens/login_screen.dart';
 import 'package:parent/screens/otp.dart';
 
 class Password extends StatefulWidget {
@@ -20,7 +22,6 @@ class _PasswordState extends State<Password> {
           backgroundColor: Color.fromARGB(255, 205, 122, 220),
           body: Stack(
             children: [
-              
               Container(
                   padding: EdgeInsets.only(left: 35, top: 50),
                   child: Text(
@@ -55,37 +56,34 @@ class _PasswordState extends State<Password> {
                     SizedBox(
                       height: 10,
                     ),
-                  
                     Padding(
-                        padding: const EdgeInsets.all(30),
-                        child: MaterialButton(
-                          minWidth: double.infinity,
-                          height: 50,
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Otp()));
-                          },
-                          color: const Color.fromARGB(255, 116, 49, 128),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Text(
-                            'Send OTP',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                            ),
+                      padding: const EdgeInsets.all(30),
+                      child: MaterialButton(
+                        minWidth: double.infinity,
+                        height: 50,
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Otp()));
+                        },
+                        color: const Color.fromARGB(255, 116, 49, 128),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Text(
+                          'Send OTP',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
                           ),
                         ),
                       ),
+                    ),
                     SizedBox(
                       //giave space between 2 boxes
                       height: 50,
                     ),
                     Container(
-                      padding: EdgeInsets.only(left: 30,top: 0),
+                      padding: EdgeInsets.only(left: 30, top: 0),
                       child: Row(
                         children: [
                           Container(
@@ -95,13 +93,16 @@ class _PasswordState extends State<Password> {
                           )),
                           TextButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, 'login_screen');
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginPage()));
                               },
                               child: Text(
                                 'Login',
-                                style: TextStyle(fontSize: 16, color: Colors.white),
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.white),
                               )),
-                          
                         ],
                       ),
                     ),
@@ -116,22 +117,22 @@ class _PasswordState extends State<Password> {
                           )),
                           TextButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, 'SignUp_Screen');
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SignUpPage()));
                               },
                               child: Text(
                                 'Sign Up',
-                                style: TextStyle(fontSize: 16, color: Colors.white),
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.white),
                               )),
-                          
                         ],
                       ),
                     )
-                    
                   ]),
                 )),
-                
               )
-
             ],
           )),
     );

@@ -215,10 +215,6 @@ class RouteTestScreen extends StatelessWidget {
                 ),
               ),
             ),
-<<<<<<< HEAD
-=======
-            // App timer
->>>>>>> 4d81a1feb15689dd2872c9a4378cdc8047e7284e
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextButton(
@@ -226,11 +222,7 @@ class RouteTestScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-<<<<<<< HEAD
                       builder: (context) => TimeScreen(),
-=======
-                      builder: (context) => const Apptimer(),
->>>>>>> 4d81a1feb15689dd2872c9a4378cdc8047e7284e
                     ),
                   );
                 },
@@ -238,8 +230,28 @@ class RouteTestScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   color: Colors.red,
                   child: const Text(
-<<<<<<< HEAD
                     'Screen Time',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Apptimer(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  color: Colors.red,
+                  child: const Text(
+                    'App Timer',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -261,9 +273,6 @@ class RouteTestScreen extends StatelessWidget {
                   color: Colors.red,
                   child: const Text(
                     'Select Child',
-=======
-                    'App timer page',
->>>>>>> 4d81a1feb15689dd2872c9a4378cdc8047e7284e
                     style: TextStyle(color: Colors.white),
                   ),
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parent/screens/SelectChild.dart';
 import 'package:parent/screens/childScreen.dart';
 import 'package:parent/screens/login_screen.dart';
 
@@ -86,7 +87,7 @@ class SignUpPage extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ChildPage()));
+                                    builder: (context) => SelectChild()));
                           },
                           color: const Color.fromARGB(255, 156, 61, 239),
                           shape: RoundedRectangleBorder(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parent/screens/MyNavPill.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -47,100 +48,95 @@ class _SelectChildState extends State<SelectChild> {
                       ),
                     )),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        CircleAvatar(
-                          radius: 40,
-                          backgroundImage: NetworkImage(
-                              'https://cdn-icons-png.flaticon.com/512/2922/2922561.png'),
-                        ),
                         Expanded(
                           child: Container(
-                            padding: EdgeInsets.all(20),
+                            padding: EdgeInsets.all(10),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                          text: 'Neha Singh',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 30,
-                                              color: Color.fromARGB(
-                                                  255, 0, 0, 0))),
-                                    ],
-                                  ),
+                                CircleAvatar(
+                                  radius: 40,
+                                  backgroundImage: NetworkImage(
+                                      'https://cdn-icons-png.flaticon.com/512/2922/2922561.png'),
                                 ),
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MyNavPill()));
+                                    },
+                                    child: Text(
+                                      'Neha Singh',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Color.fromARGB(255, 0, 0, 0)),
+                                    )),
                               ],
                             ),
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        CircleAvatar(
-                          radius: 40,
-                          backgroundImage: NetworkImage(
-                              'https://cdn-icons-png.flaticon.com/512/2922/2922510.png'),
-                        ),
                         Expanded(
                           child: Container(
-                            padding: EdgeInsets.all(20),
+                            padding: EdgeInsets.all(10),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                          text: 'Raj Kumar',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 30,
-                                              color: Color.fromARGB(
-                                                  255, 0, 0, 0))),
-                                    ],
-                                  ),
+                                CircleAvatar(
+                                  radius: 40,
+                                  backgroundImage: NetworkImage(
+                                      'https://cdn-icons-png.flaticon.com/512/2922/2922510.png'),
                                 ),
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MyNavPill()));
+                                    },
+                                    child: Text(
+                                      'Raj Kumar',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Color.fromARGB(255, 0, 0, 0)),
+                                    )),
                               ],
                             ),
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        CircleAvatar(
-                          radius: 40,
-                          backgroundImage: NetworkImage(
-                              'https://cdn-icons.flaticon.com/png/512/4202/premium/4202263.png?token=exp=1658702443~hmac=f0544904dad32a3e9e5c2dab01bed184'),
-                        ),
                         Expanded(
                           child: Container(
-                            padding: EdgeInsets.all(20),
+                            padding: EdgeInsets.all(10),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                          text: 'Add Child',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 30,
-                                              color: Color.fromARGB(
-                                                  255, 0, 0, 0))),
-                                    ],
-                                  ),
+                                CircleAvatar(
+                                  radius: 40,
+                                  backgroundImage: NetworkImage(
+                                      'https://cdn-icons-png.flaticon.com/512/1237/1237946.png'),
                                 ),
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MyNavPill()));
+                                    },
+                                    child: Text(
+                                      'Add Child',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Color.fromARGB(255, 0, 0, 0)),
+                                    )),
                               ],
                             ),
                           ),

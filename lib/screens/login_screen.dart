@@ -1,7 +1,9 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, unused_import
 
 import 'package:flutter/material.dart';
+import 'package:parent/screens/SelectChild.dart';
 import 'package:parent/screens/SignUp_Screen.dart';
+import 'package:parent/screens/forgot_password.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -18,7 +20,6 @@ class _LoginPage extends State<LoginPage> {
           backgroundColor: Color.fromARGB(255, 205, 122, 220),
           body: Stack(
             children: [
-              
               Container(
                   padding: EdgeInsets.only(left: 35, top: 50),
                   child: Text(
@@ -50,9 +51,8 @@ class _LoginPage extends State<LoginPage> {
                         ),
                       ),
                     ),
-                    
                     Container(
-                      padding: EdgeInsets.only(left: 30, top:30, right: 30),
+                      padding: EdgeInsets.only(left: 30, top: 30, right: 30),
                       child: TextField(
                         obscureText: true, //password stays hidden
                         decoration: InputDecoration(
@@ -60,55 +60,58 @@ class _LoginPage extends State<LoginPage> {
                         ),
                       ),
                     ),
-
                     Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                    Container(
-                      padding: EdgeInsets.only(left: 25, right: 30, top: 10),
-                      child: TextButton(onPressed: (){
-                        Navigator.pushNamed(context, 'forgot_password');
-                      }, 
-                      child: Text('Forgot Password?', style: TextStyle(
-                        fontSize:15,
-                        color: Colors.white,
-                        decoration: TextDecoration.underline,
-                      ),)),
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding:
+                              EdgeInsets.only(left: 25, right: 30, top: 10),
+                          child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Password()));
+                              },
+                              child: Text(
+                                'Forgot Password?',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.white,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              )),
+                        ),
+                      ],
                     ),
-                    
-                  ],),
-                    
-                    
-                
                     Padding(
-                        padding: const EdgeInsets.all(30),
-                        child: MaterialButton(
-                          minWidth: double.infinity,
-                          height: 50,
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SignUpPage()));
-                          },
-                          color: const Color.fromARGB(255, 116, 49, 128),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                            ),
+                      padding: const EdgeInsets.all(30),
+                      child: MaterialButton(
+                        minWidth: double.infinity,
+                        height: 50,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SelectChild()));
+                        },
+                        color: const Color.fromARGB(255, 116, 49, 128),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
                           ),
                         ),
                       ),
+                    ),
                     SizedBox(
                       //giave space between 2 boxes
                       height: 20,
                     ),
-                  
                     Container(
                       padding: EdgeInsets.only(left: 25),
                       child: Row(
@@ -120,25 +123,24 @@ class _LoginPage extends State<LoginPage> {
                           )),
                           TextButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, 'SignUp_Screen');
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SignUpPage()));
                               },
                               child: Text(
                                 'Sign Up',
-                                style: TextStyle(fontSize: 16, color: Colors.white),
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.white),
                               )),
-                          
                         ],
                       ),
                     )
-                    
                   ]),
                 )),
-                
               )
-
             ],
           )),
     );
   }
 }
-

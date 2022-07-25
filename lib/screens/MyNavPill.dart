@@ -5,6 +5,7 @@ import 'package:parent/route_test_screen.dart';
 import 'package:parent/screens/SignUp_Screen.dart';
 import 'package:parent/screens/app_timer.dart';
 import 'package:parent/screens/childScreen.dart';
+import 'package:parent/screens/screentime.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -199,10 +200,20 @@ class FirstPageState extends State<_FirstPage> {
                   ListTile(
                     leading: Icon(Icons.timer),
                     title: Text('App Timer'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Apptimer()));
+                    },
                   ),
                   ListTile(
                     leading: Icon(Icons.lock_clock),
                     title: Text('Screen Timer'),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TimeScreen()));
+                    },
                   ),
                 ],
               ),
