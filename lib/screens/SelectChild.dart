@@ -2,20 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:parent/screens/MyNavPill.dart';
 import 'package:parent/screens/create_profile.dart';
 
-void main() {
-  runApp(MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
-        elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.blueGrey[800]),
-        )),
-      ),
-      home: SelectChild()));
-}
-
 class SelectChild extends StatefulWidget {
-  SelectChild({Key? key}) : super(key: key);
+  final String? uid;
+  const SelectChild({Key? key, required this.uid}) : super(key: key);
 
   @override
   _SelectChildState createState() => _SelectChildState();
@@ -26,7 +15,7 @@ class _SelectChildState extends State<SelectChild> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Select Child'),
+          title: Text(widget.uid ?? ''),
         ),
         body: SafeArea(
             child: Container(
