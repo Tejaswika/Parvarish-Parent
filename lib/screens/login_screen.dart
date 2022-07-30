@@ -1,18 +1,20 @@
-// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, unused_import
+// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, unused_import, use_key_in_widget_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:parent/screens/MyNavPill.dart';
 import 'package:parent/screens/SelectChild.dart';
 import 'package:parent/screens/SignUp_Screen.dart';
 import 'package:parent/screens/forgot_password.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
-
   @override
   State<LoginPage> createState() => _LoginPage();
 }
 
 class _LoginPage extends State<LoginPage> {
+  late String _email, _password;
+  final auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,9 +48,15 @@ class _LoginPage extends State<LoginPage> {
                     Container(
                       padding: EdgeInsets.all(30),
                       child: TextField(
+                        keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           hintText: 'Email Address',
                         ),
+                        onChanged: (value) {
+                          setState(() {
+                            _email = value.trim();
+                          });
+                        },
                       ),
                     ),
                     Container(
@@ -58,6 +66,11 @@ class _LoginPage extends State<LoginPage> {
                         decoration: InputDecoration(
                           hintText: 'Password',
                         ),
+                        onChanged: (value) {
+                          setState(() {
+                            _password = value.trim();
+                          });
+                        },
                       ),
                     ),
                     Row(
@@ -89,12 +102,14 @@ class _LoginPage extends State<LoginPage> {
                       child: MaterialButton(
                         minWidth: double.infinity,
                         height: 50,
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SelectChild()));
-                        },
+                         onPressed: () {
+                          auth
+                              .signInWithEmailAndPassword(
+                                  email: _email, password: _password)
+                              .then((_) {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => MyNavPill()));});},
                         color: const Color.fromARGB(255, 116, 49, 128),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
