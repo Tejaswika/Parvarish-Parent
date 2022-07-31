@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parent/screens/SelectChild.dart';
 import 'package:parent/screens/login_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:parent/constants/db_constants.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -11,8 +13,32 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPage extends State<SignUpPage> {
-  late String _email, _password;
+  late String _email, _password, _name, _phone;
   final auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  // Creating a reference to the collection
+  late final CollectionReference _parentCollection =
+      _firestore.collection(DBConstants.parentCollectionName);
+  void _createDocument(uid, name, email, phone) async {
+    // Creating a document to Store Data To
+    DocumentReference documentReferencer = _parentCollection.doc(uid);
+
+    // Creating data to be stored
+    Map<String, dynamic> data = <String, dynamic>{
+      "children": [],
+      "email": email,
+      "name": name,
+      "phone": phone,
+    };
+
+    // Pushing data to the document
+    await documentReferencer
+        .set(data)
+        .whenComplete(() => print("Notes item added to the database"))
+        .catchError((e) => print(e));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +70,19 @@ class _SignUpPage extends State<SignUpPage> {
               child: SingleChildScrollView(
                   child: Column(children: [
                 Container(
+                  padding: const EdgeInsets.only(left: 30, top: 30, right: 30),
+                  child: TextField(
+                    decoration: const InputDecoration(
+                      hintText: 'Name',
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        _name = value.trim();
+                      });
+                    },
+                  ),
+                ),
+                Container(
                   padding: const EdgeInsets.all(30),
                   child: TextField(
                     keyboardType: TextInputType.emailAddress,
@@ -53,6 +92,19 @@ class _SignUpPage extends State<SignUpPage> {
                     onChanged: (value) {
                       setState(() {
                         _email = value.trim();
+                      });
+                    },
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 30, top: 30, right: 30),
+                  child: TextField(
+                    decoration: const InputDecoration(
+                      hintText: 'Phone No.',
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        _phone = value.trim();
                       });
                     },
                   ),
@@ -87,6 +139,8 @@ class _SignUpPage extends State<SignUpPage> {
                                 SelectChild(uid: userCredential.user?.uid),
                           ),
                         );
+                        _createDocument(
+                            userCredential.user?.uid, _name, _email, _phone);
                       });
                     },
                     color: const Color.fromARGB(255, 116, 49, 128),
@@ -135,5 +189,3 @@ class _SignUpPage extends State<SignUpPage> {
         ));
   }
 }
-
-
