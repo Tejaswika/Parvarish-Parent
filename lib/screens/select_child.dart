@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:parent/constants/db_constants.dart';
 import 'package:parent/screens/my_nav_pill.dart';
 import 'package:parent/screens/create_profile.dart';
 
@@ -11,11 +13,20 @@ class SelectChild extends StatefulWidget {
 }
 
 class _SelectChildState extends State<SelectChild> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+   @override
+  void initState() {
+    _getParentChildren();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    _getParentChildren();
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.uid ?? ''),
+          title: Text('Select Child Profile'),
         ),
         body: SafeArea(
             child: Container(
@@ -137,11 +148,33 @@ class _SelectChildState extends State<SelectChild> {
                   ],
                 ))));
   }
-}
 
-class _ChartData {
-  _ChartData(this.x, this.y);
+  void _getParentChildren() async {
+    final CollectionReference _parentCollection =
+        _firestore.collection(DBConstants.parentCollectionName);
+    DocumentReference documentReferencer = _parentCollection.doc(widget.uid);
+    DocumentSnapshot parentDataSnapshot = await documentReferencer.get();
+    Map<String, dynamic>? parentData = parentDataSnapshot.data();
 
-  final String x;
-  final double y;
+    List<dynamic> children = parentData?['children'];
+
+    List<Map<String, dynamic>?> childrenData = [];
+
+    children.forEach((dynamic childId) async{
+      DocumentSnapshot childDataSnapshot = await _getChildData(childId);
+      Map<String, dynamic>? childData = childDataSnapshot.data();
+      childrenData.add(childData);
+      print(childData);
+    });
+
+    print(childrenData);
+  }
+
+  Future<DocumentSnapshot> _getChildData(String childId) async {
+    final CollectionReference _childrenCollection =
+        _firestore.collection(DBConstants.childCollectionName);
+    DocumentReference documentReferencer = _childrenCollection.doc(childId);
+
+    return documentReferencer.get();
+  }
 }
