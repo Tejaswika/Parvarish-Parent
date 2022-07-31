@@ -83,7 +83,7 @@ class _SignUpPage extends State<SignUpPage> {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.all(30),
+                  padding: const EdgeInsets.only(left: 30, top: 30, right: 30),
                   child: TextField(
                     keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(
