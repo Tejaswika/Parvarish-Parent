@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:parent/route_test_screen.dart';
-import 'package:parent/screens/SignUp_Screen.dart';
+import 'package:parent/screens/signup_screen.dart';
 import 'package:parent/screens/app_timer.dart';
-import 'package:parent/screens/screentime.dart';
+import 'package:parent/screens/screen_time.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';

@@ -1,30 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:parent/screens/SignUp_Screen.dart';
+
+import 'package:parent/screens/signup_screen.dart';
 import 'package:parent/screens/login_screen.dart';
-
-void main() {
-  runApp(MaterialApp(
-    home: WelcomeScreen(),
-  ));
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const WelcomeScreen(),
-    );
-  }
-}
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -32,16 +9,16 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 223, 180, 231),
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Column(
-                  children: [
+                  children: const [
                     Text(
                       'Parvarish',
                       style: TextStyle(
@@ -64,7 +41,7 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 Container(
                   height: MediaQuery.of(context).size.height / 3,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage('images/family.png'))),
                 ),
@@ -82,12 +59,12 @@ class WelcomeScreen extends StatelessWidget {
                                 builder: (context) => LoginPage()));
                       },
                       shape: RoundedRectangleBorder(
-                        side: BorderSide(
+                        side: const BorderSide(
                           color: Colors.black,
                         ),
                         borderRadius: BorderRadius.circular(50),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Login',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
@@ -98,7 +75,7 @@ class WelcomeScreen extends StatelessWidget {
 
                     // SIGN UP BUTTON.....
 
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     MaterialButton(
@@ -108,12 +85,12 @@ class WelcomeScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: ((context) => SignUpPage())));
+                                builder: ((context) => const SignUpPage())));
                       },
-                      color: Color(0xff0095ff),
+                      color: const Color.fromARGB(255, 223, 180, 231),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50)),
-                      child: Text(
+                      child: const Text(
                         'Sign up',
                         style: TextStyle(
                             color: Colors.white,

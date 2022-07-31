@@ -1,10 +1,8 @@
-// ignore_for_file: unused_import, duplicate_import, prefer_const_constructors
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parent/constants/db_constants.dart';
 
-import 'package:parent/screens/WelcomeScreen.dart';
+import 'package:parent/screens/welcome_screen.dart';
 
 class RouteTestScreen extends StatefulWidget {
   const RouteTestScreen({Key? key}) : super(key: key);

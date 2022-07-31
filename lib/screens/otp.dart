@@ -3,7 +3,7 @@
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:parent/screens/createnewpassword.dart';
+import 'package:parent/screens/create_new_password.dart';
 
 class Otp extends StatefulWidget {
   const Otp({Key? key}) : super(key: key);
@@ -20,7 +20,6 @@ class _OtpState extends State<Otp> {
           backgroundColor: Color.fromARGB(255, 205, 122, 220),
           body: Stack(
             children: [
-              
               Container(
                   padding: EdgeInsets.only(left: 35, top: 50),
                   child: Text(
@@ -38,9 +37,8 @@ class _OtpState extends State<Otp> {
                 child: SingleChildScrollView(
                     child: Container(
                   child: Column(children: [
-                    
                     Container(
-                      padding: EdgeInsets.only(left: 30, top:30, right: 30),
+                      padding: EdgeInsets.only(left: 30, top: 30, right: 30),
                       child: TextField(
                         //obscureText: true, //password stays hidden
                         decoration: InputDecoration(
@@ -48,73 +46,57 @@ class _OtpState extends State<Otp> {
                         ),
                       ),
                     ),
-                
                     Container(
-                      padding: EdgeInsets.only(left:23, top:10),
+                      padding: EdgeInsets.only(left: 23, top: 10),
                       alignment: Alignment.centerLeft,
                       child: MaterialButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Otp()));
-                          },
-          
-                          child: const Text(
-                            'Resend OTP',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                            
-                            ),
-                          ),
-                        ),
-                    ),
-                      
-              
-
-                  SizedBox(
-                    height: 30,
-                  ),
-
-                    
-                
-                    Padding(
-                        padding: const EdgeInsets.all(30),
-                        child: MaterialButton(
-                          minWidth: double.infinity,
-                          height: 50,
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => NewPassword()));
-                          },
-                          color: const Color.fromARGB(255, 116, 49, 128),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Text(
-                            'Verify',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                            ),
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Otp()));
+                        },
+                        child: const Text(
+                          'Resend OTP',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
                           ),
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(30),
+                      child: MaterialButton(
+                        minWidth: double.infinity,
+                        height: 50,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => NewPassword()));
+                        },
+                        color: const Color.fromARGB(255, 116, 49, 128),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Text(
+                          'Verify',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
                     SizedBox(
                       //giave space between 2 boxes
                       height: 40,
                     ),
-                    
-                    
-                    
                   ]),
                 )),
-                
               )
-
             ],
           )),
     );

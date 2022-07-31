@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:parent/screens/MyNavPill.dart';
+import 'package:parent/screens/my_nav_pill.dart';
 import 'package:parent/screens/create_profile.dart';
 
 class SelectChild extends StatefulWidget {
