@@ -2,8 +2,8 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:parent/screens/MyNavPill.dart';
-import 'package:parent/screens/SelectChild.dart';
+import 'package:parent/screens/my_nav_pill.dart';
+import 'package:parent/screens/select_child.dart';
 import 'package:parent/screens/SignUp_Screen.dart';
 import 'package:parent/screens/forgot_password.dart';
 

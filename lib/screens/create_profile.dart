@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:parent/screens/SelectChild.dart';
+import 'package:parent/screens/select_child.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parent/constants/db_constants.dart';
 
