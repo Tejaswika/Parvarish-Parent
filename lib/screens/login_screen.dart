@@ -102,14 +102,17 @@ class _LoginPage extends State<LoginPage> {
                       child: MaterialButton(
                         minWidth: double.infinity,
                         height: 50,
-                         onPressed: () {
+                        onPressed: () {
                           auth
                               .signInWithEmailAndPassword(
                                   email: _email, password: _password)
-                              .then((_) {
+                              .then((UserCredential userCredential) {
                             Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (context) => MyNavPill()));});},
+                                    builder: (context) => SelectChild(
+                                        uid: userCredential.user?.uid)));
+                          });
+                        },
                         color: const Color.fromARGB(255, 116, 49, 128),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),

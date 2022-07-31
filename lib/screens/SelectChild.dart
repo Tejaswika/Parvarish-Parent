@@ -119,7 +119,8 @@ class _SelectChildState extends State<SelectChild> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  ChildProfile()));
+                                                  ChildProfile(
+                                                      uid: widget.uid)));
                                     },
                                     child: Text(
                                       'Add Child',

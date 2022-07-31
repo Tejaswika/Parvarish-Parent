@@ -5,15 +5,52 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:parent/screens/SelectChild.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:parent/constants/db_constants.dart';
 
 class ChildProfile extends StatefulWidget {
-  const ChildProfile({Key? key}) : super(key: key);
+  final String? uid;
+  const ChildProfile({Key? key, required this.uid}) : super(key: key);
 
   @override
   State<ChildProfile> createState() => _ChildProfileState();
 }
 
 class _ChildProfileState extends State<ChildProfile> {
+  late String _uidChild;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  // Creating a reference to the collection
+  late final CollectionReference _parentCollection =
+      _firestore.collection(DBConstants.parentCollectionName);
+  // To Update Document
+  void _updateDocument(_uidChild, parentUID) async {
+    // Creating a refrence(Anchor) to the document we want to access
+    DocumentReference documentReferencer = _parentCollection.doc(parentUID);
+
+    // Getting Snapshot from document reference created
+    DocumentSnapshot parentDataSnapshot = await documentReferencer.get();
+
+    // Getting data from Snapshot
+    Map<String, dynamic>? parentData = parentDataSnapshot.data();
+
+    // Getting children array from document
+    List children = parentData?['children'];
+
+    // Adding another child id to already existing children array from document
+    children.add(_uidChild);
+
+    Map<String, dynamic> data = <String, dynamic>{
+      "children": children,
+    };
+
+    // Updating the document
+    await documentReferencer
+        .update(data)
+        .whenComplete(() => print("Child Added"))
+        .catchError((e) => print(e));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +61,7 @@ class _ChildProfileState extends State<ChildProfile> {
               Container(
                   padding: EdgeInsets.only(left: 35, top: 50),
                   child: Text(
-                    'Create child profile',
+                    'Add Child Unique ID',
                     style: TextStyle(color: Colors.white, fontSize: 30),
                   )),
               Container(
@@ -39,38 +76,17 @@ class _ChildProfileState extends State<ChildProfile> {
                     child: Container(
                   child: Column(children: [
                     Container(
-                      padding: EdgeInsets.only(left: 30, top: 30, right: 30),
+                      padding: const EdgeInsets.all(30),
                       child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Name',
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter UID',
                         ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(left: 30, top: 30, right: 30),
-                      child: TextField(
-                        //obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: 'Age',
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(left: 30, top: 30, right: 30),
-                      child: TextField(
-                        //obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: 'Email',
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(left: 30, top: 30, right: 30),
-                      child: TextField(
-                        //obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: 'Class',
-                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            _uidChild = value.trim();
+                          });
+                        },
                       ),
                     ),
                     SizedBox(
@@ -85,7 +101,9 @@ class _ChildProfileState extends State<ChildProfile> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SelectChild(uid: '')));
+                                  builder: (context) =>
+                                      SelectChild(uid: widget.uid)));
+                          _updateDocument(_uidChild, widget.uid);
                         },
                         color: const Color.fromARGB(255, 116, 49, 128),
                         shape: RoundedRectangleBorder(
