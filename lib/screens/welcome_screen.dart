@@ -35,13 +35,13 @@ class WelcomeScreen extends StatelessWidget {
         backgroundColor: Color.fromARGB(255, 223, 180, 231),
         body: SafeArea(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Column(
-                  children: [
+                  children: const [
                     Text(
                       'Parvarish',
                       style: TextStyle(
@@ -64,7 +64,7 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 Container(
                   height: MediaQuery.of(context).size.height / 3,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage('images/family.png'))),
                 ),
@@ -76,7 +76,7 @@ class WelcomeScreen extends StatelessWidget {
                       minWidth: double.infinity,
                       height: 60,
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => LoginPage()));
@@ -105,7 +105,7 @@ class WelcomeScreen extends StatelessWidget {
                       minWidth: double.infinity,
                       height: 60,
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: ((context) => SignUpPage())));

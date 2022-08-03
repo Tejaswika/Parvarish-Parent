@@ -1,9 +1,7 @@
-// ignore_for_file: unused_import, duplicate_import, prefer_const_constructors
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:parent/constants/db_constants.dart';
 
+import 'package:parent/constants/db_constants.dart';
 import 'package:parent/screens/welcome_screen.dart';
 
 class RouteTestScreen extends StatefulWidget {
@@ -38,7 +36,7 @@ class _RouteTestScreenState extends State<RouteTestScreen> {
               padding: const EdgeInsets.all(8.0),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const WelcomeScreen(),
@@ -142,7 +140,8 @@ class _RouteTestScreenState extends State<RouteTestScreen> {
     DocumentSnapshot parentDataSnapshot = await documentReferencer.get();
 
     // Getting data from Snapshot
-    Map<String, dynamic>? parentData = parentDataSnapshot.data();
+    Map<String, dynamic>? parentData =
+        parentDataSnapshot.data() as Map<String, dynamic>;
 
     // Getting children array from document
     List children = parentData?['children'];
@@ -173,6 +172,7 @@ class _RouteTestScreenState extends State<RouteTestScreen> {
         .catchError((e) => print(e));
 
     // Getting data from Snapshot
-    Map<String, dynamic>? parentData = parentDataSnapshot.data();
+    Map<String, dynamic>? parentData =
+        parentDataSnapshot.data() as Map<String, dynamic>;
   }
 }
