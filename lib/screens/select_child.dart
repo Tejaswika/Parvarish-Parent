@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:parent/screens/my_nav_pill.dart';
+
+import 'package:parent/constants/db_constants.dart';
 import 'package:parent/screens/create_profile.dart';
+import 'package:parent/widgets/child_profile.dart';
 
 class SelectChild extends StatefulWidget {
   final String? uid;
@@ -11,137 +14,75 @@ class SelectChild extends StatefulWidget {
 }
 
 class _SelectChildState extends State<SelectChild> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  late final CollectionReference _parentCollection =
+      _firestore.collection(DBConstants.parentCollectionName);
+  Map<String, dynamic>? parentData;
+  @override
+  void initState() {
+    // TODO: implement initState
+    // readParentData();
+    super.initState();
+  }
+
+  Future readParentData() async {
+    DocumentReference documentReferencer = _parentCollection.doc(widget.uid);
+    DocumentSnapshot parentDataSnapshot = await documentReferencer
+        .get()
+        .whenComplete(() => print("Notes item added to the database"))
+        .catchError((e) => print(e));
+
+    // Getting data from Snapshot
+    parentData = parentDataSnapshot.data() as Map<String, dynamic>;
+    print(parentData);
+  }
+
+  void despose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.uid ?? ''),
+          title: Text(parentData?["name"] ?? "Error"),
         ),
-        body: SafeArea(
-            child: Container(
-                padding: const EdgeInsets.all(20),
-                child: Wrap(
-                  runSpacing: 5.0,
-                  spacing: 10.0,
-                  children: [
-                    Container(
-                        child: RichText(
-                      text: TextSpan(
-                        children: const <TextSpan>[
-                          TextSpan(
-                              text: 'Select/Add Child \n',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 50,
-                                  color: Color.fromARGB(255, 0, 0, 0))),
-                        ],
-                      ),
-                    )),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              children: <Widget>[
-                                CircleAvatar(
-                                  radius: 40,
-                                  backgroundImage: NetworkImage(
-                                      'https://cdn-icons-png.flaticon.com/512/2922/2922561.png'),
-                                ),
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MyNavPill()));
-                                    },
-                                    child: Text(
-                                      'Neha Singh',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: Color.fromARGB(255, 0, 0, 0)),
-                                    )),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                "Select Child",
+                style: TextStyle(
+                  fontSize: 50,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: parentData?["children"].length,
+                itemBuilder: (context, index) => Container(),
+                // ChildProfile(childId: parentData?["children"][index]),
+              ),
+              MaterialButton(
+                shape: const CircleBorder(side: BorderSide(width: 10)),
+                child: const Text("Add child"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CreateProfile(uid: widget.uid),
                     ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              children: <Widget>[
-                                CircleAvatar(
-                                  radius: 40,
-                                  backgroundImage: NetworkImage(
-                                      'https://cdn-icons-png.flaticon.com/512/2922/2922510.png'),
-                                ),
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MyNavPill()));
-                                    },
-                                    child: Text(
-                                      'Raj Kumar',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: Color.fromARGB(255, 0, 0, 0)),
-                                    )),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              children: <Widget>[
-                                CircleAvatar(
-                                  radius: 40,
-                                  backgroundImage: NetworkImage(
-                                      'https://cdn-icons-png.flaticon.com/512/1237/1237946.png'),
-                                ),
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ChildProfile(
-                                                      uid: widget.uid)));
-                                    },
-                                    child: Text(
-                                      'Add Child',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: Color.fromARGB(255, 0, 0, 0)),
-                                    )),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ))));
+                  );
+                },
+              ),
+            ],
+          ),
+        ));
   }
-}
-
-class _ChartData {
-  _ChartData(this.x, this.y);
-
-  final String x;
-  final double y;
 }
