@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:parent/route_test_screen.dart';
 import 'package:parent/screens/my_nav_pill.dart';
 import 'package:parent/screens/select_child.dart';
 import 'package:parent/screens/SignUp_Screen.dart';
@@ -107,10 +108,13 @@ class _LoginPage extends State<LoginPage> {
                               .signInWithEmailAndPassword(
                                   email: _email, password: _password)
                               .then((UserCredential userCredential) {
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) => SelectChild(
-                                        uid: userCredential.user?.uid)));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    SelectChild(uid: userCredential.user?.uid),
+                              ),
+                            );
                           });
                         },
                         color: const Color.fromARGB(255, 116, 49, 128),
@@ -126,10 +130,7 @@ class _LoginPage extends State<LoginPage> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      //giave space between 2 boxes
-                      height: 20,
-                    ),
+                    SizedBox(height: 20),
                     Container(
                       padding: EdgeInsets.only(left: 25),
                       child: Row(

@@ -21,27 +21,13 @@ class _ChildProfileState extends State<ChildProfile> {
   bool _loading = true;
 
   void _readDocument() async {
-    // Creating a refrence(Anchor) to the document we want to access
     DocumentReference documentReferencer = _childCollection.doc(widget.childId);
+    DocumentSnapshot childDataSnapshot = await documentReferencer.get();
+    _childData = childDataSnapshot.data() as Map<String, dynamic>;
 
-    // Getting Snapshot from document reference created
-    DocumentSnapshot childDataSnapshot = await documentReferencer
-        .get()
-        .whenComplete(() => print("Document retrived successfully"))
-        .catchError((e) => print(e));
-
-    // Getting data from Snapshot
-    Map<String, dynamic>? _childData =
-        childDataSnapshot.data() as Map<String, dynamic>;
     setState(() {
       _loading = false;
     });
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
   }
 
   @override
@@ -53,7 +39,7 @@ class _ChildProfileState extends State<ChildProfile> {
   @override
   Widget build(BuildContext context) {
     return _loading
-        ? const CircularProgressIndicator()
+        ? Container()
         : InkWell(
             onTap: () => Navigator.push(
               context,
@@ -61,19 +47,55 @@ class _ChildProfileState extends State<ChildProfile> {
                 builder: ((context) => MyNavPill()),
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10, bottom: 15),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.white,
+              ),
               child: Row(
                 children: [
-                  const CircleAvatar(
-                    radius: 40,
-                    backgroundImage: NetworkImage(PicConstant.boyPic),
+                  Container(
+                    height: 60,
+                    width: 60,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: const Color(0XFF25C997)),
+                    child: Center(
+                      child: Text(
+                        '${_childData?["name"]}'.substring(0, 1),
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
-                  Text(
-                    _childData?["name"] ?? "Error",
-                    style: const TextStyle(
-                        fontSize: 16, color: Color.fromARGB(255, 0, 0, 0)),
+                  const SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _childData?["name"] ?? '',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        'Class: ${_childData?["class"]}',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFFC7C7C7),
+                        ),
+                      ),
+                    ],
                   ),
+                  const Spacer(),
+                  const Icon(Icons.navigate_next, size: 32, color: Color(0xFFC7C7C7),)
                 ],
               ),
             ),
