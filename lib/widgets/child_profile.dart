@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parent/constants/db_constants.dart';
 
-import 'package:parent/constants/pics_constants.dart';
 import 'package:parent/screens/my_nav_pill.dart';
 
 class ChildProfile extends StatefulWidget {
@@ -95,7 +94,11 @@ class _ChildProfileState extends State<ChildProfile> {
                     ],
                   ),
                   const Spacer(),
-                  const Icon(Icons.navigate_next, size: 32, color: Color(0xFFC7C7C7),)
+                  const Icon(
+                    Icons.navigate_next,
+                    size: 32,
+                    color: Color(0xFFC7C7C7),
+                  )
                 ],
               ),
             ),
