@@ -27,7 +27,10 @@ class _RouteTestScreenState extends State<RouteTestScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text('Route Test Screen', style: TextStyle(fontSize: 36)),
+            const Text(
+              'Route Test Screen',
+              style: TextStyle(fontSize: 36),
+            ),
             const SizedBox(height: 20),
 
             // Welcome Screen...........
@@ -125,10 +128,7 @@ class _RouteTestScreenState extends State<RouteTestScreen> {
     };
 
     // Pushing data to the document
-    await documentReferencer
-        .set(data)
-        .whenComplete(() => print("Notes item added to the database"))
-        .catchError((e) => print(e));
+    await documentReferencer.set(data);
   }
 
   // To Update Document
@@ -144,7 +144,7 @@ class _RouteTestScreenState extends State<RouteTestScreen> {
         parentDataSnapshot.data() as Map<String, dynamic>;
 
     // Getting children array from document
-    List children = parentData?['children'];
+    List children = parentData['children'];
 
     // Adding another child id to already existing children array from document
     children.add('id_3');
@@ -154,10 +154,7 @@ class _RouteTestScreenState extends State<RouteTestScreen> {
     };
 
     // Updating the document
-    await documentReferencer
-        .update(data)
-        .whenComplete(() => print("Notes item added to the database"))
-        .catchError((e) => print(e));
+    await documentReferencer.update(data);
   }
 
   // TO read Document
@@ -166,13 +163,11 @@ class _RouteTestScreenState extends State<RouteTestScreen> {
     DocumentReference documentReferencer = _parentCollection.doc('uid-xxx2');
 
     // Getting Snapshot from document reference created
-    DocumentSnapshot parentDataSnapshot = await documentReferencer
-        .get()
-        .whenComplete(() => print("Notes item added to the database"))
-        .catchError((e) => print(e));
+    DocumentSnapshot parentDataSnapshot = await documentReferencer.get();
 
     // Getting data from Snapshot
     Map<String, dynamic>? parentData =
         parentDataSnapshot.data() as Map<String, dynamic>;
+    print(parentData);
   }
 }

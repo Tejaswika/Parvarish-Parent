@@ -43,7 +43,7 @@ class _ChildProfileState extends State<ChildProfile> {
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: ((context) => MyNavPill()),
+                builder: ((context) => const MyNavPill()),
               ),
             ),
             child: Container(
@@ -58,8 +58,9 @@ class _ChildProfileState extends State<ChildProfile> {
                     height: 60,
                     width: 60,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: const Color(0XFF25C997)),
+                      borderRadius: BorderRadius.circular(8),
+                      color: const Color(0XFF25C997),
+                    ),
                     child: Center(
                       child: Text(
                         '${_childData?["name"]}'.substring(0, 1),

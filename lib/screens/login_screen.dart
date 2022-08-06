@@ -31,13 +31,13 @@ class _LoginPage extends State<LoginPage> {
             ),
           ),
           Padding(
-              padding: const EdgeInsets.only(left: 38, top: 90),
-              child: Text(
-                'Login to access your account',
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    fontSize: 15),
-              )),
+            padding: const EdgeInsets.only(left: 38, top: 90),
+            child: Text(
+              'Login to access your account',
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary, fontSize: 15),
+            ),
+          ),
           Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.fromLTRB(50, 150, 50, 10),

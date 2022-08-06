@@ -51,9 +51,11 @@ class WelcomeScreen extends StatelessWidget {
                     height: 60,
                     onPressed: () {
                       Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginPage()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginPage(),
+                        ),
+                      );
                     },
                     shape: RoundedRectangleBorder(
                       side: const BorderSide(
@@ -86,7 +88,8 @@ class WelcomeScreen extends StatelessWidget {
                     },
                     color: Theme.of(context).colorScheme.primary,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
+                      borderRadius: BorderRadius.circular(50),
+                    ),
                     child: const Text(
                       'Sign up',
                       style: TextStyle(
