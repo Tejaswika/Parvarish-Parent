@@ -42,35 +42,36 @@ class _SelectChildState extends State<SelectChild> {
     return Scaffold(
       backgroundColor: const Color(0xFFF1F1F1),
       appBar: AppBar(
-        title: const Text('Select Child'),
+        title: const Text(
+          'Select Child',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: parentData?["children"].length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            if (index == 0) const SizedBox(height: 20),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16.0, vertical: 6),
-                              child: ChildProfile(
-                                  childId: parentData?["children"][index]),
-                            ),
-                            if (index == parentData?["children"].length - 1)
-                              _createAddChildButton(context)
-                          ],
-                        );
-                      }),
-                ),
-              ],
-            ),
+          : parentData?["children"].length == 0
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 32.0),
+                  child: _createAddChildButton(context),
+                )
+              : ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: parentData?["children"].length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        if (index == 0) const SizedBox(height: 20),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 6),
+                          child: ChildProfile(
+                              childId: parentData?["children"][index]),
+                        ),
+                        if (index == parentData?["children"].length - 1)
+                          _createAddChildButton(context)
+                      ],
+                    );
+                  }),
     );
   }
 
@@ -81,7 +82,15 @@ class _SelectChildState extends State<SelectChild> {
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: ((context) => CreateProfile(uid: widget.uid)),
+            builder: ((context) => CreateProfile(
+                  uid: widget.uid,
+                  successCallback: () {
+                    setState(() {
+                      _loading = true;
+                    });
+                    readParentData();
+                  },
+                )),
           ),
         ),
         child: Container(

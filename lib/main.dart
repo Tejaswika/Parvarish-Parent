@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parent/route_test_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:parent/services/local_storage_service.dart';
 
 void main() async {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +19,7 @@ void main() async {
       authDomain: "parvarish-e8a53.firebaseapp.com",
     ),
   );
+  LocalStorageService.init();
   runApp(const MyApp());
 }
 
@@ -31,9 +33,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        // To access these Colors First put Theme.of(context).colorScheme.XXX
-        // then in the place of XXX use the name of color
-        // for example Theme.of(context).colorScheme.primary || Theme.of(context).colorScheme.secondary
         colorScheme: const ColorScheme(
           brightness: Brightness.light,
           primary: Color.fromRGBO(39, 28, 162, 1),
