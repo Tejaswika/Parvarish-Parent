@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:form_validator/form_validator.dart';
 import 'package:parent/screens/select_child.dart';
@@ -23,6 +24,21 @@ class _SignUpPage extends State<SignUpPage> {
   bool _signUpInProcess = false;
   late final CollectionReference _parentCollection =
       _firestore.collection(DBConstants.parentCollectionName);
+  late String? fmcToken;
+
+  @override
+  void initState() {
+    getToken();
+    super.initState();
+  }
+
+  void getToken() async {
+    await FirebaseMessaging.instance.getToken().then((token) {
+      setState(() {
+        fmcToken = token;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -232,6 +248,7 @@ class _SignUpPage extends State<SignUpPage> {
       "email": email,
       "name": name,
       "phone": phone,
+      "fmcToken": fmcToken,
     };
 
     await documentReferencer.set(data).onError((error, stackTrace) {
