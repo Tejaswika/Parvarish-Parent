@@ -2,11 +2,9 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
+
 import 'package:parent/constants/db_constants.dart';
 import 'package:parent/screens/quiz.dart';
-=======
->>>>>>> 94ac24b9549346480adaacfb96c0622378bd0265
 
 import 'package:parent/constants/db_constants.dart';
 import 'package:parent/screens/welcome_screen.dart';

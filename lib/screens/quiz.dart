@@ -24,13 +24,11 @@ class _QuizReportState extends State<QuizReport> {
   @override
   void initState() {
     data = [
-      _ChartData('Whatsapp', 10),
-      _ChartData('Instagram', 20),
-      _ChartData('Facebook', 30),
-      _ChartData('Spotify', 5),
-      _ChartData('Amazon', 20),
-      _ChartData('Flipkart', 10),
-      _ChartData('Google', 30),
+      _ChartData('Maths', 40),
+      _ChartData('Computer', 20),
+      _ChartData('Environmental Studies', 30),
+      _ChartData('General Knowledge', 25),
+      _ChartData('English', 20),
     ];
     _tooltip = TooltipBehavior(enable: true);
     super.initState();
@@ -49,7 +47,7 @@ class _QuizReportState extends State<QuizReport> {
               text: TextSpan(
                 children: const <TextSpan>[
                   TextSpan(
-                      text: 'Quiz Report \n',
+                      text: 'Quiz Report\n \n',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 30,
@@ -57,14 +55,15 @@ class _QuizReportState extends State<QuizReport> {
                   TextSpan(
                       text: 'Average Marks:45\n',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25,
+                          //fontWeight: FontWeight.bold,
+                          fontSize: 22,
                           color: Color.fromARGB(255, 0, 0, 0))),
                   TextSpan(
                       text: 'Passing Percentage:50\n',
                       style: TextStyle(
-                          fontSize: 20,
-                          color: Color.fromARGB(255, 190, 190, 190))),
+                          //fontWeight: FontWeight.bold,
+                          fontSize: 22,
+                          color: Color.fromARGB(255, 0, 0, 0))),
                 ],
               ),
             )),
@@ -89,6 +88,12 @@ class _QuizReportState extends State<QuizReport> {
               child: ListView(
                 shrinkWrap: true,
                 children: <Widget>[
+                  ListTile(
+                    //title: Text('Last attempted quizes'),
+                    title: const Text('Last attempted quizes',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 20)),
+                  ),
                   ListTile(
                     title: Text('Maths Quiz'),
                     trailing: Text('60%'),
