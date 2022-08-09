@@ -11,17 +11,13 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen> {
   void _createQuiz(BuildContext context) {
     showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
-      builder: (_) {
-        return GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: const NewQuiz(),
+        context: context,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
+        builder: (_) {
+          return const NewQuiz();
           // behavior: HitTestBehavior.deferToChild,
-        );
-      },
-    );
+        });
   }
 
   @override
