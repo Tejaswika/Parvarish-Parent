@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:parent/screens/SignUp_Screen.dart';
 import 'package:parent/screens/login_screen.dart';
-import 'package:parent/screens/select_child.dart';
-import 'package:parent/services/local_storage_service.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
