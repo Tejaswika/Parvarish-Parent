@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
 import 'package:parent/constants/db_constants.dart';
-import 'package:parent/screens/my_nav_pill.dart';
 import 'package:parent/screens/create_profile.dart';
+import 'package:parent/widgets/child_profile.dart';
 
 class SelectChild extends StatefulWidget {
   final String? uid;
@@ -14,167 +15,120 @@ class SelectChild extends StatefulWidget {
 
 class _SelectChildState extends State<SelectChild> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  late final CollectionReference _parentCollection =
+      _firestore.collection(DBConstants.parentCollectionName);
 
-   @override
+  Map<String, dynamic>? parentData;
+  bool _loading = true;
+
+  @override
   void initState() {
-    _getParentChildren();
+    readParentData();
     super.initState();
+  }
+
+  Future readParentData() async {
+    DocumentReference documentReferencer = _parentCollection.doc(widget.uid);
+    DocumentSnapshot parentDataSnapshot = await documentReferencer.get();
+
+    parentData = parentDataSnapshot.data() as Map<String, dynamic>;
+    setState(() {
+      _loading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    _getParentChildren();
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Select Child Profile'),
+      backgroundColor: const Color(0xFFF1F1F1),
+      appBar: AppBar(
+        title: const Text(
+          'Select Child',
+          style: TextStyle(color: Colors.white),
         ),
-        body: SafeArea(
-            child: Container(
-                padding: const EdgeInsets.all(20),
-                child: Wrap(
-                  runSpacing: 5.0,
-                  spacing: 10.0,
-                  children: [
-                    Container(
-                        child: RichText(
-                      text: TextSpan(
-                        children: const <TextSpan>[
-                          TextSpan(
-                              text: 'Select/Add Child \n',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 50,
-                                  color: Color.fromARGB(255, 0, 0, 0))),
-                        ],
-                      ),
-                    )),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              children: <Widget>[
-                                CircleAvatar(
-                                  radius: 40,
-                                  backgroundImage: NetworkImage(
-                                      'https://cdn-icons-png.flaticon.com/512/2922/2922561.png'),
-                                ),
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MyNavPill()));
-                                    },
-                                    child: Text(
-                                      'Neha Singh',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: Color.fromARGB(255, 0, 0, 0)),
-                                    )),
-                              ],
-                            ),
-                          ),
+      ),
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : parentData?["children"].length == 0
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 32.0),
+                  child: _createAddChildButton(context),
+                )
+              : ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: parentData?["children"].length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        if (index == 0) const SizedBox(height: 20),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 6),
+                          child: ChildProfile(
+                              childId: parentData?["children"][index]),
                         ),
+                        if (index == parentData?["children"].length - 1)
+                          _createAddChildButton(context)
                       ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              children: <Widget>[
-                                CircleAvatar(
-                                  radius: 40,
-                                  backgroundImage: NetworkImage(
-                                      'https://cdn-icons-png.flaticon.com/512/2922/2922510.png'),
-                                ),
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MyNavPill()));
-                                    },
-                                    child: Text(
-                                      'Raj Kumar',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: Color.fromARGB(255, 0, 0, 0)),
-                                    )),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              children: <Widget>[
-                                CircleAvatar(
-                                  radius: 40,
-                                  backgroundImage: NetworkImage(
-                                      'https://cdn-icons-png.flaticon.com/512/1237/1237946.png'),
-                                ),
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ChildProfile(
-                                                      uid: widget.uid)));
-                                    },
-                                    child: Text(
-                                      'Add Child',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: Color.fromARGB(255, 0, 0, 0)),
-                                    )),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ))));
+                    );
+                  }),
+    );
   }
 
-  void _getParentChildren() async {
-    final CollectionReference _parentCollection =
-        _firestore.collection(DBConstants.parentCollectionName);
-    DocumentReference documentReferencer = _parentCollection.doc(widget.uid);
-    DocumentSnapshot parentDataSnapshot = await documentReferencer.get();
-    Map<String, dynamic>? parentData = parentDataSnapshot.data();
-
-    List<dynamic> children = parentData?['children'];
-
-    List<Map<String, dynamic>?> childrenData = [];
-
-    children.forEach((dynamic childId) async{
-      DocumentSnapshot childDataSnapshot = await _getChildData(childId);
-      Map<String, dynamic>? childData = childDataSnapshot.data();
-      childrenData.add(childData);
-      print(childData);
-    });
-
-    print(childrenData);
-  }
-
-  Future<DocumentSnapshot> _getChildData(String childId) async {
-    final CollectionReference _childrenCollection =
-        _firestore.collection(DBConstants.childCollectionName);
-    DocumentReference documentReferencer = _childrenCollection.doc(childId);
-
-    return documentReferencer.get();
+  Widget _createAddChildButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6),
+      child: InkWell(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: ((context) => CreateProfile(
+                  uid: widget.uid,
+                  successCallback: () {
+                    setState(() {
+                      _loading = true;
+                    });
+                    readParentData();
+                  },
+                )),
+          ),
+        ),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: Colors.white,
+          ),
+          child: Row(
+            children: [
+              Container(
+                height: 60,
+                width: 60,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: const Color(0XFF25C997),
+                ),
+                child: const Center(
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 40,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              const Text(
+                'Add Child',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFFC7C7C7),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

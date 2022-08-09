@@ -8,73 +8,76 @@ class Apptimer extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color.fromARGB(255, 238, 233, 233),
+        backgroundColor: const Color.fromARGB(255, 238, 233, 233),
         appBar: AppBar(
-          title: Text("App timers"),
+          title: const Text("App timers"),
           elevation: 0.0,
           actions: [
             IconButton(
               onPressed: (() => {}),
-              icon: Icon(Icons.settings),
+              icon: const Icon(Icons.settings),
             ),
           ],
           leading: IconButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MyNavPill()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const MyNavPill(),
+                ),
+              );
             },
             icon: const Icon(Icons.arrow_back_ios),
           ),
         ),
         body: Padding(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
               TextField(
                 decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 15),
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 15),
                   hintText: "Search Apps",
-                  suffixIcon: Icon(Icons.search),
+                  suffixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: BorderSide()),
+                    borderRadius: BorderRadius.circular(25),
+                    borderSide: const BorderSide(),
+                  ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Container(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: <Widget>[
-                    ListTile(
-                      leading: const Icon(Icons.video_call),
-                      title: Text('YouTube'),
-                      trailing: Icon(Icons.timer),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.chat),
-                      title: Text('WhatsApp'),
-                      trailing: const Icon(Icons.timer),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.tiktok_outlined),
-                      title: Text('Tiktok'),
-                      trailing: Icon(Icons.timer),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.music_note),
-                      title: Text('Music'),
-                      trailing: Icon(Icons.timer),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.snapchat),
-                      title: Text('SnapChat'),
-                      trailing: Icon(Icons.timer),
-                    ),
-                  ],
-                ),
+              ListView(
+                shrinkWrap: true,
+                children: const <Widget>[
+                  ListTile(
+                    leading: Icon(Icons.video_call),
+                    title: Text('YouTube'),
+                    trailing: Icon(Icons.timer),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.chat),
+                    title: Text('WhatsApp'),
+                    trailing: Icon(Icons.timer),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.tiktok_outlined),
+                    title: Text('Tiktok'),
+                    trailing: Icon(Icons.timer),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.music_note),
+                    title: Text('Music'),
+                    trailing: Icon(Icons.timer),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.snapchat),
+                    title: Text('SnapChat'),
+                    trailing: Icon(Icons.timer),
+                  ),
+                ],
               ),
             ],
           ),
