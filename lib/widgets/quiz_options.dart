@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../services/local_storage_service.dart';
+
 class QuizOptions extends StatefulWidget {
   const QuizOptions({Key? key}) : super(key: key);
 
@@ -11,6 +13,14 @@ class QuizOptions extends StatefulWidget {
 }
 
 class _QuizOptions extends State<QuizOptions> {
+  final String childFmcToken = LocalStorageService.getFmcToken("fmxToken");
+
+  @override
+  void initState() {
+    print(childFmcToken);
+    super.initState();
+  }
+
   void sendPushMessage() async {
     try {
       await http.post(
@@ -32,8 +42,7 @@ class _QuizOptions extends State<QuizOptions> {
               'id': '1',
               'status': 'done'
             },
-            "to":
-                'dh7oGSz6S022du4fb0g4B8:APA91bG-TiSFe_sO4GACivBnyC-vRoIzzp_AXH6hNJxNEg0ahOI1PDXFF-AgCFzYDK9Fn0ytW4c3IFGwdVevp6_QGeJZ1WIhvcFiZUPxnUo8I7pkKP4UP8WbgD1eCppDqhP6ek_aiX0W',
+            "to": childFmcToken,
           },
         ),
       );

@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:parent/constants/db_constants.dart';
-import 'package:parent/screens/quiz.dart';
+import 'package:parent/screens/quiz_report_screen.dart';
 
 import 'package:parent/constants/db_constants.dart';
 import 'package:parent/screens/welcome_screen.dart';

@@ -18,9 +18,9 @@ class QuizConstants {
     "Select Subject",
     "Maths",
     "English",
-    "Environment Studies",
     "Computer Science",
     "General Knowledge",
+    "Environment Studies",
   ];
   static List<String> mathsTopics = [
     "Select topic",
@@ -44,7 +44,7 @@ class QuizConstants {
     "Select topic",
     "Parts of computer",
     "Computer and electronic device",
-    "Multiplication ans Division",
+    "Input Output",
   ];
   static List<String> gkTopics = [
     "Select topic",

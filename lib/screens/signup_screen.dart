@@ -220,7 +220,7 @@ class _SignUpPage extends State<SignUpPage> {
     auth
         .createUserWithEmailAndPassword(email: _email, password: _password)
         .then((UserCredential userCredential) {
-      LocalStorageService.setData('UserId', userCredential.user?.uid ?? '');
+      LocalStorageService.setUid('UserId', userCredential.user?.uid ?? '');
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => SelectChild(uid: userCredential.user?.uid),

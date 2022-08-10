@@ -12,6 +12,7 @@ class _NewQuizState extends State<NewQuiz> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: MediaQuery.of(context).size.height * 0.5,
       padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
       decoration: const BoxDecoration(
         color: Color.fromARGB(255, 81, 170, 243),

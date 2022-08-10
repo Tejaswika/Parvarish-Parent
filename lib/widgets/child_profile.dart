@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parent/constants/db_constants.dart';
+import '../services/local_storage_service.dart';
 
 import 'package:parent/screens/my_nav_pill.dart';
 
@@ -40,12 +41,16 @@ class _ChildProfileState extends State<ChildProfile> {
     return _loading
         ? Container()
         : InkWell(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: ((context) => const MyNavPill()),
-              ),
-            ),
+            onTap: () {
+              LocalStorageService.setFmcToken(
+                  "fmcToken", _childData?["fmcToken"]);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: ((context) => const MyNavPill()),
+                ),
+              );
+            },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               decoration: BoxDecoration(

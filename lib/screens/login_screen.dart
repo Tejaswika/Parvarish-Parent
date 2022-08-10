@@ -206,7 +206,7 @@ class _LoginPage extends State<LoginPage> {
     auth
         .signInWithEmailAndPassword(email: _email, password: _password)
         .then((UserCredential userCredential) {
-      LocalStorageService.setData('UserId', userCredential.user?.uid ?? '');
+      LocalStorageService.setUid('UserId', userCredential.user?.uid ?? '');
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

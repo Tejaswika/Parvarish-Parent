@@ -48,7 +48,7 @@ class _QuizFormState extends State<QuizForm> {
           );
         },
       ).toList();
-    } else if (subName == QuizConstants.subjects[3]) {
+    } else if (subName == QuizConstants.subjects[5]) {
       return QuizConstants.evsTopics.map<DropdownMenuItem<String>>(
         (String value) {
           return DropdownMenuItem(
@@ -57,7 +57,7 @@ class _QuizFormState extends State<QuizForm> {
           );
         },
       ).toList();
-    } else if (subName == QuizConstants.subjects[4]) {
+    } else if (subName == QuizConstants.subjects[3]) {
       return QuizConstants.computerTopics.map<DropdownMenuItem<String>>(
         (String value) {
           return DropdownMenuItem(
@@ -66,7 +66,7 @@ class _QuizFormState extends State<QuizForm> {
           );
         },
       ).toList();
-    } else {
+    } else if (subName == QuizConstants.subjects[4]) {
       return QuizConstants.gkTopics.map<DropdownMenuItem<String>>(
         (String value) {
           return DropdownMenuItem(
@@ -83,8 +83,6 @@ class _QuizFormState extends State<QuizForm> {
     return Form(
       key: _formKey,
       child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           DropdownButtonFormField<String>(
             validator: (value) {
@@ -126,7 +124,7 @@ class _QuizFormState extends State<QuizForm> {
             isExpanded: true,
             value: dropdownSubValue,
             elevation: 10,
-            items: QuizConstants.subjects.map<DropdownMenuItem<String>>(
+            items: QuizConstants.subjects.map(
               (String value) {
                 return DropdownMenuItem(
                   value: value,
@@ -138,6 +136,7 @@ class _QuizFormState extends State<QuizForm> {
               setState(
                 () {
                   dropdownSubValue = newValue ?? " ";
+                  dropdownTopicValue = QuizConstants.gkTopics[0];
                 },
               );
             },
