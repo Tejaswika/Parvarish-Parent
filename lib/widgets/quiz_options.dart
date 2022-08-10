@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 
 import '../services/local_storage_service.dart';
 
+enum SingingCharacter { option1, option2, option3 }
+
 class QuizOptions extends StatefulWidget {
   const QuizOptions({Key? key}) : super(key: key);
 
@@ -13,15 +15,18 @@ class QuizOptions extends StatefulWidget {
 }
 
 class _QuizOptions extends State<QuizOptions> {
-  final String childFmcToken = LocalStorageService.getFmcToken("fmxToken");
+  final String childFmcToken = LocalStorageService.getFmcToken("fmcToken");
 
-  @override
-  void initState() {
-    print(childFmcToken);
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   print(childFmcToken);
+  //   super.initState();
+  // }
 
   void sendPushMessage() async {
+    print("####################################");
+    print(childFmcToken);
+    print("####################################");
     try {
       await http.post(
         Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -52,71 +57,80 @@ class _QuizOptions extends State<QuizOptions> {
     }
   }
 
+  SingingCharacter? _character = SingingCharacter.option1;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 81, 170, 243),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-          ),
+      decoration: const BoxDecoration(
+        color: Color.fromARGB(255, 81, 170, 243),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
         ),
-        child: Row(
-          children: [
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(10, 30, 10, 10),
-                children: <Widget>[
-                  Container(
-                    height: 50,
-                    margin: const EdgeInsets.all(10),
-                    color: const Color.fromARGB(255, 29, 63, 122),
-                    child: const Center(
-                        child: Text('Option 1',
-                            style: TextStyle(color: Colors.white))),
-                  ),
-                  Container(
-                    height: 50,
-                    margin: const EdgeInsets.all(10),
-                    color: const Color.fromARGB(255, 29, 63, 122),
-                    child: const Center(
-                        child: Text('Option 2',
-                            style: TextStyle(color: Colors.white))),
-                  ),
-                  Container(
-                    height: 50,
-                    margin: const EdgeInsets.all(10),
-                    color: const Color.fromARGB(255, 29, 63, 122),
-                    child: const Center(
-                        child: Text('Option 3',
-                            style: TextStyle(color: Colors.white))),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(30),
-                    child: MaterialButton(
-                      minWidth: double.infinity,
-                      height: 50,
-                      onPressed: () {
-                        sendPushMessage();
-                      },
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Text(
-                        'Create quiz',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+      ),
+      child: Column(
+        children: <Widget>[
+          const Padding(
+            padding: EdgeInsets.all(30),
+          ),
+          RadioListTile<SingingCharacter>(
+            title: const Text('Option 1'),
+            value: SingingCharacter.option1,
+            groupValue: _character,
+            activeColor: Colors.black,
+            tileColor: Colors.green,
+            onChanged: (SingingCharacter? value) {
+              setState(() {
+                _character = value;
+              });
+            },
+          ),
+          RadioListTile<SingingCharacter>(
+            title: const Text('Option 2'),
+            value: SingingCharacter.option2,
+            groupValue: _character,
+            activeColor: Colors.black,
+            onChanged: (SingingCharacter? value) {
+              setState(() {
+                _character = value;
+              });
+            },
+          ),
+          RadioListTile<SingingCharacter>(
+            title: const Text('Option 3'),
+            value: SingingCharacter.option3,
+            groupValue: _character,
+            activeColor: Colors.black,
+            onChanged: (SingingCharacter? value) {
+              setState(() {
+                _character = value;
+              });
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.all(30),
+            child: MaterialButton(
+              minWidth: double.infinity,
+              height: 50,
+              onPressed: () {
+                sendPushMessage();
+              },
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Text(
+                'Create quiz',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                ),
               ),
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }
