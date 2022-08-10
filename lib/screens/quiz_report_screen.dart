@@ -9,7 +9,7 @@ class _ChartData {
 }
 
 class QuizReport extends StatefulWidget {
-  QuizReport({Key? key}) : super(key: key);
+  const QuizReport({Key? key}) : super(key: key);
 
   @override
   _QuizReportState createState() => _QuizReportState();
@@ -38,15 +38,14 @@ class _QuizReportState extends State<QuizReport> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Wrap(
             runSpacing: 5.0,
             spacing: 10.0,
             children: [
-              Container(
-                  child: RichText(
-                text: TextSpan(
-                  children: const <TextSpan>[
+              RichText(
+                text: const TextSpan(
+                  children: <TextSpan>[
                     TextSpan(
                         text: 'Quiz Report\n \n',
                         style: TextStyle(
@@ -67,8 +66,8 @@ class _QuizReportState extends State<QuizReport> {
                             color: Color.fromARGB(255, 0, 0, 0))),
                   ],
                 ),
-              )),
-              Container(
+              ),
+              SizedBox(
                 height: 200,
                 child: SfCartesianChart(
                     primaryXAxis: CategoryAxis(),
@@ -85,7 +84,7 @@ class _QuizReportState extends State<QuizReport> {
                           xValueMapper: (_ChartData data, _) => data.x,
                           yValueMapper: (_ChartData data, _) => data.y,
                           name: ' ',
-                          color: Color.fromRGBO(8, 142, 255, 1))
+                          color: const Color.fromRGBO(8, 142, 255, 1))
                     ]),
               ),
               ListView(

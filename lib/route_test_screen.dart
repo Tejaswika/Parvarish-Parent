@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:parent/constants/db_constants.dart';
 import 'package:parent/screens/quiz_report_screen.dart';
 
-import 'package:parent/constants/db_constants.dart';
 import 'package:parent/screens/welcome_screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -104,7 +103,7 @@ class _RouteTestScreenState extends State<RouteTestScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => QuizReport(),
+                      builder: (context) => const QuizReport(),
                     ),
                   );
                 },

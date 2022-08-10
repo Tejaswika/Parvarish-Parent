@@ -75,6 +75,8 @@ class _QuizFormState extends State<QuizForm> {
           );
         },
       ).toList();
+    } else {
+      return [];
     }
   }
 
@@ -209,7 +211,7 @@ class _QuizFormState extends State<QuizForm> {
                     _showQuizOptions(context);
                   }
                 },
-                child: Text("Show Quizzes"),
+                child: const Text("Show Quizzes"),
               )
             ],
           ),
