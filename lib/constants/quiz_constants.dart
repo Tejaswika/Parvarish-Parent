@@ -35,7 +35,7 @@ class QuizConstants {
     "Noun Pronoun",
   ];
   static List<String> evsTopics = [
-    "Select Studies topic",
+    "Select topic",
     "House and clothes",
     "Part of bodies",
     "Plants and animals",
