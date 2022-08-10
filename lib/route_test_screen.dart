@@ -4,6 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:parent/constants/db_constants.dart';
+import 'package:parent/screens/quiz.dart';
+
+import 'package:parent/constants/db_constants.dart';
 import 'package:parent/screens/welcome_screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -89,6 +92,27 @@ class _RouteTestScreenState extends State<RouteTestScreen> {
                   color: Colors.red,
                   child: const Text(
                     'Read Query',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => QuizReport(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  color: Colors.red,
+                  child: const Text(
+                    'Quiz Report',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
