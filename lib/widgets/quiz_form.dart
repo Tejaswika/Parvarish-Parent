@@ -20,8 +20,10 @@ class _QuizFormState extends State<QuizForm> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late final CollectionReference _quizCollection =
       _firestore.collection(DBConstants.quizCollectionName);
-  Map<String, dynamic> quizData = {};
+  Map<String, dynamic> classData = {};
   Map<String, dynamic> subjectData = {};
+  Map<String, dynamic> topicData = {};
+  Map<String, dynamic> diffData = {};
   Map<String, dynamic> classList = {
     "Class 1": "class_1",
     "Class 2": "class_2",
@@ -46,13 +48,32 @@ class _QuizFormState extends State<QuizForm> {
 
   List<DropdownMenuItem<String>> getSubjectDropDownList() {
     List<DropdownMenuItem<String>> subjects = [];
-    quizData.keys.forEach((subject) {
+    classData.keys.forEach((subject) {
       subjects.add(DropdownMenuItem(child: Text(subject)));
     });
     return subjects;
   }
 
-  dynamic selectedClass;
+  List<DropdownMenuItem<String>> getTopicDropDownList() {
+    List<DropdownMenuItem<String>> topics = [];
+    subjectData.keys.forEach((topic) {
+      topics.add(DropdownMenuItem(child: Text(topic)));
+    });
+    return topics;
+  }
+
+  List<DropdownMenuItem<String>> getDiffDropDownList() {
+    List<DropdownMenuItem<String>> diff = [];
+    topicData.keys.forEach((difficulty) {
+      diff.add(DropdownMenuItem(child: Text(difficulty)));
+    });
+    return diff;
+  }
+
+  String selectedClass = "",
+      selectedSub = "",
+      selectedTopic = "",
+      selectedDiff = "";
   final _formKey = GlobalKey<FormState>();
   void _showQuizOptions(BuildContext context) {
     showModalBottomSheet(
@@ -77,13 +98,17 @@ class _QuizFormState extends State<QuizForm> {
             //   return null;
             // },
             iconSize: 30,
+            hint: Text("Select class"),
             iconEnabledColor: Theme.of(context).colorScheme.primary,
             isExpanded: true,
-            // value: dropdownClassValue,
+            value: selectedClass,
             elevation: 10,
             items: getClassDropdownList(),
             onChanged: (String? newValue) {
               if (newValue != null) {
+                setState(() {
+                  selectedClass = newValue;
+                });
                 _getClassData(newValue);
               }
             },
@@ -96,82 +121,64 @@ class _QuizFormState extends State<QuizForm> {
             //   return null;
             // },
             iconSize: 30,
+            hint: Text("Select subject"),
             iconEnabledColor: Theme.of(context).colorScheme.primary,
             isExpanded: true,
-            // value: dropdownClassValue,
+            value: selectedSub,
             elevation: 10,
-            items: quizData.isNotEmpty ? getSubjectDropDownList() : [],
+            items: classData.isNotEmpty ? getSubjectDropDownList() : [],
             onChanged: (String? newValue) {
               if (newValue != null) {
-                _getClassData(newValue);
+                setState(() {
+                  selectedSub = newValue;
+                });
+                _getSubjectData(newValue);
               }
             },
           ),
-          StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection(DBConstants.quizCollectionName)
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const Text("Loading");
-              } else {
-                for (int i = 0; i < snapshot.data!.docs.length; i++) {
-                  DocumentSnapshot snap = snapshot.data!.docs[i];
-                  grade.add(
-                    DropdownMenuItem<String>(
-                      child: Text(snap.id),
-                      value: snap.id,
-                    ),
-                  );
-                }
-                return DropdownButton<String>(
-                  items: grade,
-                  onChanged: (val) {
-                    setState(() {
-                      selectedClass = val.toString();
-                    });
-                  },
-                  iconSize: 30,
-                  iconEnabledColor: Theme.of(context).colorScheme.primary,
-                  isExpanded: true,
-                  elevation: 10,
-                  value: selectedClass,
-                  hint: const Text("Select topics"),
-                );
+          DropdownButtonFormField<String>(
+            // validator: (value) {
+            //   if (value == QuizConstants.grade[0] && value != null) {
+            //     return "Please select a value";
+            //   }
+            //   return null;
+            // },
+            iconSize: 30,
+            hint: Text("Select topics"),
+            iconEnabledColor: Theme.of(context).colorScheme.primary,
+            isExpanded: true,
+            value: selectedTopic,
+            elevation: 10,
+            items: subjectData.isNotEmpty ? getTopicDropDownList() : [],
+            onChanged: (String? newValue) {
+              if (newValue != null) {
+                setState(() {
+                  selectedTopic = newValue;
+                });
+                _getTopicData(newValue);
               }
             },
           ),
-          StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection(DBConstants.quizCollectionName)
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const Text("Loading");
-              } else {
-                for (int i = 0; i < snapshot.data!.docs.length; i++) {
-                  DocumentSnapshot snap = snapshot.data!.docs[i];
-                  grade.add(
-                    DropdownMenuItem<String>(
-                      child: Text(snap.id),
-                      value: snap.id,
-                    ),
-                  );
-                }
-                return DropdownButton<String>(
-                  items: grade,
-                  onChanged: (val) {
-                    setState(() {
-                      selectedClass = val.toString();
-                    });
-                  },
-                  iconSize: 30,
-                  iconEnabledColor: Theme.of(context).colorScheme.primary,
-                  isExpanded: true,
-                  elevation: 10,
-                  value: selectedClass,
-                  hint: const Text("Select difficulty"),
-                );
+          DropdownButtonFormField<String>(
+            // validator: (value) {
+            //   if (value == QuizConstants.grade[0] && value != null) {
+            //     return "Please select a value";
+            //   }
+            //   return null;
+            // },
+            iconSize: 30,
+            hint: Text("Select difiiculty"),
+            iconEnabledColor: Theme.of(context).colorScheme.primary,
+            isExpanded: true,
+            value: selectedDiff,
+            elevation: 10,
+            items: subjectData.isNotEmpty ? getDiffDropDownList() : [],
+            onChanged: (String? newValue) {
+              if (newValue != null) {
+                _getDiffData(newValue);
+                setState(() {
+                  selectedDiff = newValue;
+                });
               }
             },
           ),
@@ -206,14 +213,28 @@ class _QuizFormState extends State<QuizForm> {
     Map<String, dynamic>? data =
         quizDataSnapshot.data() as Map<String, dynamic>;
     setState(() {
-      quizData = data;
+      classData = data;
     });
     // print(data);
   }
 
-  void _getSubjectData(String subject){
-    
-  } 
+  void _getSubjectData(String subject) {
+    setState(() {
+      subjectData = classData[subject];
+    });
+  }
+
+  void _getTopicData(String topic) {
+    setState(() {
+      topicData = subjectData[topic];
+    });
+  }
+
+  void _getDiffData(String difficulty) {
+    setState(() {
+      diffData = topicData[difficulty];
+    });
+  }
 }
 
 
