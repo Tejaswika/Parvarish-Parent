@@ -7,6 +7,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:carousel_slider/carousel_slider.dart';
+import '../widgets/new_quiz.dart';
 
 //Store this globally
 final GlobalKey<NavigatorState> _navKey = GlobalKey<NavigatorState>();
@@ -28,10 +29,27 @@ class _MyNavPillState extends State<MyNavPill>
     super.initState();
   }
 
+  void _createQuiz(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
+        builder: (_) {
+          return const NewQuiz();
+          // behavior: HitTestBehavior.deferToChild,
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // actions: [
+        //   IconButton(
+        //     onPressed: () => _createQuiz(context),
+        //     icon: const Icon(Icons.add, color: Colors.white),
+        //   ),
+        // ],
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
@@ -60,10 +78,10 @@ class _MyNavPillState extends State<MyNavPill>
         onGenerateRoute: (_) => MaterialPageRoute(
           builder: (_) => TabBarView(
             controller: _tabController,
-            children: const [
-              FirstPage(),
-              QuizScreen(),
-              ThirdPage(),
+            children: [
+              const FirstPage(),
+              QuizScreen(createQuiz: _createQuiz),
+              const ThirdPage(),
             ],
           ),
         ),
@@ -233,7 +251,6 @@ class FirstPageState extends State<FirstPage> {
     );
   }
 }
-
 
 final List<String> imagesList = [
   'https://cdn-icons-png.flaticon.com/512/2922/2922561.png',

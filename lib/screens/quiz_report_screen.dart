@@ -43,28 +43,20 @@ class _QuizReportState extends State<QuizReport> {
             runSpacing: 5.0,
             spacing: 10.0,
             children: [
-              RichText(
-                text: const TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                        text: 'Quiz Report\n \n',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                            color: Color.fromARGB(255, 0, 0, 0))),
-                    TextSpan(
-                        text: 'Average Marks:45\n',
-                        style: TextStyle(
-                            //fontWeight: FontWeight.bold,
-                            fontSize: 22,
-                            color: Color.fromARGB(255, 0, 0, 0))),
-                    TextSpan(
-                        text: 'Passing Percentage:50\n',
-                        style: TextStyle(
-                            //fontWeight: FontWeight.bold,
-                            fontSize: 22,
-                            color: Color.fromARGB(255, 0, 0, 0))),
-                  ],
+              const Text(
+                'Average Marks: 45\n',
+                style: TextStyle(
+                  //fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                  // color: Color.fromARGB(255, 0, 0, 0),
+                ),
+              ),
+              const Text(
+                'Passing Percentage: 50\n',
+                style: TextStyle(
+                  //fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                  // color: Color.fromARGB(255, 0, 0, 0),
                 ),
               ),
               SizedBox(
