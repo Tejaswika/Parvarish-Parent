@@ -2,12 +2,15 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:parent/widgets/quiz_single_option.dart';
-
 import '../constants/db_constants.dart';
 import '../services/local_storage_service.dart';
 
-enum SingingCharacter { option1, option2, option3 }
+class RadioItem {
+  String name;
+  int index;
+  RadioItem({required this.name, required this.index});
+}
+//enum SingingCharacter { option1, option2, option3 }
 
 Map<String, dynamic> assignQuizData = {
   "diffculty_level": "",
@@ -24,7 +27,12 @@ class QuizOptions extends StatefulWidget {
   Map<String, dynamic>? childData;
   final List<dynamic> quizOption;
   String? diffLevel;
-   QuizOptions({Key? key, required this.quizOption, required this.childData, required this.diffLevel}) : super(key: key);
+  QuizOptions(
+      {Key? key,
+      required this.quizOption,
+      required this.childData,
+      required this.diffLevel})
+      : super(key: key);
 
   @override
   State<QuizOptions> createState() => _QuizOptions();
@@ -35,18 +43,18 @@ class _QuizOptions extends State<QuizOptions> {
   late final CollectionReference _childCollection =
       _firestore.collection(DBConstants.childCollectionName);
   final String childFmcToken = LocalStorageService.getFmcToken("fmcToken");
-   bool isBlocked=false;
-
-  //  @override
-  //  void initState() {
-  //    print(childFmcToken);
-  //    super.initState();
-  //  }
+  bool isBlocked = false;
+  List<RadioItem> items = <RadioItem>[];
+  int groupValue = 0;
+  @override
+  void initState() {
+    for (int i = 0; i < widget.quizOption.length; i++) {
+      items.add(RadioItem(index: i, name: 'Quiz' + (i + 1).toString()));
+    }
+    super.initState();
+  }
 
   void sendPushMessage() async {
-    print("####################################");
-    print(childFmcToken);
-    print("####################################");
     try {
       await http.post(
         Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -77,7 +85,7 @@ class _QuizOptions extends State<QuizOptions> {
     }
   }
 
-  SingingCharacter? _character = SingingCharacter.option1;
+  //SingingCharacter? _character = SingingCharacter.option1;
 
   @override
   Widget build(BuildContext context) {
@@ -94,62 +102,85 @@ class _QuizOptions extends State<QuizOptions> {
           const Padding(
             padding: EdgeInsets.all(30),
           ),
-          /*RadioListTile<SingingCharacter>(
-            title: const Text('Option 1'),
-            value: SingingCharacter.option1,
-            groupValue: _character,
-            activeColor: Colors.black,
-            tileColor: Colors.green,
-            onChanged: (SingingCharacter? value) {
-              setState(() {
-                _character = value;
-              });
-            },
+          Column(
+            children: items
+                .map(
+                  (data) => Card(
+                    elevation: 3,
+                    shadowColor: const Color(0xFFAAAAAA),
+                    margin: const EdgeInsets.only(left: 30, right: 30, top: 15),
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side:
+                          const BorderSide(color: Colors.transparent, width: 0),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(20),
+                      onTap: () {
+                        setState(() {
+                          groupValue = data.index;
+                        });
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        // child: Directionality(
+                        //   textDirection: TextDirection.ltr,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Radio(
+                              groupValue: groupValue,
+                              value: data.index,
+                              onChanged: (index) {
+                                setState(() {
+                                  groupValue = int.parse(index.toString());
+                                  print(groupValue);
+                                }
+                                );
+                              },
+                            ),
+                            Text(data.name),
+                            Container(
+                              padding: const EdgeInsets.all(6.0),
+                              height: 30,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.secondary,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: const Text(
+                                "Attempted",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
           ),
-          RadioListTile<SingingCharacter>(
-            title: const Text('Option 2'),
-            value: SingingCharacter.option2,
-            groupValue: _character,
-            activeColor: Colors.black,
-            onChanged: (SingingCharacter? value) {
-              setState(() {
-                _character = value;
-              });
-            },
-          ),
-          RadioListTile<SingingCharacter>(
-            title: const Text('Option 3'),
-            value: SingingCharacter.option3,
-            groupValue: _character,
-            activeColor: Colors.black,
-            onChanged: (SingingCharacter? value) {
-              setState(() {
-                _character = value;
-              });
-            },
-          ),*/
-          ListView.builder(
-            itemBuilder: (context, index) {
-              return QuizSingleOption(currIndex: index);
-            },
-            shrinkWrap: true,
-            itemCount: widget.quizOption.length,
-          ),
-
-          Row(
-            children: [
-              Checkbox(
-      checkColor: Colors.white,
-      //fillColor: Theme.of(context).colorScheme.primary,
-      value: isBlocked,
-      onChanged: (bool? value) {
-        setState(() {
-              isBlocked = value!;
-        });
-      },
-    ),
-    const Text("Do you want to block your child's phone"),
-            ],
+          Container(
+            margin: const EdgeInsets.only(left: 35, top: 15),
+            child: Row(
+              children: [
+                Checkbox(
+                  checkColor: Colors.white,
+                  //fillColor: Theme.of(context).colorScheme.primary,
+                  value: isBlocked,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      isBlocked = value!;
+                    });
+                  },
+                ),
+                const Text("Do you want to block your child's phone"),
+              ],
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(30),
@@ -175,17 +206,5 @@ class _QuizOptions extends State<QuizOptions> {
         ],
       ),
     );
-  }
-  void assignQuiz(){
-    setState(() {
-      assignQuizData["diffculty_level"]=widget.diffLevel;
-      assignQuizData["is_attempted"]=false;
-      assignQuizData["is_blocked"]=isBlocked;
-  assignQuizData["min_score"]=0;
-  assignQuizData["quiz_id"];
-  assignQuizData["scores"]=0;
-  assignQuizData["total_attempts"]=0;
-  assignQuizData["total_score"]=0;
-    });
   }
 }
