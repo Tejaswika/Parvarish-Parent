@@ -1,27 +1,47 @@
 import 'dart:convert';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:parent/widgets/quiz_single_option.dart';
 
+import '../constants/db_constants.dart';
 import '../services/local_storage_service.dart';
 
 enum SingingCharacter { option1, option2, option3 }
 
+Map<String, dynamic> assignQuizData = {
+  "diffculty_level": "",
+  "is_attempted": null,
+  "is_blocked": null,
+  "min_score": null,
+  "quiz_id": null,
+  "scores": [],
+  "total_attempts": null,
+  "total_score": null,
+};
+
 class QuizOptions extends StatefulWidget {
-  const QuizOptions({Key? key}) : super(key: key);
+  Map<String, dynamic>? childData;
+  final List<dynamic> quizOption;
+  String? diffLevel;
+   QuizOptions({Key? key, required this.quizOption, required this.childData, required this.diffLevel}) : super(key: key);
 
   @override
   State<QuizOptions> createState() => _QuizOptions();
 }
 
 class _QuizOptions extends State<QuizOptions> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  late final CollectionReference _childCollection =
+      _firestore.collection(DBConstants.childCollectionName);
   final String childFmcToken = LocalStorageService.getFmcToken("fmcToken");
+   bool isBlocked=false;
 
-  // @override
-  // void initState() {
-  //   print(childFmcToken);
-  //   super.initState();
-  // }
+  //  @override
+  //  void initState() {
+  //    print(childFmcToken);
+  //    super.initState();
+  //  }
 
   void sendPushMessage() async {
     print("####################################");
@@ -74,7 +94,7 @@ class _QuizOptions extends State<QuizOptions> {
           const Padding(
             padding: EdgeInsets.all(30),
           ),
-          RadioListTile<SingingCharacter>(
+          /*RadioListTile<SingingCharacter>(
             title: const Text('Option 1'),
             value: SingingCharacter.option1,
             groupValue: _character,
@@ -107,6 +127,29 @@ class _QuizOptions extends State<QuizOptions> {
                 _character = value;
               });
             },
+          ),*/
+          ListView.builder(
+            itemBuilder: (context, index) {
+              return QuizSingleOption(currIndex: index);
+            },
+            shrinkWrap: true,
+            itemCount: widget.quizOption.length,
+          ),
+
+          Row(
+            children: [
+              Checkbox(
+      checkColor: Colors.white,
+      //fillColor: Theme.of(context).colorScheme.primary,
+      value: isBlocked,
+      onChanged: (bool? value) {
+        setState(() {
+              isBlocked = value!;
+        });
+      },
+    ),
+    const Text("Do you want to block your child's phone"),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.all(30),
@@ -132,5 +175,17 @@ class _QuizOptions extends State<QuizOptions> {
         ],
       ),
     );
+  }
+  void assignQuiz(){
+    setState(() {
+      assignQuizData["diffculty_level"]=widget.diffLevel;
+      assignQuizData["is_attempted"]=false;
+      assignQuizData["is_blocked"]=isBlocked;
+  assignQuizData["min_score"]=0;
+  assignQuizData["quiz_id"];
+  assignQuizData["scores"]=0;
+  assignQuizData["total_attempts"]=0;
+  assignQuizData["total_score"]=0;
+    });
   }
 }

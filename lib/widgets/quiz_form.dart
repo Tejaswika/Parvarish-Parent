@@ -6,7 +6,8 @@ import 'package:parent/widgets/quiz_options.dart';
 import '../services/snackbar_service.dart';
 
 class QuizForm extends StatefulWidget {
-  const QuizForm({Key? key}) : super(key: key);
+  Map<String, dynamic>? childData;
+   QuizForm({Key? key, required this.childData}) : super(key: key);
 
   @override
   State<QuizForm> createState() => _QuizFormState();
@@ -20,11 +21,10 @@ class _QuizFormState extends State<QuizForm> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late final CollectionReference _quizCollection =
       _firestore.collection(DBConstants.quizCollectionName);
-  bool _isDataLoading = true;
   Map<String, dynamic> classData = {};
   Map<String, dynamic> subjectData = {};
   Map<String, dynamic> topicData = {};
-  Map<String, dynamic> diffData = {};
+  List<dynamic> diffData = [];
   Map<String, dynamic> classList = {
     "Class 1": "Class 1",
     "Class 2": "Class 2",
@@ -91,7 +91,8 @@ class _QuizFormState extends State<QuizForm> {
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
       context: context,
-      builder: ((context) => const QuizOptions()),
+      builder: ((context) => QuizOptions(quizOption:diffData, childData:widget.childData, diffLevel:selectedDiff )),
+
     );
   }
 
@@ -225,7 +226,6 @@ class _QuizFormState extends State<QuizForm> {
         selectedClass = grade;
         classData = data;
       });
-      _isDataLoading = false;
       print(data);
     });
   }

@@ -20,12 +20,7 @@ class Apptimer extends StatelessWidget {
           ],
           leading: IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const MyNavPill(),
-                ),
-              );
+              Navigator.pop(context);
             },
             icon: const Icon(Icons.arrow_back_ios),
           ),
