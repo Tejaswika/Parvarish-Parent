@@ -7,7 +7,7 @@ import '../services/snackbar_service.dart';
 
 class QuizForm extends StatefulWidget {
   Map<String, dynamic>? childData;
-   QuizForm({Key? key, required this.childData}) : super(key: key);
+  QuizForm({Key? key, required this.childData}) : super(key: key);
 
   @override
   State<QuizForm> createState() => _QuizFormState();
@@ -91,8 +91,10 @@ class _QuizFormState extends State<QuizForm> {
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
       context: context,
-      builder: ((context) => QuizOptions(quizOption:diffData, childData:widget.childData, diffLevel:selectedDiff )),
-
+      builder: ((context) => QuizOptions(
+          quizOption: diffData,
+          childData: widget.childData,
+          diffLevel: selectedDiff)),
     );
   }
 
@@ -192,14 +194,12 @@ class _QuizFormState extends State<QuizForm> {
             },
             value: selectedDiff,
           ),
-          Row(
+          Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text("Cancel"),
-              ),
-              TextButton(
+              MaterialButton(
+                minWidth: double.infinity,
+                height: 30,
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     SnackbarService.showSuccessSnackbar(
@@ -207,8 +207,67 @@ class _QuizFormState extends State<QuizForm> {
                     _showQuizOptions(context);
                   }
                 },
-                child: const Text("Show Quizzes"),
+                color: Theme.of(context).colorScheme.primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Text(
+                  'Show Quizes',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              // Sign-up Button
+              // const SizedBox(
+              //   height: 8,
+              // ),
+              MaterialButton(
+                minWidth: double.infinity,
+                height: 30,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(
+                    color: Colors.black,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16),
+                ),
               )
+              // TextButton(
+              //   onPressed: () {
+              //     if (_formKey.currentState!.validate()) {
+              //       SnackbarService.showSuccessSnackbar(
+              //           context, "Data validated");
+              //       _showQuizOptions(context);
+              //     }
+              //   },
+              //   child: const Text("Show Quizzes",
+              //       style: TextStyle(
+              //         color: Colors.black,
+              //         fontSize: 15,
+              //         backgroundColor: Colors.white,
+              //       )),
+              // ),
+              // TextButton(
+              //   onPressed: () => Navigator.pop(context),
+              //   child: const Text("Cancel",
+              //       style: TextStyle(
+              //         color: Colors.black,
+              //         fontSize: 15,
+              //         backgroundColor: Colors.white,
+              //       )),
+              // ),
             ],
           ),
         ],
