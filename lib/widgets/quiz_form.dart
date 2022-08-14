@@ -20,60 +20,71 @@ class _QuizFormState extends State<QuizForm> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late final CollectionReference _quizCollection =
       _firestore.collection(DBConstants.quizCollectionName);
+  bool _isDataLoading = true;
   Map<String, dynamic> classData = {};
   Map<String, dynamic> subjectData = {};
   Map<String, dynamic> topicData = {};
   Map<String, dynamic> diffData = {};
   Map<String, dynamic> classList = {
-    "Class 1": "class_1",
-    "Class 2": "class_2",
-    "Class 3": "class_3",
-    "Class 4": "class_4",
-    "Class 5": "class_5",
-    "Class 6": "class_6",
-    "Class 7": "class_7",
-    "Class 8": "class_8",
-    "Class 9": "class_9",
-    "Class 10": "class_10",
-    "Class 11": "class_11",
-    "Class 12": "class_12",
+    "Class 1": "Class 1",
+    "Class 2": "Class 2",
+    "Class 3": "Class 3",
+    "Class 4": "Class 4",
+    "Class 5": "Class 5",
+    "Class 6": "Class 6",
+    "Class 7": "Class 7",
+    "Class 8": "Class 8",
+    "Class 9": "Class 9",
+    "Class 10": "Class 10",
+    "Class 11": "Class 11",
+    "Class 12": "Class 12",
   };
   List<DropdownMenuItem<String>> getClassDropdownList() {
     List<DropdownMenuItem<String>> classes = [];
-    classList.keys.forEach((grade) {
-      classes.add(DropdownMenuItem(child: Text(grade)));
-    });
+    for (var grade in classList.keys) {
+      classes.add(DropdownMenuItem(child: Text(grade), value: grade));
+    }
+    // print(classes);
     return classes;
   }
 
   List<DropdownMenuItem<String>> getSubjectDropDownList() {
     List<DropdownMenuItem<String>> subjects = [];
-    classData.keys.forEach((subject) {
-      subjects.add(DropdownMenuItem(child: Text(subject)));
-    });
+    for (var subject in classData.keys) {
+      subjects.add(DropdownMenuItem(child: Text(subject), value: subject));
+    }
+    // print(subjects);
     return subjects;
   }
 
   List<DropdownMenuItem<String>> getTopicDropDownList() {
     List<DropdownMenuItem<String>> topics = [];
-    subjectData.keys.forEach((topic) {
-      topics.add(DropdownMenuItem(child: Text(topic)));
-    });
+    for (var topic in subjectData.keys) {
+      topics.add(DropdownMenuItem(
+        child: Text(topic),
+        value: topic,
+      ));
+    }
+    // print(topics);
     return topics;
   }
 
   List<DropdownMenuItem<String>> getDiffDropDownList() {
     List<DropdownMenuItem<String>> diff = [];
-    topicData.keys.forEach((difficulty) {
-      diff.add(DropdownMenuItem(child: Text(difficulty)));
-    });
+    for (var difficulty in topicData.keys) {
+      diff.add(DropdownMenuItem(
+        child: Text(difficulty),
+        value: difficulty,
+      ));
+    }
+    // print(diff);
     return diff;
   }
 
-  String selectedClass = "",
-      selectedSub = "",
-      selectedTopic = "",
-      selectedDiff = "";
+  String? selectedClass = "Class 1";
+  String? selectedSub;
+  String? selectedTopic;
+  String? selectedDiff;
   final _formKey = GlobalKey<FormState>();
   void _showQuizOptions(BuildContext context) {
     showModalBottomSheet(
@@ -86,6 +97,7 @@ class _QuizFormState extends State<QuizForm> {
 
   @override
   Widget build(BuildContext context) {
+    print(classData);
     return Form(
       key: _formKey,
       child: Column(
@@ -98,20 +110,17 @@ class _QuizFormState extends State<QuizForm> {
             //   return null;
             // },
             iconSize: 30,
-            hint: Text("Select class"),
+            hint: const Text("Select class"),
             iconEnabledColor: Theme.of(context).colorScheme.primary,
             isExpanded: true,
-            value: selectedClass,
             elevation: 10,
             items: getClassDropdownList(),
             onChanged: (String? newValue) {
               if (newValue != null) {
-                setState(() {
-                  selectedClass = newValue;
-                });
                 _getClassData(newValue);
               }
             },
+            value: selectedClass,
           ),
           DropdownButtonFormField<String>(
             // validator: (value) {
@@ -121,10 +130,9 @@ class _QuizFormState extends State<QuizForm> {
             //   return null;
             // },
             iconSize: 30,
-            hint: Text("Select subject"),
+            hint: const Text("Select subject"),
             iconEnabledColor: Theme.of(context).colorScheme.primary,
             isExpanded: true,
-            value: selectedSub,
             elevation: 10,
             items: classData.isNotEmpty ? getSubjectDropDownList() : [],
             onChanged: (String? newValue) {
@@ -135,6 +143,7 @@ class _QuizFormState extends State<QuizForm> {
                 _getSubjectData(newValue);
               }
             },
+            value: selectedSub,
           ),
           DropdownButtonFormField<String>(
             // validator: (value) {
@@ -144,10 +153,9 @@ class _QuizFormState extends State<QuizForm> {
             //   return null;
             // },
             iconSize: 30,
-            hint: Text("Select topics"),
+            hint: const Text("Select topics"),
             iconEnabledColor: Theme.of(context).colorScheme.primary,
             isExpanded: true,
-            value: selectedTopic,
             elevation: 10,
             items: subjectData.isNotEmpty ? getTopicDropDownList() : [],
             onChanged: (String? newValue) {
@@ -158,6 +166,7 @@ class _QuizFormState extends State<QuizForm> {
                 _getTopicData(newValue);
               }
             },
+            value: selectedTopic,
           ),
           DropdownButtonFormField<String>(
             // validator: (value) {
@@ -167,10 +176,9 @@ class _QuizFormState extends State<QuizForm> {
             //   return null;
             // },
             iconSize: 30,
-            hint: Text("Select difiiculty"),
+            hint: const Text("Select difiiculty"),
             iconEnabledColor: Theme.of(context).colorScheme.primary,
             isExpanded: true,
-            value: selectedDiff,
             elevation: 10,
             items: subjectData.isNotEmpty ? getDiffDropDownList() : [],
             onChanged: (String? newValue) {
@@ -181,6 +189,7 @@ class _QuizFormState extends State<QuizForm> {
                 });
               }
             },
+            value: selectedDiff,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -209,13 +218,16 @@ class _QuizFormState extends State<QuizForm> {
   void _getClassData(String grade) async {
     DocumentReference documentReferencer =
         _quizCollection.doc(classList[grade]);
-    DocumentSnapshot quizDataSnapshot = await documentReferencer.get();
-    Map<String, dynamic>? data =
-        quizDataSnapshot.data() as Map<String, dynamic>;
-    setState(() {
-      classData = data;
+    await documentReferencer.get().then((DocumentSnapshot quizDataSnapshot) {
+      Map<String, dynamic>? data =
+          quizDataSnapshot.data() as Map<String, dynamic>;
+      setState(() {
+        selectedClass = grade;
+        classData = data;
+      });
+      _isDataLoading = false;
+      print(data);
     });
-    // print(data);
   }
 
   void _getSubjectData(String subject) {
