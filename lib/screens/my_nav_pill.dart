@@ -13,8 +13,10 @@ import '../widgets/new_quiz.dart';
 final GlobalKey<NavigatorState> _navKey = GlobalKey<NavigatorState>();
 
 class MyNavPill extends StatefulWidget {
-  Map<String,dynamic>? childData;
-  MyNavPill({Key? key, required this.childData}) : super(key: key);
+  final Map<String, dynamic>? childData;
+  final String? childId;
+  const MyNavPill({Key? key, required this.childData, required this.childId})
+      : super(key: key);
 
   @override
   _MyNavPillState createState() => _MyNavPillState();
@@ -36,7 +38,8 @@ class _MyNavPillState extends State<MyNavPill>
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
         builder: (_) {
-          return NewQuiz(childData:widget.childData);
+          return NewQuiz(
+              childData: widget.childData, childId: widget.childId);
           // behavior: HitTestBehavior.deferToChild,
         });
   }

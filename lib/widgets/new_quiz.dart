@@ -3,8 +3,9 @@ import 'quiz_form.dart';
 
 // ignore: must_be_immutable
 class NewQuiz extends StatefulWidget {
-  Map<String, dynamic>? childData;
-  NewQuiz({Key? key, required this.childData}) : super(key: key);
+  final Map<String, dynamic>? childData;
+  final String? childId;
+  const NewQuiz({Key? key, required this.childData, required this.childId}) : super(key: key);
 
   @override
   State<NewQuiz> createState() => _NewQuizState();
@@ -36,7 +37,7 @@ class _NewQuizState extends State<NewQuiz> {
           const SizedBox(
             height: 10,
           ),
-          QuizForm(childData: widget.childData),
+          QuizForm(childData: widget.childData,childId: widget.childId),
         ],
       ),
     );
