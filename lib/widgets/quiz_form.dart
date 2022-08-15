@@ -11,6 +11,7 @@ class QuizForm extends StatefulWidget {
   const QuizForm({Key? key, required this.childData, required this.childId})
       : super(key: key);
 
+
   @override
   State<QuizForm> createState() => _QuizFormState();
 }
@@ -221,7 +222,6 @@ class _QuizFormState extends State<QuizForm> {
                   'Show Quizes',
                   style: TextStyle(
                     color: Colors.white,
-                    // fontWeight: FontWeight.w600,
                     fontSize: 16,
                   ),
                 ),
@@ -245,10 +245,33 @@ class _QuizFormState extends State<QuizForm> {
                   'Cancel',
                   style: TextStyle(
                       color: Colors.black,
-                      // fontWeight: FontWeight.w600,
                       fontSize: 16),
                 ),
               )
+              // TextButton(
+              //   onPressed: () {
+              //     if (_formKey.currentState!.validate()) {
+              //       SnackbarService.showSuccessSnackbar(
+              //           context, "Data validated");
+              //       _showQuizOptions(context);
+              //     }
+              //   },
+              //   child: const Text("Show Quizzes",
+              //       style: TextStyle(
+              //         color: Colors.black,
+              //         fontSize: 15,
+              //         backgroundColor: Colors.white,
+              //       )),
+              // ),
+              // TextButton(
+              //   onPressed: () => Navigator.pop(context),
+              //   child: const Text("Cancel",
+              //       style: TextStyle(
+              //         color: Colors.black,
+              //         fontSize: 15,
+              //         backgroundColor: Colors.white,
+              //       )),
+              // ),
             ],
           ),
         ],

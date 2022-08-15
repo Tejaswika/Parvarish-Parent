@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'quiz_form.dart';
 
+// ignore: must_be_immutable
 class NewQuiz extends StatefulWidget {
   final Map<String, dynamic>? childData;
   final String? childId;
