@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:parent/screens/my_nav_pill.dart';
 
 class Apptimer extends StatelessWidget {
   const Apptimer({Key? key}) : super(key: key);

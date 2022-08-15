@@ -1,9 +1,4 @@
 import "package:flutter/material.dart";
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:parent/constants/db_constants.dart';
-// import '../constants/db_constants.dart';
-// import '../data/quiz_display_data.dart';
-// import '../data/quiz_searching_data.dart';
 
 import './quiz_report_screen.dart';
 

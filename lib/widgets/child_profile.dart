@@ -47,7 +47,7 @@ class _ChildProfileState extends State<ChildProfile> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: ((context) => MyNavPill(childData: _childData)),
+                  builder: ((context) => MyNavPill(childData: _childData, childId: widget.childId)),
                 ),
               );
             },
