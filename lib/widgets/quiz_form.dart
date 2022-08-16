@@ -11,7 +11,6 @@ class QuizForm extends StatefulWidget {
   const QuizForm({Key? key, required this.childData, required this.childId})
       : super(key: key);
 
-
   @override
   State<QuizForm> createState() => _QuizFormState();
 }
@@ -243,9 +242,7 @@ class _QuizFormState extends State<QuizForm> {
                 ),
                 child: const Text(
                   'Cancel',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16),
+                  style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               )
               // TextButton(

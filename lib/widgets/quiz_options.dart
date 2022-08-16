@@ -121,94 +121,90 @@ class _QuizOptions extends State<QuizOptions> {
           topRight: Radius.circular(30),
         ),
       ),
-      child: Column(
-        children: <Widget>[
-          Column(
-            children: items
-                .map(
-                  (data) => Card(
-                    elevation: 3,
-                    shadowColor: const Color(0xFFAAAAAA),
-                    margin: const EdgeInsets.only(left: 30, right: 30, top: 15),
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      side:
-                          const BorderSide(color: Colors.transparent, width: 0),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(20),
-                      onTap: () {
-                        setState(() {
-                          groupValue = data.index;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        // child: Directionality(
-                        //   textDirection: TextDirection.ltr,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Radio(
-                              groupValue: groupValue,
-                              value: data.index,
-                              onChanged: (index) {
-                                setState(() {
-                                  groupValue = int.parse(index.toString());
-                                  // print(groupValue);
-                                });
-                              },
-                            ),
-                            Text(data.name),
-                            _isQuizPresent(data.index)
-                                ? _isAttempted(data.index)
-                                    ? Container(
-                                        padding: const EdgeInsets.all(6.0),
-                                        height: 30,
-                                        // width: 80,
-                                        decoration: BoxDecoration(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          borderRadius:
-                                              BorderRadius.circular(12),
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          ...items
+              .map(
+                (data) => Card(
+                  elevation: 3,
+                  shadowColor: const Color(0xFFAAAAAA),
+                  margin: const EdgeInsets.only(left: 30, right: 30, top: 15),
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(color: Colors.transparent, width: 0),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(20),
+                    onTap: () {
+                      setState(() {
+                        groupValue = data.index;
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      // child: Directionality(
+                      //   textDirection: TextDirection.ltr,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Radio(
+                            groupValue: groupValue,
+                            value: data.index,
+                            onChanged: (index) {
+                              setState(() {
+                                groupValue = int.parse(index.toString());
+                                // print(groupValue);
+                              });
+                            },
+                          ),
+                          Text(data.name),
+                          _isQuizPresent(data.index)
+                              ? _isAttempted(data.index)
+                                  ? Container(
+                                      padding: const EdgeInsets.all(6.0),
+                                      height: 30,
+                                      // width: 80,
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: const Text(
+                                        "Attempted",
+                                        style: TextStyle(
+                                          color: Colors.white,
                                         ),
-                                        child: const Text(
-                                          "Attempted",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                          ),
+                                      ),
+                                    )
+                                  : Container(
+                                      padding: const EdgeInsets.all(6.0),
+                                      height: 25,
+                                      // width: 10,
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: const Text(
+                                        "Not attempted",
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.white,
                                         ),
-                                      )
-                                    : Container(
-                                        padding: const EdgeInsets.all(6.0),
-                                        height: 25,
-                                        // width: 10,
-                                        decoration: BoxDecoration(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                        ),
-                                        child: const Text(
-                                          "Not attempted",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      )
-                                : Container(),
-                          ],
-                        ),
+                                      ),
+                                    )
+                              : Container(),
+                        ],
                       ),
                     ),
                   ),
-                )
-                .toList(),
-          ),
+                ),
+              )
+              .toList(),
           Container(
             margin: const EdgeInsets.only(left: 35, top: 15),
             child: Row(
