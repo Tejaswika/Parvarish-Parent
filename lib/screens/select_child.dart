@@ -218,6 +218,7 @@ class _SelectChildState extends State<SelectChild> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16.0, vertical: 6),
                           child: ChildProfile(
+                            parentId: widget.uid,
                               childId: parentData?["children"][index],
                               parentData: parentData),
                         ),

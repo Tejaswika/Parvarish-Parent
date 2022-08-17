@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:parent/screens/create_new_password.dart';
+import 'package:parent/screens/change_password.dart';
 
 class Otp extends StatefulWidget {
   const Otp({Key? key}) : super(key: key);
@@ -76,7 +76,7 @@ class _OtpState extends State<Otp> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const NewPassword(),
+                            builder: (context) => const ChangePassword(),
                           ),
                         );
                       },

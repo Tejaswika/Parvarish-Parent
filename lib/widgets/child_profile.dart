@@ -7,9 +7,10 @@ import '../services/local_storage_service.dart';
 import 'package:parent/screens/my_nav_pill.dart';
 
 class ChildProfile extends StatefulWidget {
+  final String? parentId;
   final String? childId;
    final Map<String, dynamic>? parentData;
-  const ChildProfile({Key? key,required this.childId,required this.parentData}) : super(key: key);
+  const ChildProfile({Key? key,required this.childId,required this.parentData, required this.parentId}) : super(key: key);
 
   @override
   State<ChildProfile> createState() => _ChildProfileState();
@@ -49,7 +50,7 @@ class _ChildProfileState extends State<ChildProfile> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: ((context) => MyNavPill(childData: _childData, childId: widget.childId,parentData: widget.parentData)),
+                  builder: ((context) => MyNavPill(parentId: widget.parentId,childData: _childData, childId: widget.childId,parentData: widget.parentData,)),
                 ),
               );
             },
