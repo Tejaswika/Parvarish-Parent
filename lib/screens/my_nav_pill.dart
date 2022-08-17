@@ -82,7 +82,7 @@ class _MyNavPillState extends State<MyNavPill>
             controller: _tabController,
             children: [
               ScreenTimeReport(
-                childId: widget.childId,
+                UID: widget.childId,
               ),
               QuizScreen(createQuiz: _createQuiz),
               ProfileScreen(
