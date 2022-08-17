@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:flutter/rendering.dart';
 import 'package:parent/constants/db_constants.dart';
 import '../services/local_storage_service.dart';
 
@@ -7,7 +8,8 @@ import 'package:parent/screens/my_nav_pill.dart';
 
 class ChildProfile extends StatefulWidget {
   final String? childId;
-  const ChildProfile({Key? key, this.childId}) : super(key: key);
+   final Map<String, dynamic>? parentData;
+  const ChildProfile({Key? key,required this.childId,required this.parentData}) : super(key: key);
 
   @override
   State<ChildProfile> createState() => _ChildProfileState();
@@ -47,7 +49,7 @@ class _ChildProfileState extends State<ChildProfile> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: ((context) => MyNavPill(childData: _childData, childId: widget.childId)),
+                  builder: ((context) => MyNavPill(childData: _childData, childId: widget.childId,parentData: widget.parentData)),
                 ),
               );
             },

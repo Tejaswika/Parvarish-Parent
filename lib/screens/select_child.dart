@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:parent/constants/db_constants.dart';
+// import 'package:parent/model/child_data.dart';
 import 'package:parent/screens/create_profile.dart';
 import 'package:parent/widgets/child_profile.dart';
 
@@ -65,7 +66,8 @@ class _SelectChildState extends State<SelectChild> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16.0, vertical: 6),
                           child: ChildProfile(
-                              childId: parentData?["children"][index]),
+                              childId: parentData?["children"][index],
+                              parentData: parentData),
                         ),
                         if (index == parentData?["children"].length - 1)
                           _createAddChildButton(context)

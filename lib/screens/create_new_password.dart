@@ -12,14 +12,29 @@ class _NewPasswordState extends State<NewPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 205, 122, 220),
+      backgroundColor: const Color.fromARGB(255, 205, 213, 243),
+      appBar: AppBar(
+        title: const Text("Change Password",
+            style: TextStyle(color: Colors.white)),
+        elevation: 0.0,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           Container(
             padding: const EdgeInsets.only(left: 35, top: 50),
             child: const Text(
               'Create new Password',
-              style: TextStyle(color: Colors.white, fontSize: 30),
+              style: TextStyle(
+                  color: Color.fromARGB(255, 14, 13, 13), fontSize: 30),
             ),
           ),
           Container(
@@ -27,14 +42,22 @@ class _NewPasswordState extends State<NewPassword> {
             margin: const EdgeInsets.fromLTRB(50, 150, 50, 10),
             height: 600,
             decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 163, 81, 180),
+              color: const Color.fromARGB(255, 248, 247, 248),
               borderRadius: BorderRadius.circular(12),
             ),
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(30),
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 16),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            color: const Color.fromARGB(255, 0, 0, 0),
+                            width: 3),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30)),
                     child: const TextField(
                       decoration: InputDecoration(
                         hintText: 'New password',
@@ -42,8 +65,15 @@ class _NewPasswordState extends State<NewPassword> {
                     ),
                   ),
                   Container(
-                    padding:
-                        const EdgeInsets.only(left: 30, top: 30, right: 30),
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 16),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            color: const Color.fromARGB(255, 0, 0, 0),
+                            width: 3),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30)),
                     child: const TextField(
                       obscureText: true, //password stays hidden
                       decoration: InputDecoration(
@@ -67,9 +97,9 @@ class _NewPasswordState extends State<NewPassword> {
                           ),
                         );
                       },
-                      color: const Color.fromARGB(255, 116, 49, 128),
+                      color: const Color.fromARGB(255, 8, 8, 8),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(30),
                       ),
                       child: const Text(
                         'Save',
