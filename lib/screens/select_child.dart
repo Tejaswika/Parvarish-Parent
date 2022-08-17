@@ -15,6 +15,12 @@ class SelectChild extends StatefulWidget {
 }
 
 class _SelectChildState extends State<SelectChild> {
+     int _selected=0;
+    void changeSelected(int index){
+      setState(() {
+        _selected=index;
+      });
+    }
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late final CollectionReference _parentCollection =
       _firestore.collection(DBConstants.parentCollectionName);
@@ -43,11 +49,157 @@ class _SelectChildState extends State<SelectChild> {
     return Scaffold(
       backgroundColor: const Color(0xFFF1F1F1),
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
+        centerTitle: true,
         title: const Text(
           'Select Child',
           style: TextStyle(color: Colors.white),
         ),
       ),
+      drawer: Drawer(
+        child: Container(
+        color: Colors.white,
+          child: ListView(
+            children: [
+              const UserAccountsDrawerHeader(
+                accountName: Text(
+                  "Tarushi",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  ), 
+                accountEmail: Text("test@gmail.com",
+                style: TextStyle(
+                    fontSize: 15,
+                  ),
+                  ),
+                currentAccountPicture: CircleAvatar(
+                  backgroundColor: Colors.white30,
+                  child: Text("TS"),
+                  ),
+                ),
+                ListTile(
+                  selected: _selected==0,
+                  leading: const Icon(Icons.home),
+                  title: const Text("Home"),
+                  onTap: () {
+                    changeSelected(0);
+                  } ,
+                  trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                ),
+                const Divider(
+                  thickness: 1,
+                  indent: 10,
+                  endIndent: 10,
+                ),
+
+                ListTile(
+                  selected: _selected==1,
+                  leading: const Icon(Icons.face),
+                  title: const Text("My Profile"),
+                  onTap: () {
+                    changeSelected(1);
+                  } ,
+                  trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                ),
+                const Divider(
+                  thickness: 1,
+                  indent: 10,
+                  endIndent: 10,
+                ),
+
+                ListTile(
+                  selected: _selected==3,
+                  leading: const Icon(Icons.book),
+                  title: const Text("Report"),
+                  onTap: () {
+                    changeSelected(3);
+                  } ,
+                  trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                ),
+                const Divider(
+                  thickness: 1,
+                  indent: 10,
+                  endIndent: 10,
+                ),
+                ListTile(
+                  selected: _selected==2,
+                  leading: const Icon(Icons.quiz),
+                  title: const Text("Quiz"),
+                  onTap: () {
+                    changeSelected(2);
+                  } ,
+                  trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                ),
+                const Divider(
+                  thickness: 1,
+                  indent: 10,
+                  endIndent: 10,
+                ),
+
+
+                ListTile(
+                  selected: _selected==4,
+                  leading: const Icon(Icons.settings),
+                  title: const Text("Settings"),
+                  onTap: () {
+                    changeSelected(4);
+                  } ,
+                  trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                ),
+                const Divider(
+                  thickness: 1,
+                  indent: 10,
+                  endIndent: 10,
+                ), 
+
+                // ListTile(
+                //   selected: _selected==5,
+                //   leading: const Icon(Icons.home),
+                //   title: const Text("home"),
+                //   onTap: () {
+                //     changeSelected(5);
+                //   } ,
+                //   trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                // ),
+                // const Divider(
+                //   thickness: 1,
+                //   indent: 10,
+                //   endIndent: 10,
+                // ),
+
+                const ListTile(),
+                const ListTile(),
+                ListTile(
+                  selected: _selected==6,
+                  leading: const Icon(Icons.phone),
+                  title: const Text("Contact Us"),
+                  onTap: () {
+                    changeSelected(6);
+                  } ,
+                  trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                ),
+                const Divider(
+                  thickness: 1,
+                  indent: 10,
+                  endIndent: 10,
+                ),
+
+                ListTile(
+                  selected: _selected==7,
+                  leading: const Icon(Icons.logout_sharp),
+                  title: const Text("Logout"),
+                  onTap: () {
+                    changeSelected(7);
+                  } ,
+                  trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                ),
+                
+            ],
+          ),
+        )
+        ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : parentData?["children"].length == 0
