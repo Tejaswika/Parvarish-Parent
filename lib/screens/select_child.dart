@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 
 import 'package:parent/constants/db_constants.dart';
-import 'package:parent/screens/create_profile.dart';
+import 'package:parent/screens/create_child_profile_screen.dart';
 import 'package:parent/widgets/child_profile.dart';
 
 class SelectChild extends StatefulWidget {
@@ -153,22 +153,6 @@ class _SelectChildState extends State<SelectChild> {
                   indent: 10,
                   endIndent: 10,
                 ), 
-
-                // ListTile(
-                //   selected: _selected==5,
-                //   leading: const Icon(Icons.home),
-                //   title: const Text("home"),
-                //   onTap: () {
-                //     changeSelected(5);
-                //   } ,
-                //   trailing: const Icon(Icons.arrow_forward_ios_rounded),
-                // ),
-                // const Divider(
-                //   thickness: 1,
-                //   indent: 10,
-                //   endIndent: 10,
-                // ),
-
                 const ListTile(),
                 const ListTile(),
                 ListTile(
@@ -237,7 +221,7 @@ class _SelectChildState extends State<SelectChild> {
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: ((context) => CreateProfile(
+            builder: ((context) => CreateChildProfile(
                   uid: widget.uid,
                   successCallback: () {
                     setState(() {

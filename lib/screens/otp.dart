@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:parent/screens/change_password.dart';
+import 'package:parent/screens/change_password_screen.dart';
 
 class Otp extends StatefulWidget {
   const Otp({Key? key}) : super(key: key);

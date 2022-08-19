@@ -6,20 +6,20 @@ import 'package:form_validator/form_validator.dart';
 import 'package:parent/constants/db_constants.dart';
 import 'package:parent/services/snackbar_service.dart';
 
-class CreateProfile extends StatefulWidget {
+class CreateChildProfile extends StatefulWidget {
   final String? uid;
   final void Function() successCallback;
-  const CreateProfile({
+  const CreateChildProfile({
     Key? key,
     required this.uid,
     required this.successCallback,
   }) : super(key: key);
 
   @override
-  State<CreateProfile> createState() => _CreateProfileState();
+  State<CreateChildProfile> createState() => _CreateChildProfileState();
 }
 
-class _CreateProfileState extends State<CreateProfile> {
+class _CreateChildProfileState extends State<CreateChildProfile> {
   late String _uidChild;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late final CollectionReference _parentCollection =

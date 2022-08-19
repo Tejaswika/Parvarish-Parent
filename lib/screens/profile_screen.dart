@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:parent/screens/child_profile_update.dart';
-import 'package:parent/screens/change_password.dart';
-import 'package:parent/screens/update_profile.dart';
+import 'package:parent/screens/child_profile_update_screen.dart';
+import 'package:parent/screens/change_password_screen.dart';
+import 'package:parent/screens/update_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String? parentId;
@@ -48,7 +48,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                     onTap: (() => Navigator.of(context, rootNavigator: true)
                         .push(MaterialPageRoute(
                             builder: (context) => const ChangePassword()))),
-                    title: const Text('Change Password'),
+                    title: const Text('Add Child'),
                     trailing: const Icon(Icons.arrow_forward),
                   ),
                   ListTile(

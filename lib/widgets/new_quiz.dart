@@ -25,6 +25,7 @@ class _NewQuizState extends State<NewQuiz> {
         ),
       ),
       child: ListView(
+        physics: const BouncingScrollPhysics(),
         children: [
           Text(
             "Create Quiz",

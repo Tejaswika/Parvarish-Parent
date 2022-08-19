@@ -15,6 +15,7 @@ class RadioItem {
 
 Map<String, dynamic> assignQuizData = {
   ChildDataConstants.difficultyLevel: "",
+  ChildDataConstants.topicName: "",
   ChildDataConstants.attempted: null,
   ChildDataConstants.blocked: null,
   ChildDataConstants.minScore: null,
@@ -27,10 +28,12 @@ Map<String, dynamic> assignQuizData = {
 class QuizOptions extends StatefulWidget {
   final Map<String, dynamic>? childData;
   final List<dynamic> quizOption;
+  final String? topicName;
   final String? diffLevel;
   final String? childId;
   const QuizOptions(
       {Key? key,
+      required this.topicName,
       required this.quizOption,
       required this.childData,
       required this.diffLevel,
@@ -53,7 +56,7 @@ class _QuizOptions extends State<QuizOptions> {
   @override
   void initState() {
     for (int i = 0; i < widget.quizOption.length; i++) {
-      items.add(RadioItem(index: i, name: 'Quiz' + (i + 1).toString()));
+      items.add(RadioItem(index: i, name: 'Quiz no. ' + (i + 1).toString()));
     }
     super.initState();
   }
@@ -94,7 +97,7 @@ class _QuizOptions extends State<QuizOptions> {
     String quizId = widget.quizOption[index];
     widget.childData?[ChildDataConstants.quizes].forEach((dynamic quiz) {
       if (quiz[ChildDataConstants.quizId] == quizId) {
-        isAttempted = true;
+        isAttempted = quiz[ChildDataConstants.attempted];
       }
     });
     return isAttempted;
@@ -123,7 +126,9 @@ class _QuizOptions extends State<QuizOptions> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(30),
+      padding: const EdgeInsets.only(
+        top: 10,
+      ),
       decoration: const BoxDecoration(
         color: Color.fromARGB(255, 81, 170, 243),
         borderRadius: BorderRadius.only(
@@ -133,91 +138,83 @@ class _QuizOptions extends State<QuizOptions> {
       ),
       child: Column(
         children: [
+          Text(
+            "Select Quiz",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 28,
+                color: Theme.of(context).colorScheme.primary),
+            textAlign: TextAlign.left,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
           Expanded(
             child: ListView(
-              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
               children: items
                   .map(
                     (data) => Card(
-                      elevation: 3,
-                      shadowColor: const Color(0xFFAAAAAA),
-                      margin:
-                          const EdgeInsets.only(left: 30, right: 30, top: 15),
+                      shape: const ContinuousRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 25, vertical: 10),
+                      elevation: 5,
                       color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                            color: Colors.transparent, width: 0),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(20),
+                      child: ListTile(
+                        leading: Radio(
+                          groupValue: groupValue,
+                          value: data.index,
+                          onChanged: (index) {
+                            setState(() {
+                              groupValue = int.parse(index.toString());
+                              // print(groupValue);
+                            });
+                          },
+                        ),
+                        title: Text(data.name),
+                        trailing: _isQuizPresent(data.index)
+                            ? _isAttempted(data.index)
+                                // ? true
+                                ? Container(
+                                    padding: const EdgeInsets.all(6.0),
+                                    height: 30,
+                                    width: 80,
+                                    decoration: BoxDecoration(
+                                      color: Colors.green[400],
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: const Text(
+                                      "Attempted",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  )
+                                : Container(
+                                    padding: const EdgeInsets.all(6.0),
+                                    height: 25,
+                                    width: 90,
+                                    decoration: BoxDecoration(
+                                      color: Colors.red[400],
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: const Text(
+                                      "Not attempted",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  )
+                            : Container(
+                                width: 80,
+                              ),
                         onTap: () {
                           setState(() {
                             groupValue = data.index;
                           });
                         },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          // child: Directionality(
-                          //   textDirection: TextDirection.ltr,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Radio(
-                                groupValue: groupValue,
-                                value: data.index,
-                                onChanged: (index) {
-                                  setState(() {
-                                    groupValue = int.parse(index.toString());
-                                    // print(groupValue);
-                                  });
-                                },
-                              ),
-                              Text(data.name),
-                              _isQuizPresent(data.index)
-                                  ? _isAttempted(data.index)
-                                      // ? true
-                                      ? Container(
-                                          padding: const EdgeInsets.all(6.0),
-                                          height: 30,
-                                          // width: 80,
-                                          decoration: BoxDecoration(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .secondary,
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                          ),
-                                          child: const Text(
-                                            "Attempted",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        )
-                                      : Container(
-                                          padding: const EdgeInsets.all(6.0),
-                                          height: 25,
-                                          // width: 10,
-                                          decoration: BoxDecoration(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .secondary,
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                          ),
-                                          child: const Text(
-                                            "Not attempted",
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        )
-                                  : Container(),
-                            ],
-                          ),
-                        ),
                       ),
                     ),
                   )
@@ -289,6 +286,7 @@ class _QuizOptions extends State<QuizOptions> {
 
   void assignData(int index) async {
     assignQuizData[ChildDataConstants.difficultyLevel] = widget.diffLevel;
+    assignQuizData[ChildDataConstants.topicName] = widget.topicName;
     assignQuizData[ChildDataConstants.attempted] = false;
     assignQuizData[ChildDataConstants.blocked] = isBlocked;
     assignQuizData[ChildDataConstants.minScore] = 0;
@@ -313,9 +311,7 @@ class _QuizOptions extends State<QuizOptions> {
       }
     }
     DocumentReference documentReferencer = _childCollection.doc(widget.childId);
-    await documentReferencer
-        .set(widget.childData as Map<String, Object>)
-        .whenComplete(() {
+    await documentReferencer.set(widget.childData).whenComplete(() {
       setState(() {
         _isAssigningData = false;
       });

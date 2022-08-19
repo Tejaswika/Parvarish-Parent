@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../screens/screen_time_report.dart';
 import './profile_screen.dart';
-import './quiz_screen.dart';
+import './quiz_report_screen.dart';
 import '../widgets/new_quiz.dart';
 
 
@@ -84,7 +84,7 @@ class _MyNavPillState extends State<MyNavPill>
               ScreenTimeReport(
                 UID: widget.childId,
               ),
-              QuizScreen(createQuiz: _createQuiz),
+              QuizReport(createQuiz: _createQuiz),
               ProfileScreen(
                 childData: widget.childData,
                 parentId: widget.parentId,
