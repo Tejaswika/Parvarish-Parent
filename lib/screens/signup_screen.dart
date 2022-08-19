@@ -1,9 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:form_validator/form_validator.dart';
 import 'package:parent/screens/select_child.dart';
 import 'package:parent/screens/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parent/constants/db_constants.dart';
+import 'package:parent/services/local_storage_service.dart';
+import 'package:parent/services/snackbar_service.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -16,44 +20,43 @@ class _SignUpPage extends State<SignUpPage> {
   late String _email, _password, _name, _phone;
   final auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  // Creating a reference to the collection
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _signUpInProcess = false;
   late final CollectionReference _parentCollection =
       _firestore.collection(DBConstants.parentCollectionName);
-  void _createDocument(uid, name, email, phone) async {
-    // Creating a document to Store Data To
-    DocumentReference documentReferencer = _parentCollection.doc(uid);
+  late String? fmcToken;
 
-    // Creating data to be stored
-    Map<String, dynamic> data = <String, dynamic>{
-      "children": [],
-      "email": email,
-      "name": name,
-      "phone": phone,
-    };
+  @override
+  void initState() {
+    getToken();
+    super.initState();
+  }
 
-    // Pushing data to the document
-    await documentReferencer
-        .set(data)
-        .whenComplete(() => print("Notes item added to the database"))
-        .catchError((e) => print(e));
+  void getToken() async {
+    await FirebaseMessaging.instance.getToken().then((token) {
+      setState(() {
+        fmcToken = token;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 205, 122, 220),
-        body: Stack(
+      backgroundColor: const Color.fromARGB(255, 205, 122, 220),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: const EdgeInsets.only(left: 35, top: 50),
+              padding: const EdgeInsets.only(left: 32, top: 32),
               child: const Text(
                 'Sign up',
                 style: TextStyle(color: Colors.white, fontSize: 30),
               ),
             ),
             Container(
-              padding: const EdgeInsets.only(left: 38, top: 90),
+              padding: const EdgeInsets.only(left: 32),
               child: const Text(
                 'Create your account',
                 style: TextStyle(color: Colors.white60, fontSize: 15),
@@ -61,131 +64,199 @@ class _SignUpPage extends State<SignUpPage> {
             ),
             Container(
               alignment: Alignment.center,
-              margin: const EdgeInsets.fromLTRB(50, 150, 50, 10),
-              height: 600,
+              margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+              height: 520,
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 163, 81, 180),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: SingleChildScrollView(
-                  child: Column(children: [
-                Container(
-                  padding: const EdgeInsets.only(left: 30, top: 30, right: 30),
-                  child: TextField(
-                    decoration: const InputDecoration(
-                      hintText: 'Name',
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        _name = value.trim();
-                      });
-                    },
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(left: 30, top: 30, right: 30),
-                  child: TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      hintText: 'Email Address',
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        _email = value.trim();
-                      });
-                    },
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(left: 30, top: 30, right: 30),
-                  child: TextField(
-                    decoration: const InputDecoration(
-                      hintText: 'Phone No.',
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        _phone = value.trim();
-                      });
-                    },
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(left: 30, top: 30, right: 30),
-                  child: TextField(
-                    obscureText: true, //password stays hidden
-                    decoration: const InputDecoration(
-                      hintText: 'Password',
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        _password = value.trim();
-                      });
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(30),
-                  child: MaterialButton(
-                    minWidth: double.infinity,
-                    height: 50,
-                    onPressed: () {
-                      auth
-                          .createUserWithEmailAndPassword(
-                              email: _email, password: _password)
-                          .then((UserCredential userCredential) {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                SelectChild(uid: userCredential.user?.uid),
-                          ),
-                        );
-                        _createDocument(
-                            userCredential.user?.uid, _name, _email, _phone);
-                      });
-                    },
-                    color: const Color.fromARGB(255, 116, 49, 128),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Text(
-                      'Sign up',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Container(
+                      padding:
+                          const EdgeInsets.only(left: 30, top: 30, right: 30),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          hintText: 'Name',
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            _name = value.trim();
+                          });
+                        },
+                        validator: ValidationBuilder().required().build(),
                       ),
                     ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  padding: const EdgeInsets.only(left: 25),
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Have an account?',
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                    Container(
+                      padding:
+                          const EdgeInsets.only(left: 30, top: 30, right: 30),
+                      child: TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: const InputDecoration(
+                          hintText: 'Email Address',
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            _email = value.trim();
+                          });
+                        },
+                        validator:
+                            ValidationBuilder().required().email().build(),
                       ),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LoginPage(),
+                    ),
+                    Container(
+                      padding:
+                          const EdgeInsets.only(left: 30, top: 30, right: 30),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          hintText: 'Phone No.',
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            _phone = value.trim();
+                          });
+                        },
+                        validator:
+                            ValidationBuilder().required().phone().build(),
+                      ),
+                    ),
+                    Container(
+                      padding:
+                          const EdgeInsets.only(left: 30, top: 30, right: 30),
+                      child: TextFormField(
+                        obscureText: true, //password stays hidden
+                        decoration: const InputDecoration(
+                          hintText: 'Password',
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            _password = value.trim();
+                          });
+                        },
+                        validator:
+                            ValidationBuilder().required().minLength(8).build(),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(30),
+                      child: MaterialButton(
+                        minWidth: double.infinity,
+                        height: 50,
+                        onPressed: () {
+                          if (_formKey.currentState != null &&
+                              _formKey.currentState!.validate()) {
+                            setState(() {
+                              _signUpInProcess = true;
+                            });
+                            _signUp();
+                          }
+                        },
+                        color: const Color.fromARGB(255, 116, 49, 128),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: _signUpInProcess
+                            ? const Center(
+                                child: SizedBox(
+                                  height: 18,
+                                  width: 18,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2,
+                                  ),
+                                ),
+                              )
+                            : const Text(
+                                'Sign up',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
                               ),
-                            );
-                          },
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(fontSize: 16, color: Colors.white),
-                          )),
-                    ],
-                  ),
-                )
-              ])),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 25),
+                      child: Row(
+                        children: [
+                          const Text(
+                            'Have an account?',
+                            style: TextStyle(color: Colors.white, fontSize: 12),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginPage(),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              'Login',
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
             )
           ],
-        ));
+        ),
+      ),
+    );
+  }
+
+  void _signUp() {
+    auth
+        .createUserWithEmailAndPassword(email: _email, password: _password)
+        .then((UserCredential userCredential) {
+      LocalStorageService.setUid('UserId', userCredential.user?.uid ?? '');
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => SelectChild(uid: userCredential.user?.uid),
+        ),
+      );
+      _createProfile(userCredential.user?.uid, _name, _email, _phone);
+    }).onError((error, stackTrace) {
+      setState(() {
+        _signUpInProcess = false;
+      });
+      if (error.toString().contains('email address is already in use')) {
+        SnackbarService.showErrorSnackbar(context, 'User already exists');
+      } else {
+        SnackbarService.showErrorSnackbar(
+            context, 'Some error occured!! Please try after some time.');
+      }
+    });
+  }
+
+  void _createProfile(uid, name, email, phone) async {
+    DocumentReference documentReferencer = _parentCollection.doc(uid);
+
+    Map<String, dynamic> data = <String, dynamic>{
+      "children": [],
+      "email": email,
+      "name": name,
+      "phone": phone,
+      "fmcToken": fmcToken,
+    };
+
+    await documentReferencer.set(data).onError((error, stackTrace) {
+      setState(() {
+        _signUpInProcess = false;
+      });
+      SnackbarService.showErrorSnackbar(
+          context, 'Some error occured!! Please try after some time.');
+    });
   }
 }

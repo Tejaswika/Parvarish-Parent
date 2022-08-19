@@ -25,11 +25,12 @@ class _PasswordState extends State<Password> {
             ),
           ),
           Container(
-              padding: const EdgeInsets.only(left: 38, top: 90),
-              child: const Text(
-                'Enter your email address',
-                style: TextStyle(color: Colors.white60, fontSize: 15),
-              )),
+            padding: const EdgeInsets.only(left: 38, top: 90),
+            child: const Text(
+              'Enter your email address',
+              style: TextStyle(color: Colors.white60, fontSize: 15),
+            ),
+          ),
           Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.fromLTRB(50, 150, 50, 10),
@@ -59,9 +60,11 @@ class _PasswordState extends State<Password> {
                       height: 50,
                       onPressed: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Otp()));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Otp(),
+                          ),
+                        );
                       },
                       color: const Color.fromARGB(255, 116, 49, 128),
                       shape: RoundedRectangleBorder(
@@ -77,7 +80,6 @@ class _PasswordState extends State<Password> {
                     ),
                   ),
                   const SizedBox(
-                    //giave space between 2 boxes
                     height: 50,
                   ),
                   Container(
@@ -89,17 +91,19 @@ class _PasswordState extends State<Password> {
                           style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginPage()));
-                            },
-                            child: const Text(
-                              'Login',
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.white),
-                            )),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginPage(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Login',
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -114,9 +118,11 @@ class _PasswordState extends State<Password> {
                         TextButton(
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const SignUpPage()));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SignUpPage(),
+                              ),
+                            );
                           },
                           child: const Text(
                             'Sign Up',
@@ -129,7 +135,7 @@ class _PasswordState extends State<Password> {
                 ],
               ),
             ),
-          ),
+          )
         ],
       ),
     );
