@@ -96,7 +96,7 @@ class _QuizFormState extends State<QuizForm> {
       builder: ((context) => QuizOptions(
           topicName: selectedTopic,
           quizOption: diffData,
-          childData: widget.childData,
+         // childData: widget.childData,
           diffLevel: selectedDiff,
           childId: widget.childId)),
     );

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:parent/model/child_data.dart';
 import 'package:parent/services/snackbar_service.dart';
 import '../constants/db_constants.dart';
 import '../services/local_storage_service.dart';
@@ -26,16 +27,16 @@ Map<String, dynamic> assignQuizData = {
 };
 
 class QuizOptions extends StatefulWidget {
-  final Map<String, dynamic>? childData;
+   Map<String, dynamic>? childData;
   final List<dynamic> quizOption;
   final String? topicName;
   final String? diffLevel;
   final String? childId;
-  const QuizOptions(
+   QuizOptions(
       {Key? key,
       required this.topicName,
       required this.quizOption,
-      required this.childData,
+      // required this.childData,
       required this.diffLevel,
       required this.childId})
       : super(key: key);
@@ -46,18 +47,32 @@ class QuizOptions extends StatefulWidget {
 
 class _QuizOptions extends State<QuizOptions> {
   bool _isAssigningData = false;
+  bool _isDataLoading = true;
+  Map<String, dynamic> childData={};
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late final CollectionReference _childCollection =
       _firestore.collection(DBConstants.childCollectionName);
   final String childFmcToken = LocalStorageService.getFmcToken("fmcToken");
+     
   bool isBlocked = false;
   List<RadioItem> items = <RadioItem>[];
   int groupValue = 0;
+  void readChildData() async{
+    DocumentReference documentReferencer= _childCollection.doc(widget.childId);
+    DocumentSnapshot childDataSnapshot = await documentReferencer.get();
+    
+    setState(() {
+      childData = childDataSnapshot.data() as Map<String,dynamic>;
+      _isDataLoading=false;
+    });
+  }
   @override
   void initState() {
     for (int i = 0; i < widget.quizOption.length; i++) {
       items.add(RadioItem(index: i, name: 'Quiz no. ' + (i + 1).toString()));
     }
+    print(items);
+    readChildData();
     super.initState();
   }
 
@@ -95,24 +110,24 @@ class _QuizOptions extends State<QuizOptions> {
   bool _isAttempted(int index) {
     bool isAttempted = false;
     String quizId = widget.quizOption[index];
-    widget.childData?[ChildDataConstants.quizes].forEach((dynamic quiz) {
+    childData[ChildDataConstants.quizes].forEach((dynamic quiz) {
       if (quiz[ChildDataConstants.quizId] == quizId) {
         isAttempted = quiz[ChildDataConstants.attempted];
       }
     });
     return isAttempted;
-    // print(widget.childData?[ChildDataConstants.quizes][index]);
+    // print(childData?[ChildDataConstants.quizes][index]);
     // return true;
-    // return widget.childData?[ChildDataConstants.quizes][index]
+    // return childData?[ChildDataConstants.quizes][index]
     //     [ChildDataConstants.attempted];
   }
 
   bool _isQuizPresent(int index) {
     // print(widget.quizOption);
-    if (widget.childData?[ChildDataConstants.quizes] == null) {
+    if (childData[ChildDataConstants.quizes] == null) {
       return false;
     } else {
-      for (var x in widget.childData?[ChildDataConstants.quizes]) {
+      for (var x in childData[ChildDataConstants.quizes]) {
         if (x[ChildDataConstants.quizId] == widget.quizOption[index]) {
           return true;
         }
@@ -136,7 +151,8 @@ class _QuizOptions extends State<QuizOptions> {
           topRight: Radius.circular(30),
         ),
       ),
-      child: Column(
+
+      child: Column(  
         children: [
           Text(
             "Select Quiz",
@@ -173,7 +189,7 @@ class _QuizOptions extends State<QuizOptions> {
                           },
                         ),
                         title: Text(data.name),
-                        trailing: _isQuizPresent(data.index)
+                        trailing: _isDataLoading? const CircularProgressIndicator() : _isQuizPresent(data.index)
                             ? _isAttempted(data.index)
                                 // ? true
                                 ? Container(
@@ -290,14 +306,14 @@ class _QuizOptions extends State<QuizOptions> {
     assignQuizData[ChildDataConstants.attempted] = false;
     assignQuizData[ChildDataConstants.blocked] = isBlocked;
     assignQuizData[ChildDataConstants.minScore] = 0;
-    assignQuizData[ChildDataConstants.quizId] = widget.quizOption[index];
+    assignQuizData[ChildDataConstants.quizId] = widget.quizOption[index].trim();
     assignQuizData[ChildDataConstants.scores] = 0;
     assignQuizData[ChildDataConstants.totalAttempts] = 0;
     assignQuizData[ChildDataConstants.totalScores] = 0;
     bool isQuizIdPresent = false;
+    DocumentReference documentReferencer=_childCollection.doc(widget.childId);
     print(widget.quizOption[index]);
-    if (widget.childData != null) {
-      for (var x in widget.childData![ChildDataConstants.quizes]) {
+      for (var x in childData[ChildDataConstants.quizes]) {
         // print(x[ChildDataConstants.quizId]);
         if (x[ChildDataConstants.quizId] == widget.quizOption[index]) {
           x = assignQuizData;
@@ -307,11 +323,9 @@ class _QuizOptions extends State<QuizOptions> {
         }
       }
       if (!isQuizIdPresent) {
-        widget.childData![ChildDataConstants.quizes].add(assignQuizData);
+        childData[ChildDataConstants.quizes].add(assignQuizData);
       }
-    }
-    DocumentReference documentReferencer = _childCollection.doc(widget.childId);
-    await documentReferencer.set(widget.childData).whenComplete(() {
+    await documentReferencer.update(childData).whenComplete(() {
       setState(() {
         _isAssigningData = false;
       });
