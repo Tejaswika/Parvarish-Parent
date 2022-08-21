@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:parent/screens/SignUp_Screen.dart';
+import 'package:parent/screens/signup_screen.dart';
 import 'package:parent/screens/login_screen.dart';
 import 'package:parent/screens/otp.dart';
 

@@ -9,7 +9,8 @@ class _ChartData {
 }
 
 class QuizReport extends StatefulWidget {
-  const QuizReport({Key? key}) : super(key: key);
+  final Function createQuiz;
+  const QuizReport({Key? key, required this.createQuiz}) : super(key: key);
 
   @override
   _QuizReportState createState() => _QuizReportState();
@@ -35,33 +36,38 @@ class _QuizReportState extends State<QuizReport> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        onPressed: () => widget.createQuiz(context),
+      ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(20),
-          child: Wrap(
-            runSpacing: 5.0,
-            spacing: 10.0,
-            children: [
-              const Text(
-                'Average Marks: 45\n',
-                style: TextStyle(
-                  //fontWeight: FontWeight.bold,
-                  fontSize: 22,
-                  // color: Color.fromARGB(255, 0, 0, 0),
+          child: Expanded(
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
+              children: [
+                const Text(
+                  'Average Marks: 45\n',
+                  style: TextStyle(
+                    fontSize: 22,
+                  ),
                 ),
-              ),
-              const Text(
-                'Passing Percentage: 50\n',
-                style: TextStyle(
-                  //fontWeight: FontWeight.bold,
-                  fontSize: 22,
-                  // color: Color.fromARGB(255, 0, 0, 0),
+                const Text(
+                  'Passing Percentage: 50\n',
+                  style: TextStyle(
+                    fontSize: 22,
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 200,
-                child: SfCartesianChart(
+                SizedBox(
+                  height: 200,
+                  child: SfCartesianChart(
                     primaryXAxis: CategoryAxis(),
                     primaryYAxis: NumericAxis(
                         minimum: 0,
@@ -77,40 +83,36 @@ class _QuizReportState extends State<QuizReport> {
                           yValueMapper: (_ChartData data, _) => data.y,
                           name: ' ',
                           color: const Color.fromRGBO(8, 142, 255, 1))
-                    ]),
-              ),
-              ListView(
-                shrinkWrap: true,
-                children: const <Widget>[
-                  ListTile(
-                    //title: Text('Last attempted quizes'),
-                    title: Text('Last attempted quizes',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 20)),
+                    ],
                   ),
-                  ListTile(
-                    title: Text('Maths Quiz'),
-                    trailing: Text('60%'),
-                  ),
-                  ListTile(
-                    title: Text('English Quiz'),
-                    trailing: Text('70%'),
-                  ),
-                  ListTile(
-                    title: Text('Environmental Studies Quiz'),
-                    trailing: Text('80%'),
-                  ),
-                  ListTile(
-                    title: Text('Computer Quiz'),
-                    trailing: Text('75%'),
-                  ),
-                  ListTile(
-                    title: Text('General Knowledge Quiz'),
-                    trailing: Text('70%'),
-                  ),
-                ],
-              ),
-            ],
+                ),
+                const ListTile(
+                  title: Text('Last attempted quizes',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 20)),
+                ),
+                const ListTile(
+                  title: Text('Maths Quiz'),
+                  trailing: const Text('60%'),
+                ),
+                const ListTile(
+                  title: Text('English Quiz'),
+                  trailing: const Text('70%'),
+                ),
+                const ListTile(
+                  title: Text('Environmental Studies Quiz'),
+                  trailing: Text('80%'),
+                ),
+                const ListTile(
+                  title: Text('Computer Quiz'),
+                  trailing: const Text('75%'),
+                ),
+                const ListTile(
+                  title: Text('General Knowledge Quiz'),
+                  trailing: Text('70%'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -4,11 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:parent/constants/db_constants.dart';
-import 'package:parent/screens/change_password.dart';
-import 'package:parent/screens/quiz_report_screen.dart';
 
 import 'package:parent/screens/welcome_screen.dart';
 import 'package:http/http.dart' as http;
+
 
 class RouteTestScreen extends StatefulWidget {
   const RouteTestScreen({Key? key}) : super(key: key);
@@ -97,27 +96,6 @@ class _RouteTestScreenState extends State<RouteTestScreen> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const QuizReport(),
-                    ),
-                  );
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  color: Colors.red,
-                  child: const Text(
-                    'Quiz Report',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-            ),
 
             const SizedBox(height: 3),
             Padding(
@@ -138,45 +116,6 @@ class _RouteTestScreenState extends State<RouteTestScreen> {
             ),
 
             const SizedBox(height: 3),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: TextButton(
-            //     onPressed: () {
-            //       Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) => const ChangePassword(),
-            //         ),
-            //       );
-            //     },
-            //     child: Container(
-            //       padding: const EdgeInsets.all(16),
-            //       color: Colors.red,
-            //       child: const Text(
-            //         'Update Profile',
-            //         style: TextStyle(color: Colors.white),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-
-            // const SizedBox(height: 20),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: TextButton(
-            //     onPressed: () {
-            //       sendPushMessage();
-            //     },
-            //     child: Container(
-            //       padding: const EdgeInsets.all(16),
-            //       color: Colors.red,
-            //       child: const Text(
-            //         'Send Notification',
-            //         style: TextStyle(color: Colors.white),
-            //       ),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),

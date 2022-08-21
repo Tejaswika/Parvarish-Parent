@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../screens/profile_screen.dart';
 import '../screens/screen_time_report.dart';
 import 'drawer_item.dart';
+import 'new_quiz.dart';
 
 class HomeAppDrawer extends StatefulWidget {
   final String? UID;
@@ -24,6 +25,16 @@ class HomeAppDrawer extends StatefulWidget {
 }
 
 class _HomeAppDrawerState extends State<HomeAppDrawer> {
+  void _createQuiz(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
+        builder: (_) {
+          return NewQuiz(childData: widget.childData, childId: widget.childId);
+          // behavior: HitTestBehavior.deferToChild,
+        });
+  }
   Future exitDialog() {
     return showDialog(
       context: context,
@@ -140,7 +151,7 @@ class _HomeAppDrawerState extends State<HomeAppDrawer> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const QuizReport()));
+                        builder: (context) => QuizReport(createQuiz: _createQuiz,)));
               },
             ),
             const Spacer(),

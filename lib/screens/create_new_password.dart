@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:parent/screens/change_password_screen.dart';
+import 'package:parent/screens/login_screen.dart';
 
-class Otp extends StatefulWidget {
-  const Otp({Key? key}) : super(key: key);
+class NewPassword extends StatefulWidget {
+  const NewPassword({Key? key}) : super(key: key);
 
   @override
-  State<Otp> createState() => _OtpState();
+  State<NewPassword> createState() => _NewPasswordState();
 }
 
-class _OtpState extends State<Otp> {
+class _NewPasswordState extends State<NewPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,12 +16,11 @@ class _OtpState extends State<Otp> {
       body: Stack(
         children: [
           Container(
-            padding: const EdgeInsets.only(left: 35, top: 50),
-            child: const Text(
-              'Enter the one time password',
-              style: TextStyle(color: Colors.white, fontSize: 30),
-            ),
-          ),
+              padding: const EdgeInsets.only(left: 35, top: 50),
+              child: const Text(
+                'Create new Password',
+                style: TextStyle(color: Colors.white, fontSize: 30),
+              )),
           Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.fromLTRB(50, 150, 50, 10),
@@ -34,38 +33,25 @@ class _OtpState extends State<Otp> {
               child: Column(
                 children: [
                   Container(
-                    padding:
-                        const EdgeInsets.only(left: 30, top: 30, right: 30),
+                    padding: const EdgeInsets.all(30),
                     child: const TextField(
-                      //obscureText: true, //password stays hidden
                       decoration: InputDecoration(
-                        hintText: 'OTP',
+                        hintText: 'New password',
                       ),
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.only(left: 23, top: 10),
-                    alignment: Alignment.centerLeft,
-                    child: MaterialButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const Otp(),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        'Resend OTP',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                        ),
+                    padding:
+                        const EdgeInsets.only(left: 30, top: 30, right: 30),
+                    child: const TextField(
+                      obscureText: true, //password stays hidden
+                      decoration: InputDecoration(
+                        hintText: 'Re-enter new password',
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 40,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(30),
@@ -74,18 +60,16 @@ class _OtpState extends State<Otp> {
                       height: 50,
                       onPressed: () {
                         Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ChangePassword(),
-                          ),
-                        );
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()));
                       },
                       color: const Color.fromARGB(255, 116, 49, 128),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: const Text(
-                        'Verify',
+                        'Save',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -94,7 +78,8 @@ class _OtpState extends State<Otp> {
                     ),
                   ),
                   const SizedBox(
-                    height: 40,
+                    //giave space between 2 boxes
+                    height: 20,
                   ),
                 ],
               ),

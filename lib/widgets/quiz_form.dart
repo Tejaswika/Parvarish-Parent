@@ -94,11 +94,21 @@ class _QuizFormState extends State<QuizForm> {
           borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
       context: context,
       builder: ((context) => QuizOptions(
+          topicName: selectedTopic,
           quizOption: diffData,
           childData: widget.childData,
           diffLevel: selectedDiff,
           childId: widget.childId)),
     );
+  }
+
+  @override
+  void initState() {
+    selectedClass = "Class " + widget.childData?[ChildDataConstants.grade];
+    if (selectedClass != null) {
+      _getClassData(selectedClass!);
+    }
+    super.initState();
   }
 
   @override
@@ -208,8 +218,8 @@ class _QuizFormState extends State<QuizForm> {
                 height: 40,
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    SnackbarService.showInfoSnackbar(
-                        context, "Available quizes are : ");
+                    SnackbarService.showInfoSnackbar(context,
+                        "Thers are ${diffData.length} available quizes!");
                     _showQuizOptions(context);
                   }
                 },
@@ -245,30 +255,6 @@ class _QuizFormState extends State<QuizForm> {
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               )
-              // TextButton(
-              //   onPressed: () {
-              //     if (_formKey.currentState!.validate()) {
-              //       SnackbarService.showSuccessSnackbar(
-              //           context, "Data validated");
-              //       _showQuizOptions(context);
-              //     }
-              //   },
-              //   child: const Text("Show Quizzes",
-              //       style: TextStyle(
-              //         color: Colors.black,
-              //         fontSize: 15,
-              //         backgroundColor: Colors.white,
-              //       )),
-              // ),
-              // TextButton(
-              //   onPressed: () => Navigator.pop(context),
-              //   child: const Text("Cancel",
-              //       style: TextStyle(
-              //         color: Colors.black,
-              //         fontSize: 15,
-              //         backgroundColor: Colors.white,
-              //       )),
-              // ),
             ],
           ),
         ],

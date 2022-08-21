@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+
 import 'package:parent/constants/db_constants.dart';
-// import 'package:parent/model/child_data.dart';
-import 'package:parent/screens/create_profile.dart';
+import 'package:parent/screens/create_child_profile_screen.dart';
 import 'package:parent/widgets/child_profile.dart';
 import '../widgets/select_child_appdrawer.dart';
 
@@ -89,7 +89,7 @@ class _SelectChildState extends State<SelectChild> {
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: ((context) => CreateProfile(
+            builder: ((context) => CreateChildProfile(
                   uid: widget.uid,
                   successCallback: () {
                     setState(() {

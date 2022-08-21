@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:form_validator/form_validator.dart';
 
 import 'package:parent/screens/select_child.dart';
-import 'package:parent/screens/SignUp_Screen.dart';
+import 'package:parent/screens/signup_screen.dart';
 import 'package:parent/screens/forgot_password.dart';
 import 'package:parent/services/local_storage_service.dart';
 import 'package:parent/services/snackbar_service.dart';
