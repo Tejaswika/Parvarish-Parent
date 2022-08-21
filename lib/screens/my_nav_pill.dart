@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../widgets/home_appdrawer.dart';
 import '../screens/screen_time_report.dart';
 import './profile_screen.dart';
 import './quiz_screen.dart';
@@ -52,10 +52,11 @@ class _MyNavPillState extends State<MyNavPill>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        iconTheme: const IconThemeData(color: Colors.white),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back, color: Colors.white),
+        //   onPressed: () => Navigator.of(context).pop(),
+        // ),
         title: const Text(
           'Parvarish',
           style: TextStyle(color: Colors.white),
@@ -75,6 +76,10 @@ class _MyNavPillState extends State<MyNavPill>
           ],
         ),
       ),
+      drawer:  HomeAppDrawer(UID: widget.childId,childData: widget.childData,
+                parentId: widget.parentId,
+                childId: widget.childId,
+                parentData: widget.parentData,),
       body: Navigator(
         key: _navKey,
         onGenerateRoute: (_) => MaterialPageRoute(

@@ -15,3 +15,9 @@ class ChildDataConstants {
   static const totalScores = "total_score";
   static const quizes = "quizes";
 }
+
+class ParentDataConstant{
+  static const name = 'name';
+  static const email = 'email';
+  static const phone = 'phone';
+}
