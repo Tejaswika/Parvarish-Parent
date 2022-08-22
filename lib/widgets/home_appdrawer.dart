@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:parent/constants/db_constants.dart';
 import 'package:parent/screens/quiz_report_screen.dart';
-import 'package:parent/screens/select_child.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../screens/profile_screen.dart';
 import '../screens/screen_time_report.dart';
@@ -10,12 +9,12 @@ import 'drawer_item.dart';
 import 'new_quiz.dart';
 
 class HomeAppDrawer extends StatefulWidget {
-  final String? UID;
+  final String? uid;
   final String? parentId;
   final String? childId;
   final Map<String, dynamic>? parentData;
   final Map<String, dynamic>? childData;
-  const HomeAppDrawer({Key? key, required this.UID, required this.childData,
+  const HomeAppDrawer({Key? key, required this.uid, required this.childData,
       required this.parentId,
       required this.childId,
       required this.parentData}) : super(key: key);
@@ -40,7 +39,7 @@ class _HomeAppDrawerState extends State<HomeAppDrawer> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Are you sure?'),
-        content: const Text('Do you want to exit from app?'),
+        content: const Text('Do you want to exit from the app?'),
         actions: [
           TextButton(
               onPressed: () => SystemNavigator.pop(),
@@ -183,6 +182,7 @@ class _HomeAppDrawerState extends State<HomeAppDrawer> {
               name: 'Log out',
               icon: Icons.logout,
               onPressed: () {
+                //LocalStorageService.setData("uid", "");
                 exitDialog();
               },
             ),

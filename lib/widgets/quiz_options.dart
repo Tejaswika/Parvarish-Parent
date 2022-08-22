@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:parent/model/child_data.dart';
 import 'package:parent/services/snackbar_service.dart';
 import '../constants/db_constants.dart';
 import '../services/local_storage_service.dart';

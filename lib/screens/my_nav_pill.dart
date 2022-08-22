@@ -76,7 +76,7 @@ class _MyNavPillState extends State<MyNavPill>
           ],
         ),
       ),
-      drawer:  HomeAppDrawer(UID: widget.childId,childData: widget.childData,
+      drawer:  HomeAppDrawer(uid: widget.childId,childData: widget.childData,
                 parentId: widget.parentId,
                 childId: widget.childId,
                 parentData: widget.parentData,),

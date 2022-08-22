@@ -20,7 +20,7 @@ class _DrawerItemState extends State<DrawerItem> {
         height: 40,
         child: Row(
           children: [
-            const SizedBox(width: 10,),
+            const SizedBox(width: 14,),
             Icon(widget.icon, size: 20,color: const Color.fromARGB(255, 163, 153, 153),),
             const SizedBox(width: 30,),
             Text(
@@ -33,6 +33,7 @@ class _DrawerItemState extends State<DrawerItem> {
             ),
             const Spacer(),
             const Icon(Icons.arrow_forward_ios_rounded,size: 20,color:  Color.fromARGB(255, 163, 153, 153)),
+            const SizedBox(width: 13,),
           ],
         ),
       ),

@@ -62,7 +62,7 @@ class _NewPasswordState extends State<NewPassword> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LoginPage()));
+                                builder: (context) => const LoginPage()));
                       },
                       color: const Color.fromARGB(255, 116, 49, 128),
                       shape: RoundedRectangleBorder(

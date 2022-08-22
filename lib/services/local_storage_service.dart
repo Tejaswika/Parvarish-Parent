@@ -22,4 +22,8 @@ class LocalStorageService {
   static String getFmcToken(String key) {
     return prefs.getString(key) ?? '';
   }
+
+  // static setData(String key, String value) async {
+  //   await prefs.setString(key, value);
+  // }
 }

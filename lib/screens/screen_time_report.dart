@@ -129,7 +129,7 @@ class ScreenTimeReportState extends State<ScreenTimeReport> {
             ),
             const ListTile(
               leading: Icon(Icons.video_call),
-              title: const Text('YouTube'),
+              title: Text('YouTube'),
             ),
             const ListTile(
               leading: Icon(Icons.chat),

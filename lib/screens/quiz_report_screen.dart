@@ -93,11 +93,11 @@ class _QuizReportState extends State<QuizReport> {
                 ),
                 const ListTile(
                   title: Text('Maths Quiz'),
-                  trailing: const Text('60%'),
+                  trailing: Text('60%'),
                 ),
                 const ListTile(
                   title: Text('English Quiz'),
-                  trailing: const Text('70%'),
+                  trailing: Text('70%'),
                 ),
                 const ListTile(
                   title: Text('Environmental Studies Quiz'),
@@ -105,7 +105,7 @@ class _QuizReportState extends State<QuizReport> {
                 ),
                 const ListTile(
                   title: Text('Computer Quiz'),
-                  trailing: const Text('75%'),
+                  trailing: Text('75%'),
                 ),
                 const ListTile(
                   title: Text('General Knowledge Quiz'),
