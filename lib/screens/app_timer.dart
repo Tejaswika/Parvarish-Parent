@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 
-class Apptimer extends StatelessWidget {
-  const Apptimer({Key? key}) : super(key: key);
+class Apptimer extends StatefulWidget {
+  final Map<String, dynamic>? appData;
+  const Apptimer({Key? key, required this.appData}) : super(key: key);
+  @override
+  State<Apptimer> createState() => _Apptimer();
+}
+
+class _Apptimer extends State<Apptimer> {
+  void initState() {
+    print(widget.appData);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
