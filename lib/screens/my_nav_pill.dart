@@ -89,7 +89,7 @@ class _MyNavPillState extends State<MyNavPill>
               ScreenTimeReport(
                 UID: widget.childId,
               ),
-              QuizReport(createQuiz: _createQuiz),
+              QuizReport(createQuiz: _createQuiz, childData: widget.childData),
               ProfileScreen(
                 childData: widget.childData,
                 parentId: widget.parentId,

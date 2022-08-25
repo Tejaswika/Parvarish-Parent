@@ -150,7 +150,7 @@ class _HomeAppDrawerState extends State<HomeAppDrawer> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => QuizReport(createQuiz: _createQuiz,)));
+                        builder: (context) => QuizReport(createQuiz: _createQuiz,childData: widget.childData,)));
               },
             ),
             const Spacer(),

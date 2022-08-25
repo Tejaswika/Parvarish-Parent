@@ -38,8 +38,6 @@ class _QuizFormState extends State<QuizForm> {
     "Class 8": "Class 8",
     "Class 9": "Class 9",
     "Class 10": "Class 10",
-    "Class 11": "Class 11",
-    "Class 12": "Class 12",
   };
   List<DropdownMenuItem<String>> getClassDropdownList() {
     List<DropdownMenuItem<String>> classes = [];
