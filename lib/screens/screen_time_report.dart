@@ -6,18 +6,12 @@ import '../screens/app_timer.dart';
 import '../screens/screen_time.dart';
 import '../constants/db_constants.dart';
 
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-final CollectionReference _childCollection =
-    _firestore.collection(DBConstants.childCollectionName);
-// ignore: non_constant_identifier_names
-Map<String, dynamic>? AppUsagechildData;
-Map<String, dynamic>? apps;
-bool _loading = true;
+
 
 class _ChartData {
   _ChartData(this.x, this.y);
   final String x;
-  final int y;
+  final double y;
 }
 
 class ScreenTimeReport extends StatefulWidget {
@@ -40,6 +34,13 @@ class ScreenTimeReportState extends State<ScreenTimeReport> {
   late String totalScreenTime = '';
   // ignore: library_private_types_in_public_api
   List<_ChartData> list2 = [];
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+late final CollectionReference _childCollection =
+    _firestore.collection(DBConstants.childCollectionName);
+// ignore: non_constant_identifier_names
+Map<String, dynamic>? AppUsagechildData;
+Map<String, dynamic>? apps;
+bool _loading = true;
 
   Future readchildData(uid) async {
     DocumentReference documentReferencer = _childCollection.doc(uid);
@@ -52,10 +53,11 @@ class ScreenTimeReportState extends State<ScreenTimeReport> {
       _loading = false;
     });
 
-    graphUpdate();
+    graphData();
+    
   }
 
-  void graphUpdate() {
+  void graphData() {
     if (_loading == false) {
       apps?.forEach((key, app) {
         childApps
@@ -66,13 +68,15 @@ class ScreenTimeReportState extends State<ScreenTimeReport> {
       totalScreenTime = totalAppHrs.toString();
 
       list2 = childApps.where((map) => map.y > 20).toList();
+
+      
     }
   }
 
   @override
   void initState() {
     _tooltip = TooltipBehavior(enable: true);
-
+    
     readchildData(widget.UID);
     super.initState();
   }
@@ -81,94 +85,138 @@ class ScreenTimeReportState extends State<ScreenTimeReport> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: ListView(
-          physics: const BouncingScrollPhysics(),
-          children: [
-            RichText(
-              text: TextSpan(
-                children: <TextSpan>[
-                  const TextSpan(
-                      text: 'Total Screen Time \n',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 23,
-                          color: Color.fromARGB(255, 0, 0, 0))),
-                  TextSpan(
-                      text: totalScreenTime,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Color.fromARGB(255, 0, 0, 0))),
-                  const TextSpan(
-                      text: ' hours',
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Color.fromARGB(255, 190, 190, 190))),
+      child: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          child: Wrap(
+            runSpacing: 5.0,
+            spacing: 10.0,
+            children: [
+              // ignore: avoid_unnecessary_containers
+              
+              SizedBox(
+                height: 350,
+                child: SfCircularChart(
+                  legend: Legend(isVisible: true),
+                   annotations: <CircularChartAnnotation>[
+                  CircularChartAnnotation(
+                    widget: 
+                      Container(
+                  child: RichText(
+                text: TextSpan(
+                  children: <TextSpan>[
+                    const TextSpan(
+                        text: 'Today \n',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                            color: Color.fromARGB(255, 0, 0, 0))),
+                    TextSpan(
+                        text: totalScreenTime,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                            color: Color.fromARGB(255, 0, 0, 0))),
+                    const TextSpan(
+                        text: ' hours',
+                        style: TextStyle(
+                            fontSize: 25,
+                            color: Color.fromARGB(255, 190, 190, 190))),
+                  ],
+                ),
+              )),
+                  )
                 ],
+                  
+                        series: <CircularSeries>[
+                            // Renders doughnut chart
+                            DoughnutSeries<_ChartData, String>(
+                                dataSource: list2,
+                                
+                                xValueMapper: (_ChartData data, _) => data.x,
+                                yValueMapper: (_ChartData data, _) => data.y,
+                                innerRadius: "80%",
+                                
+                                dataLabelSettings: const DataLabelSettings(isVisible: true,
+                                
+                                ), 
+                            )
+                        ]
+                    )
               ),
-            ),
-            SizedBox(
-              height: 280,
-              child: SfCartesianChart(
-                  primaryXAxis: CategoryAxis(),
-                  primaryYAxis: NumericAxis(),
-                  tooltipBehavior: _tooltip,
-                  series: <CartesianSeries>[
-                    ColumnSeries<_ChartData, String>(
-                        dataSource: list2,
-                        xValueMapper: (_ChartData list2, _) => list2.x,
-                        yValueMapper: (_ChartData list2, _) => list2.y,
-                        width: 0.6,
-                        spacing: 0.3,
-                        sortingOrder: SortingOrder.descending,
-                        // Sorting based on the specified field
-                        sortFieldValueMapper: (_ChartData list2, _) => list2.y),
-                  ]),
-            ),
-            const ListTile(
-              leading: Icon(Icons.video_call),
-              title: Text('YouTube'),
-            ),
-            const ListTile(
-              leading: Icon(Icons.chat),
-              title: Text('WhatsApp'),
-            ),
-            const ListTile(
-              leading: Icon(Icons.snapchat),
-              title: Text('SnapChat'),
-            ),
-            RichText(
-              text: const TextSpan(
-                children: <TextSpan>[
-                  TextSpan(
-                      text: 'Your Goal',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
-                          color: Color.fromARGB(255, 0, 0, 0))),
-                ],
+
+              // ignore: avoid_unnecessary_containers
+              Container(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: const <Widget>[
+                    ListTile(
+                      leading: Icon(Icons.video_call),
+                      title: Text('YouTube'),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.chat),
+                      title: Text('WhatsApp'),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.snapchat),
+                      title: Text('SnapChat'),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.lock_clock),
-              title: const Text('App Timer'),
-              onTap: () {
-                Navigator.of(context, rootNavigator: true).push(
-                    MaterialPageRoute(builder: (context) => const Apptimer()));
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.lock_clock),
-              title: const Text('Screen Timer'),
-              onTap: () {
-                Navigator.of(context, rootNavigator: true).push(
-                    MaterialPageRoute(
-                        builder: (context) => const TimeScreen()));
-              },
-            ),
-          ],
+
+              // ignore: avoid_unnecessary_containers
+              Container(
+                  child: RichText(
+                text: const TextSpan(
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'Your Goal',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                            color: Color.fromARGB(255, 0, 0, 0))),
+                  ],
+                ),
+              )),
+
+              // ignore: avoid_unnecessary_containers
+              Container(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    ListTile(
+                      leading: const Icon(Icons.lock_clock),
+                      title: const Text('App Timer'),
+                      onTap: () {
+                        Navigator.of(context, rootNavigator: true).push(
+                            MaterialPageRoute(
+                                builder: (context) => const Apptimer()));
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              // ignore: avoid_unnecessary_containers
+              Container(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    ListTile(
+                      leading: const Icon(Icons.lock_clock),
+                      title: const Text('Screen Timer'),
+                      onTap: () {
+                        Navigator.of(context, rootNavigator: true).push(
+                            MaterialPageRoute(
+                                builder: (context) => TimeScreen(UID: widget.UID)));
+                      },
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     ));

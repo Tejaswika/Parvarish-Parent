@@ -1,145 +1,247 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../constants/db_constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class TimeScreen extends StatefulWidget {
-  const TimeScreen({Key? key}) : super(key: key);
+  // ignore: non_constant_identifier_names
+  final String? UID;
+  // ignore: non_constant_identifier_names
+  const TimeScreen({Key? key, required this.UID}) : super(key: key);
 
   @override
   _TimeScreenState createState() => _TimeScreenState();
 }
 
 class _TimeScreenState extends State<TimeScreen> {
-  late List<_ChartData> data;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  late final CollectionReference _childCollection =
+      _firestore.collection(DBConstants.childCollectionName);
+// ignore: non_constant_identifier_names
+  Map<String, dynamic>? AppUsagechildData;
+  Map<String, dynamic>? apps;
+  bool _loading = true;
+
+  late List<_ChartData> childAppsDataDaily = [];
+  late List<_ChartData> childAppsDataWeekly = [];
+  late List<_ChartData> childAppsDataMonthly = [];
   late TooltipBehavior _tooltip;
+  late Future<Map<String, dynamic>?> appsData;
+  late num totalAppHrsDaily = 0;
+  late num totalAppHrsWeekly = 0;
+  late num totalAppHrsMonthly = 0;
+  late num currentTotalTime = 0;
+  late String totalScreenTime = '';
+  // ignore: library_private_types_in_public_api
+  List<_ChartData> currentAppList = [];
+  String dropdownvalue = 'Daily';
+  String listViewHeadingNames = 'Daily Apps Time';
+
+  // List of items in our dropdown menu
+  var items = [
+    'Daily',
+    'Weekly',
+    'Monthly',
+  ];
+
+  Future readchildData(uid) async {
+    DocumentReference documentReferencer = _childCollection.doc(uid);
+    await documentReferencer.get().then((DocumentSnapshot childDataSnapshot) {
+      AppUsagechildData = childDataSnapshot.data() as Map<String, dynamic>;
+      apps = AppUsagechildData!['apps'];
+      graphData();
+    });
+  }
+
+  void graphData() {
+    apps?.forEach((key, app) {
+      childAppsDataDaily.add(
+          _ChartData(app['app_name'], app['current_day_screen_time'] ?? 0));
+      childAppsDataMonthly.add(
+          _ChartData(app['app_name'], app['current_month_screen_time'] ?? 0));
+      childAppsDataWeekly.add(
+          _ChartData(app['app_name'], app['current_week_screen_time'] ?? 0));
+
+      totalAppHrsDaily =
+          totalAppHrsDaily + (app['current_day_screen_time'] ?? 0);
+      totalAppHrsWeekly =
+          totalAppHrsWeekly + (app['current_week_screen_time'] ?? 0);
+      totalAppHrsMonthly =
+          totalAppHrsMonthly + (app['current_month_screen_time'] ?? 0);
+    });
+
+    childAppsDataDaily.sort((appData1, appData2) {
+      if (appData1.y > appData2.y) return -1;
+      return 1;
+    });
+
+    childAppsDataWeekly.sort((appData1, appData2) {
+      if (appData1.y > appData2.y) return -1;
+      return 1;
+    });
+
+    childAppsDataMonthly.sort((appData1, appData2) {
+      if (appData1.y > appData2.y) return -1;
+      return 1;
+    });
+
+    if (dropdownvalue == "Daily") {
+      currentAppList = childAppsDataDaily;
+      currentTotalTime = totalAppHrsDaily ~/ 60;
+      listViewHeadingNames = 'Daily Apps Time';
+    } else if (dropdownvalue == "Weekly") {
+      currentAppList = childAppsDataWeekly;
+      currentTotalTime = totalAppHrsWeekly ~/ 60;
+      listViewHeadingNames = 'Weekly Apps Time';
+    } else {
+      currentAppList = childAppsDataMonthly;
+      currentTotalTime = totalAppHrsMonthly ~/ 60;
+      listViewHeadingNames = 'Monthly Apps Time';
+    }
+    setState(() {
+      _loading = false;
+    });
+  }
 
   @override
   void initState() {
-    data = [
-      _ChartData('Sunday', 10),
-      _ChartData('Monday', 20),
-      _ChartData('Tuesday', 30),
-      _ChartData('Wednesday', 5),
-      _ChartData('Thursday', 20),
-      _ChartData('Friday', 10),
-      _ChartData('Saturday', 30),
-    ];
+    readchildData(widget.UID);
     _tooltip = TooltipBehavior(enable: true);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    List<_ChartData> graphData = [];
+    if (currentAppList.isNotEmpty) {
+      graphData = currentAppList.sublist(0, 5);
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Screen Time',style: TextStyle(color: Colors.white),),
+        title: const Text(
+          'Screen Time',
+          style: TextStyle(color: Colors.white),
+        ),
         leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.arrow_back,color: Colors.white,),
-
-          ),
-      ),
-      body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          child: Wrap(
-            runSpacing: 5.0,
-            spacing: 10.0,
-            children: [
-              RichText(
-                text: const TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: '3hrs 8mins \n',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ),
-                    TextSpan(
-                      text: 'Today \n',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Color.fromARGB(255, 190, 190, 190),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 200,
-                child: SfCartesianChart(
-                  primaryXAxis: CategoryAxis(),
-                  primaryYAxis: NumericAxis(
-                      minimum: 0, maximum: 50, interval: 10, isVisible: false),
-                  tooltipBehavior: _tooltip,
-                  series: <ChartSeries<_ChartData, String>>[
-                    BarSeries<_ChartData, String>(
-                      dataSource: data,
-                      isTrackVisible: false,
-                      xValueMapper: (_ChartData data, _) => data.x,
-                      yValueMapper: (_ChartData data, _) => data.y,
-                      name: ' ',
-                      color: const Color.fromRGBO(8, 142, 255, 1),
-                    )
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
-                  Icon(Icons.arrow_back),
-                  SizedBox(
-                    width: 5.0,
-                    height: 0,
-                  ),
-                  Text(
-                    'Sunday,17 July',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 15.0, fontFamily: 'Times'),
-                  ),
-                  SizedBox(
-                    width: 5.0,
-                    height: 0,
-                  ),
-                  Icon(Icons.arrow_forward),
-                ],
-              ),
-              ListView(
-                shrinkWrap: true,
-                children: const <Widget>[
-                  ListTile(
-                    leading: Icon(Icons.video_call),
-                    title: Text('YouTube'),
-                    trailing: Icon(Icons.timer),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.chat),
-                    title: Text('WhatsApp'),
-                    trailing: Icon(Icons.timer),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.tiktok_outlined),
-                    title: Text('Tiktok'),
-                    trailing: Icon(Icons.timer),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.music_note),
-                    title: Text('Music'),
-                    trailing: Icon(Icons.timer),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.snapchat),
-                    title: Text('SnapChat'),
-                    trailing: Icon(Icons.timer),
-                  ),
-                ],
-              ),
-            ],
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
           ),
         ),
+      ),
+      body: SafeArea(
+        child: _loading && currentAppList.isNotEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          children: <TextSpan>[
+                            const TextSpan(
+                              text: 'Total Screen Time \n',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 30,
+                                color: Color.fromARGB(255, 0, 0, 0),
+                              ),
+                            ),
+                            TextSpan(
+                              text: currentTotalTime.toString() + " hours",
+                              style: const TextStyle(
+                                fontSize: 20,
+                                color: Color.fromARGB(255, 190, 190, 190),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      DropdownButton(
+                        // Initial Value
+                        value: dropdownvalue,
+
+                        // Down Arrow Icon
+                        icon: const Icon(Icons.keyboard_arrow_down),
+
+                        // Array list of items
+                        items: items.map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(items),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownvalue = newValue!;
+                            if (dropdownvalue == "Daily") {
+                              currentAppList = childAppsDataDaily;
+                              currentTotalTime = totalAppHrsDaily ~/ 60;
+                              listViewHeadingNames = 'Daily Apps Time';
+                            }
+                            if (dropdownvalue == "Weekly") {
+                              currentAppList = childAppsDataWeekly;
+                              currentTotalTime = totalAppHrsWeekly ~/ 60;
+                              listViewHeadingNames = 'Weekly Apps Time';
+                            }
+                            if (dropdownvalue == "Monthly") {
+                              currentAppList = childAppsDataMonthly;
+                              currentTotalTime = totalAppHrsMonthly ~/ 60;
+                              listViewHeadingNames = 'Monthly Apps Time';
+                            }
+                          });
+                        },
+                      ),
+                      SizedBox(
+                        height: 280,
+                        child: SfCartesianChart(
+                            plotAreaBorderWidth: 0,
+                            primaryXAxis: CategoryAxis(),
+                            primaryYAxis: NumericAxis(),
+                            tooltipBehavior: _tooltip,
+                            series: <CartesianSeries>[
+                              ColumnSeries<_ChartData, String>(
+                                dataSource: graphData,
+                                xValueMapper: (_ChartData list2, _) => list2.x,
+                                yValueMapper: (_ChartData list2, _) => list2.y,
+                                width: 0.6,
+                                spacing: 0.3,
+                                // sortingOrder: SortingOrder.descending,
+                                // Sorting based on the specified field
+                                // sortFieldValueMapper: (_ChartData list2, _) =>
+                                //     list2.y,
+                              ),
+                            ]),
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          listViewHeadingNames,
+                          style: const TextStyle(
+                              fontSize: 30.0, fontFamily: 'Times'),
+                        ),
+                      ),
+                      ...currentAppList.map(
+                        (_ChartData appData) => Card(
+                          child: ListTile(
+                            title: Text(appData.x),
+                            trailing: Text(appData.y.toString() + " min"),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
       ),
     );
   }

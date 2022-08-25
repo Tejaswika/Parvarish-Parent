@@ -66,22 +66,19 @@ class _QuizReportState extends State<QuizReport> {
                   ),
                 ),
                 SizedBox(
-                  height: 200,
+                  height: 400,
                   child: SfCartesianChart(
                     primaryXAxis: CategoryAxis(),
-                    primaryYAxis: NumericAxis(
-                        minimum: 0,
-                        maximum: 50,
-                        interval: 10,
-                        isVisible: false),
+                    primaryYAxis: NumericAxis(),
                     tooltipBehavior: _tooltip,
                     series: <ChartSeries<_ChartData, String>>[
-                      BarSeries<_ChartData, String>(
+                      ColumnSeries<_ChartData, String>(
                           dataSource: data,
-                          isTrackVisible: false,
+                          
                           xValueMapper: (_ChartData data, _) => data.x,
                           yValueMapper: (_ChartData data, _) => data.y,
-                          name: ' ',
+                          width: 0.6,
+                          spacing: 0.3,
                           color: const Color.fromRGBO(8, 142, 255, 1))
                     ],
                   ),
