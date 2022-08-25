@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../constants/db_constants.dart';
 
 class _ChartData {
   _ChartData(this.x, this.y);
@@ -15,19 +18,24 @@ class Apptimer extends StatefulWidget {
 
 class _Apptimer extends State<Apptimer> {
   void initState() {
-    print(widget.appData);
-
     super.initState();
   }
 
   final TimeOfDay? newTime = TimeOfDay(hour: 0, minute: 0);
-  void _sectTime() async {
+  void _sectTime(String appName) async {
     final TimeOfDay? newTime = await showTimePicker(
         context: context,
         initialTime: TimeOfDay(hour: 7, minute: 15),
         initialEntryMode: TimePickerEntryMode.input);
+    String timehr = newTime.toString();
+    print(timehr);
+    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+    updateChildData(appName);
   }
 
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  late CollectionReference childCollection =
+      _firestore.collection(DBConstants.childCollectionName);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,8 +68,8 @@ class _Apptimer extends State<Apptimer> {
                     child: ListTile(
                       title: Text(app.x + "\n" + app.y.toString() + " min"),
                       trailing: ElevatedButton(
-                        onPressed: _sectTime,
-                        child: Icon(
+                        onPressed: () => _sectTime(app.y.toString()),
+                        child: const Icon(
                           Icons.timer,
                           color: Color.fromARGB(255, 255, 255, 255),
                         ),
@@ -105,5 +113,25 @@ class _Apptimer extends State<Apptimer> {
         ),
       ),
     );
+  }
+
+  void updateChildData(String appName) async {
+    // print(widget.parentData);
+    // isUpdatingDocument = true;
+    // DocumentReference documentReferencer = childCollection.doc(widget.childId);
+    // widget.childData?["apps"] = {
+
+    // }
+    // // print(widget.childData);
+    // await documentReferencer.set(widget.childData).then((value) {
+    //   setState(() {
+    //     isUpdatingDocument = false;
+    //   });
+    //   SnackbarService.showSuccessSnackbar(
+    //       context, "Profile updated successfully");
+    // });
+    print(
+        "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+    print(appName);
   }
 }
