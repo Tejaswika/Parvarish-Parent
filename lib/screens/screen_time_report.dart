@@ -6,8 +6,6 @@ import '../screens/app_timer.dart';
 import '../screens/screen_time.dart';
 import '../constants/db_constants.dart';
 
-
-
 class _ChartData {
   _ChartData(this.x, this.y);
   final String x;
@@ -35,12 +33,12 @@ class ScreenTimeReportState extends State<ScreenTimeReport> {
   // ignore: library_private_types_in_public_api
   List<_ChartData> list2 = [];
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-late final CollectionReference _childCollection =
-    _firestore.collection(DBConstants.childCollectionName);
+  late final CollectionReference _childCollection =
+      _firestore.collection(DBConstants.childCollectionName);
 // ignore: non_constant_identifier_names
-Map<String, dynamic>? AppUsagechildData;
-Map<String, dynamic>? apps;
-bool _loading = true;
+  Map<String, dynamic>? AppUsagechildData;
+  Map<String, dynamic>? apps;
+  bool _loading = true;
 
   Future readchildData(uid) async {
     DocumentReference documentReferencer = _childCollection.doc(uid);
@@ -49,40 +47,36 @@ bool _loading = true;
     AppUsagechildData = childDataSnapshot.data() as Map<String, dynamic>;
 
     apps = AppUsagechildData!['apps'];
-    setState(() {
-      _loading = false;
-    });
-
     graphData();
-    
   }
 
   void graphData() {
-    if (_loading == false) {
-      apps?.forEach((key, app) {
-        childApps
-            .add(_ChartData(app['app_name'], app['current_day_screen_time']));
-        totalAppHrs = totalAppHrs + app['current_day_screen_time'];
-      });
-      totalAppHrs = totalAppHrs ~/ 60;
-      totalScreenTime = totalAppHrs.toString();
+    apps?.forEach((key, app) {
+      childApps
+          .add(_ChartData(app['app_name'], app['current_day_screen_time'].toDouble()));
+      totalAppHrs = totalAppHrs + app['current_day_screen_time'];
+    });
+    totalAppHrs = totalAppHrs ~/ 60;
+    totalScreenTime = totalAppHrs.toString();
 
-      list2 = childApps.where((map) => map.y > 20).toList();
-
-      
-    }
+    list2 = childApps.where((map) => map.y > 20).toList();
+    setState(() {
+      _loading = false;
+    });
   }
 
   @override
   void initState() {
     _tooltip = TooltipBehavior(enable: true);
-    
+
     readchildData(widget.UID);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(_loading);
+    print(list2);
     return Scaffold(
         body: SafeArea(
       child: SingleChildScrollView(
@@ -93,57 +87,52 @@ bool _loading = true;
             spacing: 10.0,
             children: [
               // ignore: avoid_unnecessary_containers
-              
+
               SizedBox(
-                height: 350,
-                child: SfCircularChart(
-                  legend: Legend(isVisible: true),
-                   annotations: <CircularChartAnnotation>[
-                  CircularChartAnnotation(
-                    widget: 
-                      Container(
-                  child: RichText(
-                text: TextSpan(
-                  children: <TextSpan>[
-                    const TextSpan(
-                        text: 'Today \n',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                            color: Color.fromARGB(255, 0, 0, 0))),
-                    TextSpan(
-                        text: totalScreenTime,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                            color: Color.fromARGB(255, 0, 0, 0))),
-                    const TextSpan(
-                        text: ' hours',
-                        style: TextStyle(
-                            fontSize: 25,
-                            color: Color.fromARGB(255, 190, 190, 190))),
-                  ],
-                ),
-              )),
-                  )
-                ],
-                  
-                        series: <CircularSeries>[
-                            // Renders doughnut chart
-                            DoughnutSeries<_ChartData, String>(
-                                dataSource: list2,
-                                
-                                xValueMapper: (_ChartData data, _) => data.x,
-                                yValueMapper: (_ChartData data, _) => data.y,
-                                innerRadius: "80%",
-                                
-                                dataLabelSettings: const DataLabelSettings(isVisible: true,
-                                
-                                ), 
-                            )
-                        ]
-                    )
-              ),
+                  height: 350,
+                  child: SfCircularChart(
+                      legend: Legend(isVisible: true),
+                      annotations: <CircularChartAnnotation>[
+                        CircularChartAnnotation(
+                          widget: Container(
+                              child: RichText(
+                            text: TextSpan(
+                              children: <TextSpan>[
+                                const TextSpan(
+                                    text: 'Today \n',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 30,
+                                        color: Color.fromARGB(255, 0, 0, 0))),
+                                TextSpan(
+                                    text: totalScreenTime,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 25,
+                                        color: Color.fromARGB(255, 0, 0, 0))),
+                                const TextSpan(
+                                    text: ' hours',
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        color: Color.fromARGB(
+                                            255, 190, 190, 190))),
+                              ],
+                            ),
+                          )),
+                        )
+                      ],
+                      series: <CircularSeries>[
+                        // Renders doughnut chart
+                        DoughnutSeries<_ChartData, String>(
+                          dataSource: list2,
+                          xValueMapper: (_ChartData data, _) => data.x,
+                          yValueMapper: (_ChartData data, _) => data.y,
+                          innerRadius: "80%",
+                          dataLabelSettings: const DataLabelSettings(
+                            isVisible: true,
+                          ),
+                        )
+                      ])),
 
               // ignore: avoid_unnecessary_containers
               Container(
@@ -192,7 +181,7 @@ bool _loading = true;
                       onTap: () {
                         Navigator.of(context, rootNavigator: true).push(
                             MaterialPageRoute(
-                                builder: (context) => const Apptimer()));
+                                builder: (context) => Apptimer(appData: apps)));
                       },
                     ),
                   ],
@@ -209,7 +198,8 @@ bool _loading = true;
                       onTap: () {
                         Navigator.of(context, rootNavigator: true).push(
                             MaterialPageRoute(
-                                builder: (context) => TimeScreen(UID: widget.UID)));
+                                builder: (context) =>
+                                    TimeScreen(UID: widget.UID)));
                       },
                     ),
                   ],
