@@ -43,31 +43,31 @@ class _SignUpPage extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 205, 122, 220),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: const EdgeInsets.only(left: 32, top: 32),
-              child: const Text(
+              padding: const EdgeInsets.only(left: 35, top: 50),
+              child: Text(
                 'Sign up',
-                style: TextStyle(color: Colors.white, fontSize: 30),
+                style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 30),
               ),
             ),
             Container(
               padding: const EdgeInsets.only(left: 32),
-              child: const Text(
+              child: Text(
                 'Create your account',
-                style: TextStyle(color: Colors.white60, fontSize: 15),
+                style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 15),
               ),
             ),
             Container(
               alignment: Alignment.center,
-              margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-              height: 520,
+              margin: const EdgeInsets.fromLTRB(50, 30, 50, 10),
+              height: 500,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 163, 81, 180),
+                color: Theme.of(context).colorScheme.background,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Form(
@@ -153,7 +153,7 @@ class _SignUpPage extends State<SignUpPage> {
                             _signUp();
                           }
                         },
-                        color: const Color.fromARGB(255, 116, 49, 128),
+                        color: Theme.of(context).colorScheme.onPrimary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -197,10 +197,10 @@ class _SignUpPage extends State<SignUpPage> {
                                 ),
                               );
                             },
-                            child: const Text(
+                            child:  Text(
                               'Login',
                               style:
-                                  TextStyle(fontSize: 16, color: Colors.white),
+                                  TextStyle(fontSize: 16, color:Theme.of(context).colorScheme.onPrimary,),
                             ),
                           ),
                         ],
