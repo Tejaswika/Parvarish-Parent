@@ -71,7 +71,6 @@ class ScreenTimeReportState extends State<ScreenTimeReport> {
     currentAppList = childAppsDataDaily;
     currentTotalHrsTime = totalAppHrsDaily ~/ 60;
     currentTotalMinTime = totalAppHrsDaily % 60;
-
     setState(() {
       _loading = false;
     });
@@ -199,7 +198,8 @@ class ScreenTimeReportState extends State<ScreenTimeReport> {
                             onTap: () {
                               Navigator.of(context, rootNavigator: true).push(
                                   MaterialPageRoute(
-                                      builder: (context) => const Apptimer()));
+                                      builder: (context) =>
+                                          Apptimer(appData: apps)));
                             },
                           ),
                         ],
