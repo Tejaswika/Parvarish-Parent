@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:parent/services/snackbar_service.dart';
 import '../constants/db_constants.dart';
 import '../services/local_storage_service.dart';
+import 'new_quiz.dart';
 
 class RadioItem {
   String name;
@@ -26,6 +27,7 @@ Map<String, dynamic> assignQuizData = {
 };
 
 class QuizOptions extends StatefulWidget {
+
    Map<String, dynamic>? childData;
   final List<dynamic> quizOption;
   final String? topicName;
@@ -65,6 +67,7 @@ class _QuizOptions extends State<QuizOptions> {
       _isDataLoading=false;
     });
   }
+
   @override
   void initState() {
     for (int i = 0; i < widget.quizOption.length; i++) {
@@ -306,7 +309,7 @@ class _QuizOptions extends State<QuizOptions> {
     assignQuizData[ChildDataConstants.blocked] = isBlocked;
     assignQuizData[ChildDataConstants.minScore] = 0;
     assignQuizData[ChildDataConstants.quizId] = widget.quizOption[index].trim();
-    assignQuizData[ChildDataConstants.scores] = 0;
+    assignQuizData[ChildDataConstants.scores] = [];
     assignQuizData[ChildDataConstants.totalAttempts] = 0;
     assignQuizData[ChildDataConstants.totalScores] = 0;
     bool isQuizIdPresent = false;
