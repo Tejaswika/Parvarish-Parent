@@ -5,7 +5,6 @@ import './profile_screen.dart';
 import './quiz_report_screen.dart';
 import '../widgets/new_quiz.dart';
 
-
 //Store this globally
 final GlobalKey<NavigatorState> _navKey = GlobalKey<NavigatorState>();
 
@@ -76,10 +75,13 @@ class _MyNavPillState extends State<MyNavPill>
           ],
         ),
       ),
-      drawer:  HomeAppDrawer(uid: widget.childId,childData: widget.childData,
-                parentId: widget.parentId,
-                childId: widget.childId,
-                parentData: widget.parentData,),
+      drawer: HomeAppDrawer(
+        uid: widget.childId,
+        childData: widget.childData,
+        parentId: widget.parentId,
+        childId: widget.childId,
+        parentData: widget.parentData,
+      ),
       body: Navigator(
         key: _navKey,
         onGenerateRoute: (_) => MaterialPageRoute(
@@ -103,7 +105,3 @@ class _MyNavPillState extends State<MyNavPill>
     );
   }
 }
-
-
-
-

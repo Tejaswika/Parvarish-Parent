@@ -31,8 +31,16 @@ class _TimeScreenState extends State<TimeScreen> {
   late num totalAppHrsDaily = 0;
   late num totalAppHrsWeekly = 0;
   late num totalAppHrsMonthly = 0;
+  late num currentAppMinDaily = 0;
+  late num currentAppHrsDaily = 0;
+  late num currentAppMinWeekly = 0;
+  late num currentAppHrsWeekly = 0;
+  late num currentAppMinMonthly = 0;
+  late num currentAppHrsMonthly = 0;
+  late num currentTotalHrsTime = 0;
+  late num currentTotalMinTime = 0;
   late num currentTotalTime = 0;
-  late String totalScreenTime = '';
+
   // ignore: library_private_types_in_public_api
   List<_ChartData> currentAppList = [];
   String dropdownvalue = 'Daily';
@@ -56,12 +64,12 @@ class _TimeScreenState extends State<TimeScreen> {
 
   void graphData() {
     apps?.forEach((key, app) {
-      childAppsDataDaily.add(
-          _ChartData(app['app_name'], app['current_day_screen_time'] ?? 0));
-      childAppsDataMonthly.add(
-          _ChartData(app['app_name'], app['current_month_screen_time'] ?? 0));
-      childAppsDataWeekly.add(
-          _ChartData(app['app_name'], app['current_week_screen_time'] ?? 0));
+      childAppsDataDaily.add(_ChartData(
+          app['app_name'], app['current_day_screen_time'] ?? 0));
+      childAppsDataMonthly.add(_ChartData(
+          app['app_name'], app['current_month_screen_time'] ?? 0));
+      childAppsDataWeekly.add(_ChartData(
+          app['app_name'], app['current_week_screen_time'] ?? 0));
 
       totalAppHrsDaily =
           totalAppHrsDaily + (app['current_day_screen_time'] ?? 0);
@@ -88,15 +96,18 @@ class _TimeScreenState extends State<TimeScreen> {
 
     if (dropdownvalue == "Daily") {
       currentAppList = childAppsDataDaily;
-      currentTotalTime = totalAppHrsDaily ~/ 60;
+      currentTotalHrsTime = totalAppHrsDaily ~/ 60;
+      currentTotalMinTime = totalAppHrsDaily % 60;
       listViewHeadingNames = 'Daily Apps Time';
     } else if (dropdownvalue == "Weekly") {
       currentAppList = childAppsDataWeekly;
-      currentTotalTime = totalAppHrsWeekly ~/ 60;
+      currentTotalHrsTime = totalAppHrsWeekly ~/ 60;
+      currentTotalMinTime = totalAppHrsWeekly % 60;
       listViewHeadingNames = 'Weekly Apps Time';
     } else {
       currentAppList = childAppsDataMonthly;
-      currentTotalTime = totalAppHrsMonthly ~/ 60;
+      currentTotalHrsTime = totalAppHrsMonthly ~/ 60;
+      currentTotalMinTime = totalAppHrsMonthly % 60;
       listViewHeadingNames = 'Monthly Apps Time';
     }
     setState(() {
@@ -155,7 +166,7 @@ class _TimeScreenState extends State<TimeScreen> {
                               ),
                             ),
                             TextSpan(
-                              text: currentTotalTime.toString() + " hours",
+                              text: currentTotalHrsTime.toString()+ " H "+ currentTotalMinTime.toString()+ " Min",
                               style: const TextStyle(
                                 fontSize: 20,
                                 color: Color.fromARGB(255, 190, 190, 190),
@@ -185,17 +196,20 @@ class _TimeScreenState extends State<TimeScreen> {
                             dropdownvalue = newValue!;
                             if (dropdownvalue == "Daily") {
                               currentAppList = childAppsDataDaily;
-                              currentTotalTime = totalAppHrsDaily ~/ 60;
+                              currentTotalHrsTime = totalAppHrsDaily ~/ 60;
+                              currentTotalMinTime = totalAppHrsDaily % 60;
                               listViewHeadingNames = 'Daily Apps Time';
                             }
                             if (dropdownvalue == "Weekly") {
                               currentAppList = childAppsDataWeekly;
-                              currentTotalTime = totalAppHrsWeekly ~/ 60;
+                              currentTotalHrsTime = totalAppHrsWeekly ~/ 60;
+                              currentTotalMinTime = totalAppHrsWeekly % 60;
                               listViewHeadingNames = 'Weekly Apps Time';
                             }
                             if (dropdownvalue == "Monthly") {
                               currentAppList = childAppsDataMonthly;
-                              currentTotalTime = totalAppHrsMonthly ~/ 60;
+                              currentTotalHrsTime = totalAppHrsMonthly ~/ 60;
+                              currentTotalMinTime = totalAppHrsMonthly % 60;
                               listViewHeadingNames = 'Monthly Apps Time';
                             }
                           });
@@ -222,6 +236,7 @@ class _TimeScreenState extends State<TimeScreen> {
                               ),
                             ]),
                       ),
+                      const SizedBox(height: 30,),
                       Align(
                         alignment: Alignment.center,
                         child: Text(
@@ -234,7 +249,7 @@ class _TimeScreenState extends State<TimeScreen> {
                         (_ChartData appData) => Card(
                           child: ListTile(
                             title: Text(appData.x),
-                            trailing: Text(appData.y.toString() + " min"),
+                            trailing: Text((appData.y~/60).toString()+" H "+(appData.y % 60).toString() + " Min"),
                           ),
                         ),
                       )
@@ -251,5 +266,5 @@ class _ChartData {
   _ChartData(this.x, this.y);
 
   final String x;
-  final double y;
+  final int y;
 }
