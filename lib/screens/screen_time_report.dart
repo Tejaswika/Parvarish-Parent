@@ -9,7 +9,7 @@ import '../constants/db_constants.dart';
 class _ChartData {
   _ChartData(this.x, this.y);
   final String x;
-  final double y;
+  final int y;
 }
 
 class ScreenTimeReport extends StatefulWidget {
@@ -198,8 +198,9 @@ class ScreenTimeReportState extends State<ScreenTimeReport> {
                             onTap: () {
                               Navigator.of(context, rootNavigator: true).push(
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          Apptimer(appData: apps)));
+                                      builder: (context) => Apptimer(
+                                          appData:
+                                              childAppsDataDaily.toList())));
                             },
                           ),
                         ],

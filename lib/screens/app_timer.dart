@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
+class _ChartData {
+  _ChartData(this.x, this.y);
+  final String x;
+  final int y;
+}
+
 class Apptimer extends StatefulWidget {
-  final Map<String, dynamic>? appData;
+  final List appData;
   const Apptimer({Key? key, required this.appData}) : super(key: key);
   @override
   State<Apptimer> createState() => _Apptimer();
@@ -10,80 +16,91 @@ class Apptimer extends StatefulWidget {
 class _Apptimer extends State<Apptimer> {
   void initState() {
     print(widget.appData);
+
     super.initState();
+  }
+
+  final TimeOfDay? newTime = TimeOfDay(hour: 0, minute: 0);
+  void _sectTime() async {
+    final TimeOfDay? newTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay(hour: 7, minute: 15),
+        initialEntryMode: TimePickerEntryMode.input);
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 238, 233, 233),
-        appBar: AppBar(
-          title: const Text("App timers"),
-          elevation: 0.0,
-          actions: [
-            IconButton(
-              onPressed: (() => {}),
-              icon: const Icon(Icons.settings),
-            ),
-          ],
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.arrow_back),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'App Timer',
+          style: TextStyle(color: Colors.white),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              TextField(
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 15),
-                  hintText: "Search Apps",
-                  suffixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
-                    borderSide: const BorderSide(),
-                  ),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 15),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 15,
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ListView(
-                shrinkWrap: true,
-                children: const <Widget>[
-                  ListTile(
-                    leading: Icon(Icons.video_call),
-                    title: Text('YouTube'),
-                    trailing: Icon(Icons.timer),
+                ...widget.appData.map(
+                  (app) => Card(
+                    child: ListTile(
+                      title: Text(app.x + "\n" + app.y.toString() + " min"),
+                      trailing: ElevatedButton(
+                        onPressed: _sectTime,
+                        child: Icon(
+                          Icons.timer,
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        ),
+                      ),
+                    ),
                   ),
-                  ListTile(
-                    leading: Icon(Icons.chat),
-                    title: Text('WhatsApp'),
-                    trailing: Icon(Icons.timer),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.tiktok_outlined),
-                    title: Text('Tiktok'),
-                    trailing: Icon(Icons.timer),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.music_note),
-                    title: Text('Music'),
-                    trailing: Icon(Icons.timer),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.snapchat),
-                    title: Text('SnapChat'),
-                    trailing: Icon(Icons.timer),
-                  ),
-                ],
-              ),
-            ],
+                )
+                // ListView(
+                //   shrinkWrap: true,
+                //   children: const <Widget>[
+                //     ListTile(
+                //       leading: Icon(Icons.video_call),
+                //       title: Text('YouTube'),
+                //       trailing: Icon(Icons.timer),
+                //     ),
+                //     ListTile(
+                //       leading: Icon(Icons.chat),
+                //       title: Text('WhatsApp'),
+                //       trailing: Icon(Icons.timer),
+                //     ),
+                //     ListTile(
+                //       leading: Icon(Icons.tiktok_outlined),
+                //       title: Text('Tiktok'),
+                //       trailing: Icon(Icons.timer),
+                //     ),
+                //     ListTile(
+                //       leading: Icon(Icons.music_note),
+                //       title: Text('Music'),
+                //       trailing: Icon(Icons.timer),
+                //     ),
+                //     ListTile(
+                //       leading: Icon(Icons.snapchat),
+                //       title: Text('SnapChat'),
+                //       trailing: Icon(Icons.timer),
+                //     ),
+                //   ],
+                // ),
+              ],
+            ),
           ),
         ),
       ),

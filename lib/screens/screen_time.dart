@@ -64,12 +64,12 @@ class _TimeScreenState extends State<TimeScreen> {
 
   void graphData() {
     apps?.forEach((key, app) {
-      childAppsDataDaily.add(_ChartData(
-          app['app_name'], app['current_day_screen_time'] ?? 0));
-      childAppsDataMonthly.add(_ChartData(
-          app['app_name'], app['current_month_screen_time'] ?? 0));
-      childAppsDataWeekly.add(_ChartData(
-          app['app_name'], app['current_week_screen_time'] ?? 0));
+      childAppsDataDaily.add(
+          _ChartData(app['app_name'], app['current_day_screen_time'] ?? 0));
+      childAppsDataMonthly.add(
+          _ChartData(app['app_name'], app['current_month_screen_time'] ?? 0));
+      childAppsDataWeekly.add(
+          _ChartData(app['app_name'], app['current_week_screen_time'] ?? 0));
 
       totalAppHrsDaily =
           totalAppHrsDaily + (app['current_day_screen_time'] ?? 0);
