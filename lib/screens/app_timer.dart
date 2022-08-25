@@ -11,7 +11,9 @@ class _ChartData {
 
 class Apptimer extends StatefulWidget {
   final List appData;
-  const Apptimer({Key? key, required this.appData}) : super(key: key);
+  final String? UID;
+  const Apptimer({Key? key, required this.appData, required this.UID})
+      : super(key: key);
   @override
   State<Apptimer> createState() => _Apptimer();
 }
@@ -22,15 +24,23 @@ class _Apptimer extends State<Apptimer> {
   }
 
   final TimeOfDay? newTime = TimeOfDay(hour: 0, minute: 0);
+  num timemin = 0;
   void _sectTime(String appName) async {
     final TimeOfDay? newTime = await showTimePicker(
-        context: context,
-        initialTime: TimeOfDay(hour: 7, minute: 15),
-        initialEntryMode: TimePickerEntryMode.input);
-    String timehr = newTime.toString();
-    print(timehr);
-    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-    updateChildData(appName);
+      context: context,
+      initialTime: TimeOfDay(hour: 0, minute: 0),
+      builder: (BuildContext context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child!,
+        );
+      },
+    );
+
+    if (newTime != null) {
+      timemin = ((newTime!.hour * 60) + (newTime!.minute));
+      updateChildData(appName);
+    }
   }
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -68,7 +78,7 @@ class _Apptimer extends State<Apptimer> {
                     child: ListTile(
                       title: Text(app.x + "\n" + app.y.toString() + " min"),
                       trailing: ElevatedButton(
-                        onPressed: () => _sectTime(app.y.toString()),
+                        onPressed: () => _sectTime(app.x.toString()),
                         child: const Icon(
                           Icons.timer,
                           color: Color.fromARGB(255, 255, 255, 255),
@@ -116,22 +126,21 @@ class _Apptimer extends State<Apptimer> {
   }
 
   void updateChildData(String appName) async {
-    // print(widget.parentData);
-    // isUpdatingDocument = true;
-    // DocumentReference documentReferencer = childCollection.doc(widget.childId);
-    // widget.childData?["apps"] = {
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    late final CollectionReference _childCollection =
+        _firestore.collection(DBConstants.childCollectionName);
+    DocumentReference documentReferencer = _childCollection.doc(widget.UID);
+    DocumentSnapshot ChildrenDataSnapshot = await documentReferencer.get();
+    Map<String, dynamic>? childData =
+        ChildrenDataSnapshot.data() as Map<String, dynamic>;
+    childData['apps'].keys.forEach((app) {
+      if (childData['apps'][app]['app_name'] == appName) {
+        childData['apps'][app]['max_screen_time'] = timemin;
+      }
+    });
 
-    // }
-    // // print(widget.childData);
-    // await documentReferencer.set(widget.childData).then((value) {
-    //   setState(() {
-    //     isUpdatingDocument = false;
-    //   });
-    //   SnackbarService.showSuccessSnackbar(
-    //       context, "Profile updated successfully");
-    // });
-    print(
-        "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-    print(appName);
+    await documentReferencer
+        .update(childData)
+        .then((v) => print('Update Max_Screen_Time'));
   }
 }

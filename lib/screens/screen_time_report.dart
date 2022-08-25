@@ -199,8 +199,8 @@ class ScreenTimeReportState extends State<ScreenTimeReport> {
                               Navigator.of(context, rootNavigator: true).push(
                                   MaterialPageRoute(
                                       builder: (context) => Apptimer(
-                                          appData:
-                                              childAppsDataDaily.toList())));
+                                          appData: childAppsDataDaily.toList(),
+                                          UID: widget.UID)));
                             },
                           ),
                         ],
