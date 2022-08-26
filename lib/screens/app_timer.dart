@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../constants/db_constants.dart';
 
+import 'package:flutter/gestures.dart';
+
 class _ChartData {
   _ChartData(this.x, this.y);
   final String x;
@@ -25,7 +27,9 @@ class _Apptimer extends State<Apptimer> {
 
   final TimeOfDay? newTime = TimeOfDay(hour: 0, minute: 0);
   num timemin = 0;
-  void _sectTime(String appName) async {
+  List checkBox = [];
+  bool value = false;
+  void _sectTime(List appName) async {
     final TimeOfDay? newTime = await showTimePicker(
       context: context,
       initialTime: TimeOfDay(hour: 0, minute: 0),
@@ -66,27 +70,103 @@ class _Apptimer extends State<Apptimer> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 15),
+          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 15),
           child: SingleChildScrollView(
             child: Column(
               children: [
+                Row(children: [
+                  const SizedBox(
+                    width: 18,
+                  ),
+                  Checkbox(
+                    value: this.value,
+                    onChanged: (bool? value) {
+                      if (value!) {
+                        setState(() {
+                          this.value = value!;
+                          widget.appData.forEach((app) {
+                            checkBox.add(app.x);
+                          });
+                        });
+                      } else {
+                        setState(() {
+                          this.value = value!;
+                          widget.appData.forEach((app) {
+                            checkBox.remove(app.x);
+                          });
+                        });
+                      }
+                      print(checkBox);
+                    },
+                  ),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  ElevatedButton(
+                    onPressed: () => {_sectTime(checkBox)},
+                    child: Text("Set Timer",
+                        style: TextStyle(color: Colors.white)),
+                    style: ElevatedButton.styleFrom(
+                        primary: Color.fromRGBO(39, 28, 162, 1),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                        textStyle: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white)),
+                  ),
+                ]),
+
                 const SizedBox(
                   height: 15,
                 ),
                 ...widget.appData.map(
-                  (app) => Card(
-                    child: ListTile(
-                      title: Text(app.x + "\n" + app.y.toString() + " min"),
-                      trailing: ElevatedButton(
-                        onPressed: () => _sectTime(app.x.toString()),
-                        child: const Icon(
-                          Icons.timer,
-                          color: Color.fromARGB(255, 255, 255, 255),
+                  (app) {
+                    return Card(
+                      child: ListTile(
+                        leading: Checkbox(
+                          value: checkBox.contains(app.x),
+                          onChanged: (bool? value) {
+                            if (value!) {
+                              setState(() {
+                                checkBox.add(app.x);
+                              });
+                            } else {
+                              setState(() {
+                                checkBox.remove(app.x);
+                              });
+                            }
+                            print(checkBox);
+                          },
+                        ),
+                        title: Text(app.x + "\n" + app.y.toString() + " min"),
+                        trailing: ElevatedButton(
+                          onPressed: () => {
+                            checkBox.add(app.x),
+                            _sectTime(checkBox),
+                          },
+                          child: const Icon(
+                            Icons.timer,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 )
+                //            ListView(
+                //   children: values.keys.map((String key) {
+                //     return new CheckboxListTile(
+                //       title: new Text(key),
+                //       value: values[key],
+                //       onChanged: (bool value) {
+                //         setState(() {
+                //           values[key] = value;
+                //         });
+                //       },
+                //     );
+                //   }).toList(),
+                // ),
                 // ListView(
                 //   shrinkWrap: true,
                 //   children: const <Widget>[
@@ -125,7 +205,7 @@ class _Apptimer extends State<Apptimer> {
     );
   }
 
-  void updateChildData(String appName) async {
+  void updateChildData(List checkBox) async {
     final FirebaseFirestore _firestore = FirebaseFirestore.instance;
     late final CollectionReference _childCollection =
         _firestore.collection(DBConstants.childCollectionName);
@@ -134,9 +214,11 @@ class _Apptimer extends State<Apptimer> {
     Map<String, dynamic>? childData =
         ChildrenDataSnapshot.data() as Map<String, dynamic>;
     childData['apps'].keys.forEach((app) {
-      if (childData['apps'][app]['app_name'] == appName) {
-        childData['apps'][app]['max_screen_time'] = timemin;
-      }
+      checkBox.forEach((checked) {
+        if (childData['apps'][app]['app_name'] == checked.toString()) {
+          childData['apps'][app]['max_screen_time'] = timemin;
+        }
+      });
     });
 
     await documentReferencer
