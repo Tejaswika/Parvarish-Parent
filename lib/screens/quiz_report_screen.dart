@@ -82,18 +82,6 @@ class _QuizReportState extends State<QuizReport> {
                 child: ListView(
                   physics: const BouncingScrollPhysics(),
                   children: [
-                    const Text(
-                      'Average Marks: 45\n',
-                      style: TextStyle(
-                        fontSize: 22,
-                      ),
-                    ),
-                    const Text(
-                      'Passing Percentage: 50\n',
-                      style: TextStyle(
-                        fontSize: 22,
-                      ),
-                    ),
                     SizedBox(
                       height: 400,
                       child: SfCartesianChart(
