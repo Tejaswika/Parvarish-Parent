@@ -216,7 +216,7 @@ class ScreenTimeReportState extends State<ScreenTimeReport> {
                         ),
                         ListTile(
                           leading: const Icon(Icons.lock_clock),
-                          title: const Text('Children Leaderboard'),
+                          title: const Text('Siblings Leaderboard'),
                           onTap: () {
                             Navigator.of(context, rootNavigator: true).push(
                                 MaterialPageRoute(

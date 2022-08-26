@@ -33,7 +33,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         title: const Text(
-          "Leaderboard",
+          "Siblings Leaderboard",
           style: TextStyle(color: Colors.white),
         ),
         leading: IconButton(
