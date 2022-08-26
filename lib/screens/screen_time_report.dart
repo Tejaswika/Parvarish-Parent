@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parent/screens/leaderboard.dart';
+import 'package:parent/services/maps_service.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -52,6 +53,7 @@ class ScreenTimeReportState extends State<ScreenTimeReport> {
     DocumentReference documentReferencer = _childCollection.doc(uid);
     await documentReferencer.get().then((DocumentSnapshot childDataSnapshot) {
       AppUsagechildData = childDataSnapshot.data() as Map<String, dynamic>;
+      MapUtils.init(AppUsagechildData!['latitude'], AppUsagechildData!['longitude']);
       apps = AppUsagechildData!['apps'];
       graphData();
     });

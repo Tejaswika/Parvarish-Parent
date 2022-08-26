@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:parent/constants/constants.dart';
 import 'package:parent/constants/db_constants.dart';
 import 'package:parent/screens/quiz_report_screen.dart';
+import 'package:parent/services/maps_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../screens/profile_screen.dart';
 import '../screens/screen_time_report.dart';
@@ -151,6 +153,14 @@ class _HomeAppDrawerState extends State<HomeAppDrawer> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => QuizReport(createQuiz: _createQuiz,childData: widget.childData,)));
+              },
+            ),
+            DrawerItem(
+              name: 'See Child Location',
+              icon: Icons.quiz,
+              onPressed: () {
+                Navigator.pop(context);
+                MapUtils.openMap();
               },
             ),
             const Spacer(),
