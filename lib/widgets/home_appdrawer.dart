@@ -137,7 +137,7 @@ class _HomeAppDrawerState extends State<HomeAppDrawer> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                             ScreenTimeReport(UID: widget.childId,)));
+                             ScreenTimeReport(UID: widget.childId,parentData: widget.parentData,)));
               },
             ),
             const Divider(thickness: 1),

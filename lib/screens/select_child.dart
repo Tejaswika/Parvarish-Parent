@@ -45,7 +45,7 @@ class _SelectChildState extends State<SelectChild> {
       backgroundColor: const Color(0xFFF1F1F1),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
-        centerTitle: true,
+        // centerTitle: true,
         title: const Text(
           'Select Child',
           style: TextStyle(color: Colors.white),

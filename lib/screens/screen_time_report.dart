@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parent/screens/leaderboard.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -13,11 +14,12 @@ class _ChartData {
 }
 
 class ScreenTimeReport extends StatefulWidget {
-  // ignore: prefer_const_constructors_in_immutables, non_constant_identifier_names
+  final Map<String, dynamic>? parentData;
   final String? UID;
 
-  // ignore: non_constant_identifier_names
-  const ScreenTimeReport({Key? key, required this.UID}) : super(key: key);
+  const ScreenTimeReport(
+      {Key? key, required this.UID, required this.parentData})
+      : super(key: key);
 
   @override
   ScreenTimeReportState createState() => ScreenTimeReportState();
@@ -188,42 +190,41 @@ class ScreenTimeReportState extends State<ScreenTimeReport> {
                     )),
 
                     // ignore: avoid_unnecessary_containers
-                    Container(
-                      child: ListView(
-                        shrinkWrap: true,
-                        children: <Widget>[
-                          ListTile(
-                            leading: const Icon(Icons.lock_clock),
-                            title: const Text('Set App Timer'),
-                            onTap: () {
-                              Navigator.of(context, rootNavigator: true).push(
-                                  MaterialPageRoute(
-                                      builder: (context) => Apptimer(
-                                          appData:
-                                              childAppsDataDaily.toList())));
-                            },
-                          ),
-                        ],
-                      ),
+                    ListView(
+                      shrinkWrap: true,
+                      children: <Widget>[
+                        ListTile(
+                          leading: const Icon(Icons.lock_clock),
+                          title: const Text('Set App Timer'),
+                          onTap: () {
+                            Navigator.of(context, rootNavigator: true).push(
+                                MaterialPageRoute(
+                                    builder: (context) => Apptimer(
+                                        appData: childAppsDataDaily.toList())));
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.lock_clock),
+                          title: const Text('Your App Status'),
+                          onTap: () {
+                            Navigator.of(context, rootNavigator: true).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        TimeScreen(UID: widget.UID)));
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.lock_clock),
+                          title: const Text('Children Leaderboard'),
+                          onTap: () {
+                            Navigator.of(context, rootNavigator: true).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        LeaderboardScreen(parentData: widget.parentData)));
+                          },
+                        ),
+                      ],
                     ),
-                    // ignore: avoid_unnecessary_containers
-                    Container(
-                      child: ListView(
-                        shrinkWrap: true,
-                        children: <Widget>[
-                          ListTile(
-                            leading: const Icon(Icons.lock_clock),
-                            title: const Text('Your App Status'),
-                            onTap: () {
-                              Navigator.of(context, rootNavigator: true).push(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          TimeScreen(UID: widget.UID)));
-                            },
-                          ),
-                        ],
-                      ),
-                    )
                   ],
                 ),
               ),
